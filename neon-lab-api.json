@@ -468,7 +468,7 @@
             "name": "fields",
             "in": "query",
             "description": "Comma-separated string of fields to return. Can include `experiment_state`, `winner_thumbnail`, `created`, and `updated`.",
-            "required": true,
+            "required": false,
             "type": "string"
           }
         ],
@@ -481,8 +481,59 @@
           }
         }
       }
+    },
 
+    "/{account_id}/statistics/thumbnails": {
+      "get": {
+        "tags": [
+          "statistics"
+        ],
+        "summary": "Basic thumbnail statistics",
+        "description": "This will return basic thumbnail stats by `thumbnail_id` or `video_id`.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "video_id",
+            "in": "query",
+            "description": "Comma-separated string of up to 20 video IDs.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "thumbnail_id",
+            "in": "query",
+            "description": "Comma-separated string of up to 100 thumbnail IDs.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated string of fields to return. Can include `serving_frac` (the fraction of traffic seeing this thumbnail), `ctr` (the click-through rate), `impressions` (the number of impressions), `conversions` (the number of conversions), `created`, and `updated`.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of thumbnail statistics with the requested fields.",
+            "schema": {
+              "$ref": "#/definitions/thumbnail_statistics"
+            }
+          }
+        }
+      }
     }
+
   },
   "definitions": {
     "account": {
@@ -639,6 +690,69 @@
         "error": {
           "type": "string"
         },
+      }
+    },
+
+    "thumbnail_statistic": {
+      "type": "object",
+      "required": [
+        "thumbnail_id",
+        "video_id"
+      ],
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "thumbnail_id": {
+          "type": "string"
+        },
+        "video_id": {
+          "type": "string"
+        },
+        "serving_frac": {
+          "type": "number",
+          "format": "float",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "ctr": {
+          "type": "number",
+          "format": "float",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "conversions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "impressions": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+
+    "thumbnail_statistics": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "statistics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/thumbnail_statistic"
+          }
+        },
+        "error": {
+          "type": "string"
+        }
       }
     },
 
