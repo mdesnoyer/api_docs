@@ -306,6 +306,137 @@
           }
         }
       }
+    },
+
+    "/{account_id}/integrations/ooyala": {
+      "get": {
+        "tags": [
+          "integration",
+          "ooyala"
+        ],
+        "summary": "View Ooyala integration",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string",
+          },
+          {
+            "name": "integration_id",
+            "in": "query",
+            "description": "ID of the integration.",
+            "required": true,
+            "type": "string",
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the integration with that `account_id` and `integration_id`.",
+            "schema": {
+              "$ref": "#/definitions/ooyala_integration"
+            }
+          }
+        }
+      },
+
+      "post": {
+        "tags": [
+          "integration",
+          "ooyala"
+        ],
+        "summary": "Create an Ooyala integration",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string",
+          },
+          {
+            "name": "publisher_id",
+            "in": "query",
+            "description": "ID of the publisher.",
+            "required": true,
+            "type": "string",
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ooyala_integration"
+            }
+          }
+        }
+      },
+
+      "put": {
+        "tags": [
+          "integration",
+          "ooyala"
+        ],
+        "summary": "Update an Ooyala integration",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string",
+          },
+          {
+            "name": "integration_id",
+            "in": "query",
+            "description": "ID of the integration.",
+            "required": true,
+            "type": "string",
+          },
+          {
+            "name": "publisher_id",
+            "in": "query",
+            "description": "ID of the publisher.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ooyala_api_key",
+            "in": "query",
+            "description": "API key for Ooyala integration.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ooyala_api_secret",
+            "in": "query",
+            "description": "API secret for Ooyala integration.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ooyala_integration"
+            }
+          }
+        }
+      }
     }
 
   },
@@ -432,6 +563,9 @@
         "integration_id": {
           "type": "string"
         },
+        "partner_code": {
+          "type": "string"
+        },
         "updated": {
           "type": "string",
           "format": "date-time"
@@ -440,57 +574,23 @@
           "type": "string",
           "format": "date-time"
         },
-        "callback_url": {
-          "type": "string"
-        },
         "account_id": {
           "type": "string"
         },
-        "ooyala_api_key": {
+        "api_key": {
           "type": "string"
         },
-        "ooyala_api_secret": {
+        "api_secret": {
           "type": "string"
         },
         "enabled": {
           "type": "boolean"
         },
-        "video_still_width": {
-          "type": "integer"
-        },
-        "id_field": {
-          "type": "string"
-        },
-        "last_process_date": {
-          "type": "string",
-          "format": "date-time"
-        },
         "auto_update": {
-          "type": "boolean"
-        },
-        "rendition_frame_width": {
-          "type": "integer"
-        },
-        "linked_youtube_account": {
           "type": "boolean"
         },
         "key": {
           "type": "string"
-        },
-        "uses_batch_provisioning": {
-          "type": "boolean"
-        },
-        "playlist_feed_ids": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "publisher_id": {
-          "type": "string"
-        },
-        "account_created": {
-          "type": "number"
         },
         "error": {
           "type": "string"
