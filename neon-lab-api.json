@@ -90,7 +90,7 @@
             "in": "path",
             "description": "ID of the account.",
             "required": true,
-            "type": "string",
+            "type": "string"
           }
         ],
         "responses": {
@@ -118,7 +118,7 @@
             "in": "path",
             "description": "ID of the account.",
             "required": true,
-            "type": "string",
+            "type": "string"
           },
           {
             "name": "default_width",
@@ -170,14 +170,14 @@
             "in": "path",
             "description": "ID of the account.",
             "required": true,
-            "type": "string",
+            "type": "string"
           },
           {
             "name": "integration_id",
             "in": "query",
             "description": "ID of the integration.",
             "required": true,
-            "type": "string",
+            "type": "string"
           }
         ],
         "responses": {
@@ -206,14 +206,14 @@
             "in": "path",
             "description": "ID of the account.",
             "required": true,
-            "type": "string",
+            "type": "string"
           },
           {
             "name": "publisher_id",
             "in": "query",
             "description": "ID of the publisher.",
             "required": true,
-            "type": "string",
+            "type": "string"
           }
         ],
         "responses": {
@@ -242,14 +242,14 @@
             "in": "path",
             "description": "ID of the account.",
             "required": true,
-            "type": "string",
+            "type": "string"
           },
           {
             "name": "integration_id",
             "in": "query",
             "description": "ID of the integration.",
             "required": true,
-            "type": "string",
+            "type": "string"
           },
           {
             "name": "publisher_id",
@@ -325,14 +325,14 @@
             "in": "path",
             "description": "ID of the account.",
             "required": true,
-            "type": "string",
+            "type": "string"
           },
           {
             "name": "integration_id",
             "in": "query",
             "description": "ID of the integration.",
             "required": true,
-            "type": "string",
+            "type": "string"
           }
         ],
         "responses": {
@@ -361,14 +361,14 @@
             "in": "path",
             "description": "ID of the account.",
             "required": true,
-            "type": "string",
+            "type": "string"
           },
           {
             "name": "publisher_id",
             "in": "query",
             "description": "ID of the publisher.",
             "required": true,
-            "type": "string",
+            "type": "string"
           }
         ],
         "responses": {
@@ -397,14 +397,14 @@
             "in": "path",
             "description": "ID of the account.",
             "required": true,
-            "type": "string",
+            "type": "string"
           },
           {
             "name": "integration_id",
             "in": "query",
             "description": "ID of the integration.",
             "required": true,
-            "type": "string",
+            "type": "string"
           },
           {
             "name": "publisher_id",
@@ -437,8 +437,52 @@
           }
         }
       }
-    }
+    },
 
+    "/{account_id}/statistics/videos": {
+      "get": {
+        "tags": [
+          "statistics"
+        ],
+        "summary": "Get basic video statistics.",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "video_id",
+            "in": "query",
+            "description": "Comma-separated string of up to 100 video IDs.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated string of fields to return. Can include `experiment_state`, `winner_thumbnail`, `created`, and `updated`.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of video statistics with the requested fields.",
+            "schema": {
+              "$ref": "#/definitions/video_statistics"
+            }
+          }
+        }
+      }
+
+    }
   },
   "definitions": {
     "account": {
@@ -595,6 +639,58 @@
         "error": {
           "type": "string"
         },
+      }
+    },
+
+    "video_statistic": {
+      "type": "object",
+      "required": [
+        "video_id"
+      ],
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "experimental_state": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "disabled",
+            "override",
+            "running",
+            "unknown"
+          ]
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "video_id": {
+          "type": "string"
+        },
+        "winner_thumbnail": {
+          "type": "string"
+        }
+      }
+    },
+
+    "video_statistics": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "statistics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/video_statistic"
+          }
+        },
+        "error": {
+          "type": "string"
+        }
       }
     }
   }
