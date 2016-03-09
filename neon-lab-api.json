@@ -735,7 +735,7 @@
           "type": "string"
         },
         "error": {
-          "type": "string"
+          "$ref": "#/definitions/error"
         },
       },
     },
@@ -807,7 +807,7 @@
           "type": "number"
         },
         "error": {
-          "type": "string"
+          "$ref": "#/definitions/error"
         },
       }
     },
@@ -826,6 +826,20 @@
         "thumbnail_location": {
           "type": "string",
           "description": "The URL of the thumbnail."
+        }
+      }
+    },
+
+    "error": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Description of the error."
+        },
+        "data": {
+          "type": "string",
+          "description": "More detail about the error."
         }
       }
     },
@@ -866,7 +880,7 @@
           "type": "string"
         },
         "error": {
-          "type": "string"
+          "$ref": "#/definitions/error"
         },
       }
     },
@@ -940,7 +954,7 @@
           "description": "An ISO date for when the thumbnail was last updated."
         },
         "error": {
-          "type": "string"
+          "$ref": "#/definitions/error"
         },
       }
     },
@@ -1003,7 +1017,7 @@
           }
         },
         "error": {
-          "type": "string"
+          "$ref": "#/definitions/error"
         }
       }
     },
@@ -1081,7 +1095,7 @@
           }
         },
         "error": {
-          "type": "string"
+          "$ref": "#/definitions/error"
         }
       }
     },
@@ -1160,7 +1174,7 @@
           "description": "When the video was last updated."
         },
         "error": {
-          "type": "string"
+          "$ref": "#/definitions/error"
         },
       }
     },
@@ -1187,7 +1201,7 @@
           }
         },
         "error": {
-          "type": "string"
+          "$ref": "#/definitions/error"
         }
       }
     }
