@@ -575,6 +575,42 @@
             }
           }
         }
+      },
+
+      "post": {
+        "tags": [
+          "thumbnails"
+        ],
+        "summary": "Create a new thumbnail.",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/create_thumbnail"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The newly-created thumbnail.",
+            "schema": {
+              "$ref": "#/definitions/thumbnail"
+            }
+          }
+        }
       }
     }
 
@@ -693,6 +729,20 @@
         "error": {
           "type": "string"
         },
+      }
+    },
+
+    "create_thumbnail": {
+      "type": "object",
+      "properties": {
+        "video_id": {
+          "type": "string",
+          "description": "The ID of this new thumbnail's video."
+        },
+        "thumbnail_location": {
+          "type": "string",
+          "description": "The URL of the thumbnail."
+        }
       }
     },
 
