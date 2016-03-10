@@ -774,36 +774,36 @@
         },
         "video_still_width": {
           "type": "integer",
-          "description": ""
+          "description": "TODO"
         },
         "id_field": {
           "type": "string",
-          "description": ""
+          "description": "TODO"
         },
         "last_process_date": {
           "type": "string",
           "format": "date-time",
-          "description": ""
+          "description": "TODO"
         },
         "auto_update": {
           "type": "boolean",
-          "description": ""
+          "description": "TODO"
         },
         "rendition_frame_width": {
           "type": "integer",
-          "description": ""
+          "description": "TODO"
         },
         "linked_youtube_account": {
           "type": "boolean",
-          "description": ""
+          "description": "TODO"
         },
         "key": {
           "type": "string",
-          "description": ""
+          "description": "TODO"
         },
         "uses_batch_provisioning": {
           "type": "boolean",
-          "description": ""
+          "description": "TODO"
         },
         "playlist_feed_ids": {
           "type": "array",
@@ -818,7 +818,7 @@
         },
         "account_created": {
           "type": "number",
-          "description": ""
+          "description": "TODO"
         },
         "error": {
           "$ref": "#/definitions/error"
@@ -867,7 +867,7 @@
         },
         "partner_code": {
           "type": "string",
-          "description": ""
+          "description": "TODO"
         },
         "updated": {
           "type": "string",
@@ -893,15 +893,15 @@
         },
         "enabled": {
           "type": "boolean",
-          "description": ""
+          "description": "TODO"
         },
         "auto_update": {
           "type": "boolean",
-          "description": ""
+          "description": "TODO"
         },
         "key": {
           "type": "string",
-          "description": ""
+          "description": "TODO"
         },
         "error": {
           "$ref": "#/definitions/error"
