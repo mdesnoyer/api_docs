@@ -18,12 +18,19 @@
       "description": "Group Tracking Events"
     }
   ],
+  "documentationSets": [
+    "public",
+    "internal"
+  ],
   "schemes": [
     "http"
   ],
   "paths": {
 
     "/accounts": {
+      "onlyVisibleInDocumentationSets": [
+        "internal"
+      ],
       "post": {
         "tags": [
           "account"
@@ -151,6 +158,9 @@
     },
 
     "/{account_id}/integrations/brightcove": {
+      "onlyVisibleInDocumentationSets": [
+        "internal"
+      ],
       "get": {
         "tags": [
           "integration",
@@ -303,6 +313,9 @@
     },
 
     "/{account_id}/integrations/ooyala": {
+      "onlyVisibleInDocumentationSets": [
+        "internal"
+      ],
       "get": {
         "tags": [
           "integration",
@@ -866,8 +879,8 @@
         },
         "error": {
           "$ref": "#/definitions/error"
-        },
-      },
+        }
+      }
     },
 
     "brightcove_integration": {
@@ -957,7 +970,7 @@
         },
         "error": {
           "$ref": "#/definitions/error"
-        },
+        }
       }
     },
 
@@ -1040,7 +1053,7 @@
         },
         "error": {
           "$ref": "#/definitions/error"
-        },
+        }
       }
     },
 
@@ -1114,7 +1127,7 @@
         },
         "error": {
           "$ref": "#/definitions/error"
-        },
+        }
       }
     },
 
@@ -1182,7 +1195,7 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/thumbnail_statistic"
-          },
+          }
         },
         "error": {
           "$ref": "#/definitions/error"
@@ -1291,7 +1304,7 @@
         },
         "error": {
           "$ref": "#/definitions/error"
-        },
+        }
       }
     },
 
