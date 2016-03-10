@@ -29,7 +29,6 @@
           "account"
         ],
         "summary": "Create account",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -80,7 +79,6 @@
           "account"
         ],
         "summary": "View account",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -108,7 +106,6 @@
           "account"
         ],
         "summary": "Update account",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -160,7 +157,6 @@
           "brightcove"
         ],
         "summary": "View Brightcove integration",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -182,7 +178,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Return the integration with that `account_id` and `integration_id`.",
+            "description": "Return the Brightcove integration with that `account_id` and `integration_id`.",
             "schema": {
               "$ref": "#/definitions/brightcove_integration"
             }
@@ -196,7 +192,6 @@
           "brightcove"
         ],
         "summary": "Create a Brightcove integration",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -218,7 +213,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Return the newly-created Brightcove integration.",
             "schema": {
               "$ref": "#/definitions/brightcove_integration"
             }
@@ -232,7 +227,6 @@
           "brightcove"
         ],
         "summary": "Update a Brightcove integration",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -299,7 +293,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Return the updated Brightcove integration.",
             "schema": {
               "$ref": "#/definitions/brightcove_integration"
             }
@@ -337,7 +331,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Return the integration with that `account_id` and `integration_id`.",
+            "description": "Return the Ooyala integration with that `account_id` and `integration_id`.",
             "schema": {
               "$ref": "#/definitions/ooyala_integration"
             }
@@ -445,7 +439,6 @@
           "statistics"
         ],
         "summary": "Get basic video statistics.",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -540,7 +533,6 @@
           "thumbnails"
         ],
         "summary": "Get thumbnail.",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -582,7 +574,6 @@
           "thumbnails"
         ],
         "summary": "Create a new thumbnail.",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -618,7 +609,6 @@
           "thumbnails"
         ],
         "summary": "Update an existing thumbnail.",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -656,7 +646,6 @@
           "videos"
         ],
         "summary": "Fetch one or more videos.",
-        "description": "",
         "produces": [
           "application/json"
         ],
