@@ -309,7 +309,6 @@
           "ooyala"
         ],
         "summary": "View Ooyala integration",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -345,7 +344,6 @@
           "ooyala"
         ],
         "summary": "Create an Ooyala integration",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -367,7 +365,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "The newly-created Ooyala integration.",
             "schema": {
               "$ref": "#/definitions/ooyala_integration"
             }
@@ -381,7 +379,6 @@
           "ooyala"
         ],
         "summary": "Update an Ooyala integration",
-        "description": "",
         "produces": [
           "application/json"
         ],
@@ -424,7 +421,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "The updated Ooyala integration.",
             "schema": {
               "$ref": "#/definitions/ooyala_integration"
             }
@@ -689,39 +686,48 @@
       "type": "object",
       "properties": {
         "tracker_account_id": {
-          "type": "string"
+          "type": "string",
+          "description": "ID to use in the tracker code."
         },
         "updated": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "An ISO8601 date when the account was last updated."
         },
         "account_id": {
-          "type": "string"
+          "type": "string",
+          "description": "ID of the account."
         },
         "created": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "An ISO8601 date when the account was created."
         },
         "integration_ids": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "An array of integration IDs associated with the account."
         },
         "default_size": {
           "type": "array",
           "items": {
             "type": "integer"
-          }
+          },
+          "description": "Default size of the image `[width, height]`."
         },
         "staging_tracker_account_id": {
-          "type": "string"
+          "type": "string",
+          "description": "ID to use in tracking code on staging."
         },
         "default_thumbnail_id": {
-          "type": "string"
+          "type": "string",
+          "description": "Default thumbnail if no others are found."
         },
         "customer_name": {
-          "type": "string"
+          "type": "string",
+          "description": "Name of the customer."
         },
         "error": {
           "$ref": "#/definitions/error"
@@ -733,67 +739,86 @@
       "type": "object",
       "properties": {
         "integration_id": {
-          "type": "string"
+          "type": "string",
+          "description": "Type of integration."
         },
         "updated": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "An ISO8601 date when the integration was last updated."
         },
         "created": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "An ISO8601 date when the integration was created."
         },
         "callback_url": {
-          "type": "string"
+          "type": "string",
+          "description": "URL to call after a video has been processed."
         },
         "account_id": {
-          "type": "string"
+          "type": "string",
+          "description": "ID of the account."
         },
         "read_token": {
-          "type": "string"
+          "type": "string",
+          "description": "Token for reading."
         },
         "write_token": {
-          "type": "string"
+          "type": "string",
+          "description": "Token for writing."
         },
         "enabled": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Is the integration enabled?"
         },
         "video_still_width": {
-          "type": "integer"
+          "type": "integer",
+          "description": ""
         },
         "id_field": {
-          "type": "string"
+          "type": "string",
+          "description": ""
         },
         "last_process_date": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": ""
         },
         "auto_update": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": ""
         },
         "rendition_frame_width": {
-          "type": "integer"
+          "type": "integer",
+          "description": ""
         },
         "linked_youtube_account": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": ""
         },
         "key": {
-          "type": "string"
+          "type": "string",
+          "description": ""
         },
         "uses_batch_provisioning": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": ""
         },
         "playlist_feed_ids": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "List of feed IDs for this integration."
         },
         "publisher_id": {
-          "type": "string"
+          "type": "string",
+          "description": "The ID of the publisher."
         },
         "account_created": {
-          "type": "number"
+          "type": "number",
+          "description": ""
         },
         "error": {
           "$ref": "#/definitions/error"
@@ -837,36 +862,46 @@
       "type": "object",
       "properties": {
         "integration_id": {
-          "type": "string"
+          "type": "string",
+          "description": "Type of integration."
         },
         "partner_code": {
-          "type": "string"
+          "type": "string",
+          "description": ""
         },
         "updated": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "An ISO8601 date when the integration was last updated."
         },
         "created": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "An ISO8601 date when the integration was created."
         },
         "account_id": {
-          "type": "string"
+          "type": "string",
+          "description": "ID of the account."
         },
         "api_key": {
-          "type": "string"
+          "type": "string",
+          "description": "API key for Ooyala integration."
         },
         "api_secret": {
-          "type": "string"
+          "type": "string",
+          "description": "API secret for Ooyala integration."
         },
         "enabled": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": ""
         },
         "auto_update": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": ""
         },
         "key": {
-          "type": "string"
+          "type": "string",
+          "description": ""
         },
         "error": {
           "$ref": "#/definitions/error"
@@ -957,37 +992,45 @@
       "properties": {
         "created": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "An ISO8601 date when the thumbnail was created."
         },
         "updated": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "An ISO8601 date when the thumbnail was last updated."
         },
         "thumbnail_id": {
-          "type": "string"
+          "type": "string",
+          "description": "Unique ID of the thumbnail."
         },
         "video_id": {
-          "type": "string"
+          "type": "string",
+          "description": "ID of the video associated with this thumbnail."
         },
         "serving_frac": {
           "type": "number",
           "format": "float",
           "minimum": 0,
-          "maximum": 1
+          "maximum": 1,
+          "description": "The fraction of traffic that is seeing this thumbnail."
         },
         "ctr": {
           "type": "number",
           "format": "float",
           "minimum": 0,
-          "maximum": 1
+          "maximum": 1,
+          "description": "The click-through rate."
         },
         "conversions": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "description": "The number of conversions for this thumbnail."
         },
         "impressions": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "description": "The number of impressions for this thumbnail."
         }
       }
     },
@@ -997,13 +1040,14 @@
       "properties": {
         "count": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "description": "The number of thumbnail statistics returned."
         },
         "statistics": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/thumbnail_statistic"
-          }
+          },
         },
         "error": {
           "$ref": "#/definitions/error"
@@ -1045,7 +1089,8 @@
       "properties": {
         "created": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "An ISO8601 date when the video was created."
         },
         "experimental_state": {
           "type": "string",
@@ -1055,17 +1100,21 @@
             "override",
             "running",
             "unknown"
-          ]
+          ],
+          "description": "The current state of the experiment associated with this video."
         },
         "updated": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "An ISO8601 date when the video was last updated."
         },
         "video_id": {
-          "type": "string"
+          "type": "string",
+          "description": "The ID of the video."
         },
         "winner_thumbnail": {
-          "type": "string"
+          "type": "string",
+          "description": "ID of the winning thumbnail, if known."
         }
       }
     },
@@ -1075,7 +1124,8 @@
       "properties": {
         "count": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "description": "The number of video statistics returned."
         },
         "statistics": {
           "type": "array",
@@ -1141,7 +1191,7 @@
           "items": {
             "$ref": "#/definitions/thumbnail"
           },
-          "description": ""
+          "description": "An array of thumbnail images associated with this video."
         },
         "duration": {
           "type": "number",
@@ -1184,10 +1234,10 @@
         },
         "videos": {
           "type": "array",
-          "description": "The returned videos.",
           "items": {
             "$ref": "#/definitions/video"
-          }
+          },
+          "description": "The returned videos."
         },
         "error": {
           "$ref": "#/definitions/error"
