@@ -3,7 +3,7 @@
   "host": "services.neon-images.com",
   "basePath": "/api/v2",
   "info": {
-    "description": "Provides consumers with the ability to hit Neon services.",
+    "description": "Provides consumers with the ability to hit Neon services. Note that, while all the endpoints list their parameters as *query* parameters, they can be sent in the body as well (in a flat JSON object).",
     "title": "Neon CMS API v2",
     "termsOfService": "TODO",
     "contact": {},
