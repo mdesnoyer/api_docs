@@ -679,6 +679,107 @@
         }
       },
 
+      "post": {
+        "tags": [
+          "videos"
+        ],
+        "summary": "Create a new video.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "external_video_ref",
+            "in": "query",
+            "description": "The external video ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "in": "query",
+            "description": "The video URL. Ex: `http://myvideo.mp4`.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "callback_url",
+            "in": "query",
+            "description": "The URL that will be called with the result. Ex: `http://call.here`.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "The title of the video.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "duration",
+            "in": "query",
+            "description": "The duration of the video in seconds",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "publish_date",
+            "in": "query",
+            "description": "The date that the video was published.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "custom_data",
+            "in": "query",
+            "description": "A dictionary of custom data about the video.",
+            "required": false,
+            "type": "string",
+            "format": "json"
+          },
+          {
+            "name": "default_thumbnail_url",
+            "in": "query",
+            "description": "URL of the default thumbnail to use.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "thumbnail_ref",
+            "in": "query",
+            "description": "Reference to the thumbnail object in your database.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "n_thumbs",
+            "in": "query",
+            "description": "The number of thumbnails to extract.",
+            "required": false,
+            "type": "integer",
+            "default": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The newly-created video.",
+            "schema": {
+              "$ref": "#/definitions/video"
+            }
+          }
+        }
+      },
+
       "put": {
         "tags": [
           "videos"
@@ -1175,7 +1276,7 @@
           "description": "The length of the video in seconds."
         },
         "custom_data": {
-          "$ref": "#/definitions/video_custom_data",
+          "type": "object",
           "description": "A dictionary of custom information about the video."
         },
         "created": {
@@ -1191,12 +1292,6 @@
         "error": {
           "$ref": "#/definitions/error"
         },
-      }
-    },
-
-    "video_custom_data": {
-      "type": "object",
-      "properties": {
       }
     },
 
