@@ -1081,64 +1081,6 @@
       }
     },
 
-    "video_statistic": {
-      "type": "object",
-      "required": [
-        "video_id"
-      ],
-      "properties": {
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the video was created."
-        },
-        "experimental_state": {
-          "type": "string",
-          "enum": [
-            "complete",
-            "disabled",
-            "override",
-            "running",
-            "unknown"
-          ],
-          "description": "The current state of the experiment associated with this video."
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the video was last updated."
-        },
-        "video_id": {
-          "type": "string",
-          "description": "The ID of the video."
-        },
-        "winner_thumbnail": {
-          "type": "string",
-          "description": "ID of the winning thumbnail, if known."
-        }
-      }
-    },
-
-    "video_statistics": {
-      "type": "object",
-      "properties": {
-        "count": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "The number of video statistics returned."
-        },
-        "statistics": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/video_statistic"
-          }
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
     "video": {
       "type": "object",
       "properties": {
@@ -1221,6 +1163,126 @@
     "video_custom_data": {
       "type": "object",
       "properties": {
+      }
+    },
+
+    "video_statistic": {
+      "type": "object",
+      "required": [
+        "video_id"
+      ],
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 date when the video was created."
+        },
+        "experimental_state": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "disabled",
+            "override",
+            "running",
+            "unknown"
+          ],
+          "description": "The current state of the experiment associated with this video."
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 date when the video was last updated."
+        },
+        "video_id": {
+          "type": "string",
+          "description": "The ID of the video."
+        },
+        "winner_thumbnail": {
+          "type": "string",
+          "description": "ID of the winning thumbnail, if known."
+        }
+      }
+    },
+
+    "video_statistics": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The number of video statistics returned."
+        },
+        "statistics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/video_statistic"
+          }
+        },
+        "error": {
+          "$ref": "#/definitions/error"
+        }
+      }
+    },
+
+    "video_transition_callback": {
+      "type": "object",
+      "properties": {
+        "job_id": {
+          "type": "string",
+          "description": "The job that processed this video."
+        },
+        "video_id": {
+          "type": "string",
+          "description": "The ID of the video."
+        },
+        "framenos": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of frame numbers identified in the video."
+        },
+        "thumbnails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "IDs of the thumbnails identified in the video."
+        },
+        "serving_url": {
+          "type": "string",
+          "description": "The URL to put on your site to show thumbnails for this video."
+        },
+        "error": {
+          "type": "string",
+          "description": "A string describing the error (if one occurred)."
+        },
+        "processing_state": {
+          "type": "string",
+          "enum": [
+            "unknown",
+            "processing",
+            "processed",
+            "serving",
+            "failed"
+          ],
+          "description": "State of the video being processed."
+        },
+        "experiment_state": {
+          "type": "string",
+          "enum": [
+            "unknown",
+            "running",
+            "complete",
+            "disabled",
+            "override"
+          ],
+          "description": "State of the A/B experiment for this video."
+        },
+        "winner_thumbnail": {
+          "type": "string",
+          "description": "Thumbnail ID of the best thumbnail in the experiment once it's complete."
+        }
       }
     },
 
