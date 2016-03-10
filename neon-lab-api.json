@@ -677,6 +677,40 @@
             }
           }
         }
+      },
+
+      "put": {
+        "tags": [
+          "videos"
+        ],
+        "summary": "Update an existing video.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "testing_enabled",
+            "in": "query",
+            "description": "Should testing be enabled?",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated video.",
+            "schema": {
+              "$ref": "#/definitions/video"
+            }
+          }
+        }
       }
     }
 
