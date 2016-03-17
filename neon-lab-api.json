@@ -826,6 +826,27 @@
           }
         }
       }
+    },
+
+    "/video_transition_callback": {
+      "put": {
+        "tags": [
+          "callback"
+        ],
+        "summary": "This isn't a real endpoint! It's a placeholder to display the format of the callback that's sent to the `callback_url` when a video changes state.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The body of the callback.",
+            "schema": {
+              "$ref": "#/definitions/video_transition_callback"
+            }
+          }
+        }
+      }
     }
 
   },
