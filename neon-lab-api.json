@@ -23,7 +23,8 @@
     "internal"
   ],
   "schemes": [
-    "http"
+    "http",
+    "https" 
   ],
   "paths": {
 
@@ -42,6 +43,27 @@
         "parameters": [
           {
             "name": "customer_name",
+            "in": "query",
+            "description": "The name of the customer.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "The email that is associated with the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "admin_user_username",
+            "in": "query",
+            "description": "This is expected to be an email for the admin User. This can be the same as the account email or different.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "admin_user_password",
             "in": "query",
             "description": "The name of the customer.",
             "required": true,
