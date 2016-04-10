@@ -1066,7 +1066,7 @@
     "/{account_id}/videos/search": {
       "get": {
         "tags": [
-          "videos"
+          "search videos"
         ],
         "summary": "Filter videos by search criteria.",
         "produces": [
@@ -1132,7 +1132,7 @@
       ],
       "get": {
         "tags": [
-          "videos"
+          "search videos"
         ],
         "summary": "Filter videos by search criteria, for any account in the system.",
         "produces": [
