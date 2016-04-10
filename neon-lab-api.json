@@ -1063,6 +1063,135 @@
       }
     },
 
+    "/{account_id}/videos/search": {
+      "get": {
+        "tags": [
+          "search videos"
+        ],
+        "summary": "Filter videos by search criteria.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "Microseconds since epoch, that represents where the next search should start looking for videos. It will get videos older than this date.",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Microseconds since epoch, that represents where the next search should stop looking for videos. It will get videos up to this date.",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum amount of videos that will be returned.",
+            "required": false,
+            "type": "number",
+            "default": 25,
+            "maximum": 100, 
+            "minimum": 1,  
+            "format": "integer"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested videos.",
+            "schema": {
+              "$ref": "#/definitions/search_videos" 
+            }
+          }
+        }
+      }
+    },
+
+    "/videos/search": {
+      "onlyVisibleInDocumentationSets": [
+        "internal"
+      ],
+      "get": {
+        "tags": [
+          "search videos"
+        ],
+        "summary": "Filter videos by search criteria, for any account in the system.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "description": "ID of the account.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "Microseconds since epoch, that represents where the next search should start looking for videos. It will get videos older than this date.",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Microseconds since epoch, that represents where the next search should stop looking for videos. It will get videos up to this date.",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum amount of videos that will be returned.",
+            "required": false,
+            "type": "number",
+            "default": 25,
+            "maximum": 100, 
+            "minimum": 1,  
+            "format": "integer"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested videos.",
+            "schema": {
+              "$ref": "#/definitions/search_videos" 
+            }
+          }
+        }
+      }
+    },
+
     "/video_transition_callback": {
       "put": {
         "tags": [
@@ -1753,6 +1882,35 @@
           },
           "description": "The returned videos."
         },
+        "error": {
+          "$ref": "#/definitions/error"
+        }
+      }
+    },
+
+    "search_videos": {
+      "type": "object",
+      "properties": {
+        "video_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The number of videos being returned."
+        },
+        "videos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/video"
+          },
+          "description": "The returned videos."
+        },
+        "next_page" : { 
+          "type": "string", 
+          "description": "link to next (older) page of videos"   
+        }, 
+        "prev_page" : { 
+          "type": "string", 
+          "description": "link to prev (newer) page of videos"   
+        }, 
         "error": {
           "$ref": "#/definitions/error"
         }
