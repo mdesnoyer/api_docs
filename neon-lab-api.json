@@ -23,14 +23,11 @@
     "internal"
   ],
   "schemes": [
-    "http"
+    "http",
+    "https" 
   ],
   "paths": {
-
     "/accounts": {
-      "onlyVisibleInDocumentationSets": [
-        "internal"
-      ],
       "post": {
         "tags": [
           "account"
@@ -43,8 +40,50 @@
           {
             "name": "customer_name",
             "in": "query",
-            "description": "The name of the customer.",
+            "description": "The company name of the customer.",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "The email that is associated with the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "admin_user_username",
+            "in": "query",
+            "description": "This is expected to be an email for the admin User. This can be the same as the account email or different.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "admin_user_password",
+            "in": "query",
+            "description": "The password for the admin user.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "admin_user_first_name",
+            "in": "query",
+            "description": "The first name of the person controlling the admin account for this customer.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "admin_user_last_name",
+            "in": "query",
+            "description": "The last name of the person controlling the admin account for this customer.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "admin_user_title",
+            "in": "query",
+            "description": "The title of the person controlling the admin account for this customer.",
+            "required": false,
             "type": "string"
           },
           {
@@ -71,7 +110,36 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully created an account.",
+            "description": "Account verification email sent to {email}"
+          }, 
+          "500": { 
+            "description": "Failed to send verification email to {email}"
+          }
+        }
+      }
+    },
+
+    "/accounts/verify": {
+      "post": {
+        "tags": [
+          "verify account"
+        ],
+        "summary": "Verify account",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query", 
+            "description": "The verification token that is sent back on a post to accounts.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New Account has been added : name = {customer_name} id = {account_id}",
             "schema": {
               "$ref": "#/definitions/account"
             }
@@ -662,6 +730,173 @@
       }
     },
 
+    "/{account_id}/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get user.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The email of the user.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A user with requested username.",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          }
+        }
+      },
+
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a new user and associate it to an account.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The email of the user.",
+            "required": true,
+            "type": "string"
+          }, 
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password of the user.",
+            "required": true,
+            "type": "string"
+          }, 
+          {
+            "name": "access_level",
+            "in": "query",
+            "description": "The access level of the user, can only have access to what the requesting user has",
+            "required": true,
+            "type": "integer"
+          }, 
+          {
+            "name": "first_name",
+            "in": "query",
+            "description": "The first name of the user.",
+            "required": false,
+            "type": "string"
+          }, 
+          {
+            "name": "last_name",
+            "in": "query",
+            "description": "The last name of the user.",
+            "required": false,
+            "type": "string"
+          }, 
+          {
+            "name": "title",
+            "in": "query",
+            "description": "The title of the user.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The newly-created thumbnail.",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          }
+        }
+      },
+
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update an existing user.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The email of the user.",
+            "required": true,
+            "type": "string"
+          }, 
+          {
+            "name": "access_level",
+            "in": "query",
+            "description": "The access level of the user, can only have access to what the requesting user has",
+            "required": false,
+            "type": "integer"
+          }, 
+          {
+            "name": "first_name",
+            "in": "query",
+            "description": "The first name of the user.",
+            "required": false,
+            "type": "string"
+          }, 
+          {
+            "name": "last_name",
+            "in": "query",
+            "description": "The last name of the user.",
+            "required": false,
+            "type": "string"
+          }, 
+          {
+            "name": "title",
+            "in": "query",
+            "description": "The title of the user.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The modified user.",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          }
+        }
+      }
+    },
+
     "/{account_id}/videos": {
       "get": {
         "tags": [
@@ -840,6 +1075,135 @@
       }
     },
 
+    "/{account_id}/videos/search": {
+      "get": {
+        "tags": [
+          "search videos"
+        ],
+        "summary": "Filter videos by search criteria.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "Microseconds since epoch, that represents where the next search should start looking for videos. It will get videos older than this date.",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Microseconds since epoch, that represents where the next search should stop looking for videos. It will get videos up to this date.",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum amount of videos that will be returned.",
+            "required": false,
+            "type": "number",
+            "default": 25,
+            "maximum": 100, 
+            "minimum": 1,  
+            "format": "integer"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested videos.",
+            "schema": {
+              "$ref": "#/definitions/search_videos" 
+            }
+          }
+        }
+      }
+    },
+
+    "/videos/search": {
+      "onlyVisibleInDocumentationSets": [
+        "internal"
+      ],
+      "get": {
+        "tags": [
+          "search videos"
+        ],
+        "summary": "Filter videos by search criteria, for any account in the system.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "description": "ID of the account.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "Microseconds since epoch, that represents where the next search should start looking for videos. It will get videos older than this date.",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Microseconds since epoch, that represents where the next search should stop looking for videos. It will get videos up to this date.",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum amount of videos that will be returned.",
+            "required": false,
+            "type": "number",
+            "default": 25,
+            "maximum": 100, 
+            "minimum": 1,  
+            "format": "integer"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested videos.",
+            "schema": {
+              "$ref": "#/definitions/search_videos" 
+            }
+          }
+        }
+      }
+    },
+
     "/video_transition_callback": {
       "put": {
         "tags": [
@@ -879,6 +1243,10 @@
           "type": "string",
           "description": "ID of the account."
         },
+        "email": {
+          "type": "string",
+          "description": "email of the account."
+        },
         "created": {
           "type": "string",
           "format": "date-time",
@@ -909,6 +1277,13 @@
         "customer_name": {
           "type": "string",
           "description": "Name of the customer."
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of usernames associated to the account."
         },
         "error": {
           "$ref": "#/definitions/error"
@@ -1262,6 +1637,49 @@
       }
     },
 
+    "user": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username of the user, this is always an email."
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 date when the account was last updated."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 date when the account was created."
+        },
+        "email": {
+          "type": "string",
+          "description": "email of the user."
+        },
+        "access_level": {
+          "type": "integer",
+          "description": "bit packed integer that represents what this user can access."
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name of the user."
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name of the user."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the user."
+        },
+        "error": {
+          "$ref": "#/definitions/error"
+        }
+      }
+    },
+
     "video": {
       "type": "object",
       "properties": {
@@ -1476,6 +1894,35 @@
           },
           "description": "The returned videos."
         },
+        "error": {
+          "$ref": "#/definitions/error"
+        }
+      }
+    },
+
+    "search_videos": {
+      "type": "object",
+      "properties": {
+        "video_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The number of videos being returned."
+        },
+        "videos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/video"
+          },
+          "description": "The returned videos."
+        },
+        "next_page" : { 
+          "type": "string", 
+          "description": "link to next (older) page of videos"   
+        }, 
+        "prev_page" : { 
+          "type": "string", 
+          "description": "link to prev (newer) page of videos"   
+        }, 
         "error": {
           "$ref": "#/definitions/error"
         }
