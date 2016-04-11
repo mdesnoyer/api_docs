@@ -583,7 +583,7 @@
         "tags": [
           "thumbnails"
         ],
-        "summary": "Create a new thumbnail.",
+        "summary": "Upload a new thumbnail and optionally associate it with a video",
         "produces": [
           "application/json"
         ],
@@ -596,12 +596,18 @@
             "type": "string"
           },
           {
-            "name": "request",
-            "in": "body",
+            "name": "url",
+            "in": "query",
+            "description": "url of the thumbnail to upload",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/create_thumbnail"
-            }
+            "type" : "string"
+          },
+          {
+            "name": "video_id",
+            "in": "query",
+            "description": "video id to associate the thumbnail with",
+            "required": false,
+            "type" : "string"
           }
         ],
         "responses": {
@@ -631,12 +637,18 @@
             "type": "string"
           },
           {
-            "name": "request",
-            "in": "body",
+            "name": "thumbnail_id",
+            "in": "query",
+            "description": "The thumbnail id to modify",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/update_thumbnail"
-            }
+            "type" : "string"
+          },
+          {
+            "name": "enabled",
+            "in": "query",
+            "description": "If the thumbnail should be enabled for testing",
+            "required": false,
+            "type" : "boolean"
           }
         ],
         "responses": {
