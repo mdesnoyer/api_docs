@@ -514,7 +514,7 @@
     "/{account_id}/limits": {
       "get": {
         "tags": [
-          "account"
+          "account limits"
         ],
         "summary": "View rate limits for account",
         "produces": [
@@ -1946,8 +1946,9 @@
           "format": "date-time"
         }, 
         "max_video_size" : { 
-          "type": "float", 
-          "description": "Max duration of the video in seconds that can be processed for this account."   
+          "description": "Max duration of the video in seconds that can be processed for this account.", 
+          "type": "number",
+          "format": "float"
         }, 
         "error": {
           "$ref": "#/definitions/error"
