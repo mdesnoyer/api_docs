@@ -511,6 +511,35 @@
       }
     },
 
+    "/{account_id}/limits": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "View rate limits for account",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The rate limits for the corresponding account.",
+            "schema": {
+              "$ref": "#/definitions/limit"
+            }
+          }
+        }
+      }
+    }, 
+
     "/{account_id}/statistics/videos": {
       "get": {
         "tags": [
@@ -1894,6 +1923,32 @@
           },
           "description": "The returned videos."
         },
+        "error": {
+          "$ref": "#/definitions/error"
+        }
+      }
+    },
+
+    "limit": {
+      "type": "object",
+      "properties": {
+        "video_posts": {
+          "type": "integer",
+          "description": "This is how many successful video creations that have happened in this time window."
+        },
+        "max_video_posts" : { 
+          "type": "integer", 
+          "description": "The maximum amount of video posts that can be completed in this time window."   
+        }, 
+        "refresh_time_video_posts" : { 
+          "description": "When video_posts will reset and start a new time window.",  
+          "type": "string",
+          "format": "date-time"
+        }, 
+        "max_video_size" : { 
+          "type": "float", 
+          "description": "Max duration of the video in seconds that can be processed for this account."   
+        }, 
         "error": {
           "$ref": "#/definitions/error"
         }
