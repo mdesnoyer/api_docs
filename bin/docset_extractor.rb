@@ -15,13 +15,11 @@ class SwaggerDocument
     new(JSON.parse(File.read(filename)))
   end
 
-  def generate_docs
+  def generate_docs(output_filename, docset)
     if using_documentation_sets?
-      documentation_sets.each do |docset|
-        write_docs_without(docset)
-      end
+        write_docs_without(output_filename, docset)
     else
-      write_docs(without_documentation_set_list, DEFAULT_OUTPUT_FILE)
+      write_docs(without_documentation_set_list, output_filename)
     end
   end
 
@@ -41,10 +39,10 @@ class SwaggerDocument
     hash.select { |k, _| k != DOCSET_LIST_KEY}
   end
 
-  def write_docs_without(docset)
+  def write_docs_without(output_filename, docset)
     write_docs(
       without_documentation_set_list.merge("paths" => paths_without_docset(docset)),
-      "#{docset}.json"
+      output_filename
     )
   end
 
@@ -74,13 +72,13 @@ class SwaggerDocument
   end
 end
 
-if ARGV.size != 1
-  $stderr.puts "Usage: #{ARGV[0]} [swagger-json-filename]"
+if ARGV.size != 3
+  $stderr.puts "Usage: #{ARGV[0]} <input> <output> <docset>"
   exit 1
 end
 
 if File.file?(ARGV[0])
-  SwaggerDocument.parse(ARGV[0]).generate_docs
+  SwaggerDocument.parse(ARGV[0]).generate_docs(ARGV[1], ARGV[2])
 else
   $stderr.puts "File #{ARGV[0]} doesn't exist."
   exit 1
