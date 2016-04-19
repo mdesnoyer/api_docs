@@ -1,16 +1,16 @@
 EXTRACTOR = bin/docset_extractor.rb
 VALIDATE = swagger validate
 API_NAMES = cmsapiv2
-PUBLIC_DOCSETS := $(API_NAMES:%=%.public.json)
-PRIVATE_DOCSETS := $(API_NAMES:%=%.internal.json)
+PUBLIC_DOCSETS := $(API_NAMES:%=%_public.json)
+PRIVATE_DOCSETS := $(API_NAMES:%=%_internal.json)
 DOCSETS := $(PUBLIC_DOCSETS) $(PRIVATE_DOCSETS)
 
 all: $(DOCSETS)
 
-%.public.json : %.json
+%_public.json : %.json
 	$(EXTRACTOR) $< $@ public
 
-%.internal.json : %.json
+%_internal.json : %.json
 	$(EXTRACTOR) $< $@ internal
 
 validate: all
