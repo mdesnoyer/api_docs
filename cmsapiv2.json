@@ -972,7 +972,7 @@
         "tags": [
           "videos"
         ],
-        "summary": "Create a new video.",
+        "summary": "Add a new video.",
         "produces": [
           "application/json"
         ],
@@ -1061,9 +1061,14 @@
         ],
         "responses": {
           "200": {
-            "description": "The newly-created video.",
+            "description": "The newly-created video. Processing will not be complete.",
             "schema": {
-              "$ref": "#/definitions/video"
+              "type" : "object",
+              "properties": {
+                "video" : {
+                  "$ref": "#/definitions/video"
+                }
+              }
             }
           }
         }
