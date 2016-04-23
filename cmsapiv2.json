@@ -24,7 +24,7 @@
   ],
   "schemes": [
     "http",
-    "https" 
+    "https"
   ],
   "paths": {
     "/accounts": {
@@ -111,8 +111,8 @@
         "responses": {
           "200": {
             "description": "Account verification email sent to {email}"
-          }, 
-          "500": { 
+          },
+          "500": {
             "description": "Failed to send verification email to {email}"
           }
         }
@@ -131,7 +131,7 @@
         "parameters": [
           {
             "name": "token",
-            "in": "query", 
+            "in": "query",
             "description": "The verification token that is sent back on a post to accounts.",
             "required": true,
             "type": "string"
@@ -333,16 +333,32 @@
           {
             "name": "read_token",
             "in": "query",
-            "description": "Token for reading.",
+            "description": "Brightcove specific token for reading for token-parameter-based authentication.",
             "required": false,
             "type": "string"
           },
           {
             "name": "write_token",
             "in": "query",
-            "description": "Token for writing.",
+            "description": "Brightcove specific token for writing for token-parameter-based authentication.",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "application_client_id",
+            "in": "query",
+            "description": "Client id for the Brightcove application for OAuth-based authentication.",
+            "required": false,
+            "type": "string"
+
+          },
+          {
+            "name": "application_client_secret",
+            "in": "query",
+            "description": "Client secret for the Brightcove application for OAuth-based authentication.",
+            "required": false,
+            "type": "string"
+
           },
           {
             "name": "playlist_feed_ids",
@@ -367,6 +383,29 @@
             "description": "URL to call after a video has been processed.",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "uses_bc_thumbnail_api",
+            "in": "query",
+            "description": "Set if publisher uses Brightcove's thumbnail API on their video player page.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "uses_bc_videojs_player",
+            "in": "query",
+            "description": "Set if publisher uses Brightcove's Video.js-based player",
+            "required": false,
+            "type": "boolean"
+
+          },
+          {
+            "name": "uses_bc_smart_player",
+            "in": "query",
+            "description": "Set if publisher uses Brightcove's Flash-based Smart player",
+            "required": false,
+            "type": "boolean"
+
           }
         ],
         "responses": {
@@ -375,6 +414,99 @@
             "schema": {
               "$ref": "#/definitions/brightcove_integration"
             }
+          }
+        }
+      }
+    },
+
+    "/{account_id}/integrations/brightcove/players": {
+      "onlyVisibleInDocumentationSets": [
+        "internal"
+      ],
+      "get": {
+        "tags": [
+          "integration",
+          "brightcove"
+        ],
+        "summary": "View Brightcove Players",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "integration_id",
+            "in": "query",
+            "description": "ID of the integration.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the list of Brightcove Players for `account_id` and `integration_id`.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/brightcove_player"
+              }
+            }
+          },
+          "401": {
+            "description": "Client is not authorized to view the requested list of players"
+          }
+        }
+      }
+    },
+
+    "/{account_id}/integrations/brightcove/players/{player_id}": {
+      "onlyVisibleInDocumentationSets": [
+        "internal"
+      ],
+      "put":{
+        "tags": [
+          "integration",
+          "brightcove"
+        ],
+        "summary": "Update a Brightcove player",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "type": "string",
+            "description": "Account ID of the player",
+            "required": true
+          },
+          {
+            "name": "player_id",
+            "in": "path",
+            "type": "string",
+            "description": "Player ID of the player",
+            "required": true
+          },
+          {
+            "name": "is_tracked",
+            "in": "query",
+            "type": "boolean",
+            "description": "Set if Neon adds its tracking plugin to the player.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Player is updated"
+          },
+          "500": {
+            "description": "Played failed to update"
           }
         }
       }
@@ -538,7 +670,7 @@
           }
         }
       }
-    }, 
+    },
 
     "/{account_id}/statistics/videos": {
       "get": {
@@ -816,35 +948,35 @@
             "description": "The email of the user.",
             "required": true,
             "type": "string"
-          }, 
+          },
           {
             "name": "password",
             "in": "query",
             "description": "The password of the user.",
             "required": true,
             "type": "string"
-          }, 
+          },
           {
             "name": "access_level",
             "in": "query",
             "description": "The access level of the user, can only have access to what the requesting user has",
             "required": true,
             "type": "integer"
-          }, 
+          },
           {
             "name": "first_name",
             "in": "query",
             "description": "The first name of the user.",
             "required": false,
             "type": "string"
-          }, 
+          },
           {
             "name": "last_name",
             "in": "query",
             "description": "The last name of the user.",
             "required": false,
             "type": "string"
-          }, 
+          },
           {
             "name": "title",
             "in": "query",
@@ -885,28 +1017,28 @@
             "description": "The email of the user.",
             "required": true,
             "type": "string"
-          }, 
+          },
           {
             "name": "access_level",
             "in": "query",
             "description": "The access level of the user, can only have access to what the requesting user has",
             "required": false,
             "type": "integer"
-          }, 
+          },
           {
             "name": "first_name",
             "in": "query",
             "description": "The first name of the user.",
             "required": false,
             "type": "string"
-          }, 
+          },
           {
             "name": "last_name",
             "in": "query",
             "description": "The last name of the user.",
             "required": false,
             "type": "string"
-          }, 
+          },
           {
             "name": "title",
             "in": "query",
@@ -1149,8 +1281,8 @@
             "required": false,
             "type": "number",
             "default": 25,
-            "maximum": 100, 
-            "minimum": 1,  
+            "maximum": 100,
+            "minimum": 1,
             "format": "integer"
           },
           {
@@ -1165,7 +1297,7 @@
           "200": {
             "description": "The requested videos.",
             "schema": {
-              "$ref": "#/definitions/search_videos" 
+              "$ref": "#/definitions/search_videos"
             }
           }
         }
@@ -1215,8 +1347,8 @@
             "required": false,
             "type": "number",
             "default": 25,
-            "maximum": 100, 
-            "minimum": 1,  
+            "maximum": 100,
+            "minimum": 1,
             "format": "integer"
           },
           {
@@ -1231,7 +1363,7 @@
           "200": {
             "description": "The requested videos.",
             "schema": {
-              "$ref": "#/definitions/search_videos" 
+              "$ref": "#/definitions/search_videos"
             }
           }
         }
@@ -1258,8 +1390,8 @@
         }
       }
     }
-
   },
+
   "definitions": {
     "account": {
       "type": "object",
@@ -1325,6 +1457,50 @@
       }
     },
 
+    "brightcove_player": {
+      "type": "object",
+      "properties": {
+        "player_id": {
+          "type": "string",
+          "description": "Neon ID for the player."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the player was created as ISO08601 date."
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the player was last updated as ISO08601 date."
+        },
+        "brightcove_player_id": {
+          "type": "string",
+          "description": "Brightcove ID for the player."
+        },
+        "name": {
+          "type": "string",
+          "description": "The Brightcove name of the player."
+        },
+        "is_tracked": {
+          "type": "boolean",
+          "description": "Determines if Neon adds its tracking plugin to the player."
+        },
+        "publish_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the player was last published by Neon on behalf of the publisher."
+        },
+        "last_attempt_result": {
+          "type": "integer",
+          "description": "Store result of the last attempt at publishing the player as numeric code."
+        },
+        "error": {
+          "$ref": "#/definitions/error"
+        }
+      }
+    },
+
     "brightcove_integration": {
       "type": "object",
       "properties": {
@@ -1352,11 +1528,19 @@
         },
         "read_token": {
           "type": "string",
-          "description": "Brightcove specific token for reading."
+          "description": "Brightcove token for reading for token-parameter-based authentication."
         },
         "write_token": {
           "type": "string",
-          "description": "Brightcove specific token for writing."
+          "description": "Brightcove token for writing for token-parameter-based authentication."
+        },
+        "application_client_id": {
+          "type": "string",
+          "description": "Client id for the Brightcove application for OAuth-based authentication."
+        },
+        "application_client_secret": {
+          "type": "string",
+          "description": "Client secret for the Brightcove application for OAuth-based authentication."
         },
         "enabled": {
           "type": "boolean",
@@ -1385,6 +1569,24 @@
         "publisher_id": {
           "type": "string",
           "description": "The ID of the publisher."
+        },
+        "uses_bc_thumbnail_api": {
+          "type": "boolean",
+          "description": "Set if publisher uses Brightcove's thumbnail API on their video player page."
+        },
+        "uses_bc_videojs_player": {
+          "type": "boolean",
+          "description": "Set if publisher uses Brightcove's Video.js-based player."
+        },
+        "uses_bc_smart_player": {
+          "type": "boolean",
+          "description": "Set if publisher uses Brightcove's Flash-based Smart player."
+        },
+        "players": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/brightcove_player"
+          }
         },
         "error": {
           "$ref": "#/definitions/error"
@@ -1861,20 +2063,20 @@
           "type": "integer",
           "description": "This is how many successful video creations that have happened in this time window."
         },
-        "max_video_posts" : { 
-          "type": "integer", 
-          "description": "The maximum amount of video posts that can be completed in this time window."   
-        }, 
-        "refresh_time_video_posts" : { 
-          "description": "When video_posts will reset and start a new time window.",  
+        "max_video_posts" : {
+          "type": "integer",
+          "description": "The maximum amount of video posts that can be completed in this time window."
+        },
+        "refresh_time_video_posts" : {
+          "description": "When video_posts will reset and start a new time window.",
           "type": "string",
           "format": "date-time"
-        }, 
-        "max_video_size" : { 
-          "description": "Max duration of the video in seconds that can be processed for this account.", 
+        },
+        "max_video_size" : {
+          "description": "Max duration of the video in seconds that can be processed for this account.",
           "type": "number",
           "format": "float"
-        }, 
+        },
         "error": {
           "$ref": "#/definitions/error"
         }
@@ -1896,14 +2098,14 @@
           },
           "description": "The returned videos."
         },
-        "next_page" : { 
-          "type": "string", 
-          "description": "link to next (older) page of videos"   
-        }, 
-        "prev_page" : { 
-          "type": "string", 
-          "description": "link to prev (newer) page of videos"   
-        }, 
+        "next_page" : {
+          "type": "string",
+          "description": "link to next (older) page of videos"
+        },
+        "prev_page" : {
+          "type": "string",
+          "description": "link to prev (newer) page of videos"
+        },
         "error": {
           "$ref": "#/definitions/error"
         }
