@@ -406,6 +406,14 @@
             "required": false,
             "type": "boolean"
 
+          },
+          {
+            "name": "uses_bc_gallery",
+            "in": "query",
+            "description": "Set if publisher uses Brightcove's gallery feature",
+            "required": false,
+            "type": "boolean"
+
           }
         ],
         "responses": {
@@ -462,19 +470,13 @@
             "description": "Client is not authorized to view the requested list of players"
           }
         }
-      }
-    },
-
-    "/{account_id}/integrations/brightcove/players/{player_id}": {
-      "onlyVisibleInDocumentationSets": [
-        "internal"
-      ],
+      },
       "put":{
         "tags": [
           "integration",
           "brightcove"
         ],
-        "summary": "Update a Brightcove player",
+        "summary": "Enable or disable tracking for a Brightcove player",
         "produces": [
           "application/json"
         ],
@@ -487,23 +489,29 @@
             "required": true
           },
           {
-            "name": "player_id",
-            "in": "path",
+            "name": "player_ref",
+            "in": "query",
             "type": "string",
-            "description": "Player ID of the player",
+            "description": "Brightcove player ID of the player",
             "required": true
           },
           {
             "name": "is_tracked",
             "in": "query",
             "type": "boolean",
-            "description": "Set if Neon adds its tracking plugin to the player.",
+            "description": "Set if Neon adds its tracking plugin to the player",
             "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "Player is updated"
+            "description": "Player tracking is set",
+            "schema": {
+              "$ref": "#/definitions/brightcove_player"
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to player"
           },
           "500": {
             "description": "Played failed to update"
@@ -1459,10 +1467,11 @@
 
     "brightcove_player": {
       "type": "object",
+      "description": "Configuration for a Brightcove Video.js-based player and tracking plugin",
       "properties": {
-        "player_id": {
+        "player_ref": {
           "type": "string",
-          "description": "Neon ID for the player."
+          "description": "Brightcove ID for the player."
         },
         "created": {
           "type": "string",
@@ -1473,10 +1482,6 @@
           "type": "string",
           "format": "date-time",
           "description": "When the player was last updated as ISO08601 date."
-        },
-        "brightcove_player_id": {
-          "type": "string",
-          "description": "Brightcove ID for the player."
         },
         "name": {
           "type": "string",
@@ -1489,11 +1494,15 @@
         "publish_date": {
           "type": "string",
           "format": "date-time",
-          "description": "When the player was last published by Neon on behalf of the publisher."
+          "description": "When Neon last successfully published the tracking plugin to the player."
         },
         "last_attempt_result": {
-          "type": "integer",
-          "description": "Store result of the last attempt at publishing the player as numeric code."
+          "type": "string",
+          "description": "Result of the last attempt at publishing the player."
+        },
+        "plugin_version": {
+          "type": "string",
+          "description": "Version of the tracking plugin published to the player."
         },
         "error": {
           "$ref": "#/definitions/error"
@@ -1584,6 +1593,7 @@
         },
         "players": {
           "type": "array",
+          "description": "List of Brightcove Video Video.js players",
           "items": {
             "$ref": "#/definitions/brightcove_player"
           }
