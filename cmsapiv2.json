@@ -372,6 +372,7 @@
             "description": "Set if publisher uses Brightcove's gallery feature",
             "required": false,
             "type": "boolean"
+          }
         ],
         "responses": {
           "200": {
