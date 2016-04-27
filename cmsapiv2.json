@@ -288,49 +288,6 @@
             "required": true,
             "type": "string",
             "example": "2294876105001"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Return the newly-created Brightcove integration.",
-            "schema": {
-              "$ref": "#/definitions/brightcove_integration"
-            }
-          }
-        }
-      },
-
-      "put": {
-        "tags": [
-          "integration",
-          "brightcove"
-        ],
-        "summary": "Update a Brightcove integration",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "Neon ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "integration_id",
-            "in": "query",
-            "description": "ID of the integration.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "publisher_id",
-            "in": "query",
-            "description": "Brightcove account ID of the publisher.",
-            "required": false,
-            "type": "string",
-            "example": "2294876105001"
           },
           {
             "name": "read_token",
@@ -408,7 +365,6 @@
             "description": "Set if publisher uses Brightcove's Flash-based Smart player",
             "required": false,
             "type": "boolean"
-
           },
           {
             "name": "uses_bc_gallery",
@@ -416,7 +372,131 @@
             "description": "Set if publisher uses Brightcove's gallery feature",
             "required": false,
             "type": "boolean"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the newly-created Brightcove integration.",
+            "schema": {
+              "$ref": "#/definitions/brightcove_integration"
+            }
+          }
+        }
+      },
 
+      "put": {
+        "tags": [
+          "integration",
+          "brightcove"
+        ],
+        "summary": "Update a Brightcove integration",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "description": "Neon ID of the account.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "integration_id",
+            "in": "query",
+            "description": "ID of the integration.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "publisher_id",
+            "in": "query",
+            "description": "Brightcove account ID of the publisher.",
+            "required": false,
+            "type": "string",
+            "example": "2294876105001"
+          },
+          {
+            "name": "read_token",
+            "in": "query",
+            "description": "Brightcove specific token for reading for token-parameter-based authentication.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "write_token",
+            "in": "query",
+            "description": "Brightcove specific token for writing for token-parameter-based authentication.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "application_client_id",
+            "in": "query",
+            "description": "Client id for the Brightcove application for OAuth-based authentication.",
+            "required": false,
+            "type": "string",
+            "example": "8b089370-ce31-4ecf-9c14-7ffc6ff492b9"
+          },
+          {
+            "name": "application_client_secret",
+            "in": "query",
+            "description": "Client secret for the Brightcove application for OAuth-based authentication.",
+            "required": false,
+            "type": "string",
+            "example": "zZu6_l62UCYhjpTuwEfWrNDrjEqyP9Pg19Sv5BUUGCig1CMA-mIuxy14DjH6n1xQHZi3_RPYfO8_YRGh8xAyyg"
+          },
+          {
+            "name": "playlist_feed_ids",
+            "in": "query",
+            "description": "List of feed_ids for this integration.",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "uses_batch_provisioning",
+            "in": "query",
+            "description": "Whether or not to use batched provisioning.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "callback_url",
+            "in": "query",
+            "description": "URL to call after a video has been processed.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "uses_bc_thumbnail_api",
+            "in": "query",
+            "description": "Set if publisher uses Brightcove's thumbnail API on their video player page.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "uses_bc_videojs_player",
+            "in": "query",
+            "description": "Set if publisher uses Brightcove's Video.js-based player",
+            "required": false,
+            "type": "boolean"
+
+          },
+          {
+            "name": "uses_bc_smart_player",
+            "in": "query",
+            "description": "Set if publisher uses Brightcove's Flash-based Smart player",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "uses_bc_gallery",
+            "in": "query",
+            "description": "Set if publisher uses Brightcove's gallery feature",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "responses": {
@@ -447,7 +527,7 @@
           {
             "name": "account_id",
             "in": "path",
-            "description": "ID of the account.",
+            "description": "Neon ID of the account.",
             "required": true,
             "type": "string"
           },
@@ -584,6 +664,20 @@
             "in": "query",
             "description": "ID of the publisher.",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ooyala_api_key",
+            "in": "query",
+            "description": "API key for Ooyala integration.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ooyala_api_secret",
+            "in": "query",
+            "description": "API secret for Ooyala integration.",
+            "required": false,
             "type": "string"
           }
         ],
@@ -1468,51 +1562,6 @@
       }
     },
 
-    "brightcove_player": {
-      "type": "object",
-      "description": "Configuration for a Brightcove Video.js-based player and tracking plugin",
-      "properties": {
-        "player_ref": {
-          "type": "string",
-          "description": "Brightcove reference ID of the player."
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "When the player was created as ISO08601 date."
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "When the player was last updated as ISO08601 date."
-        },
-        "name": {
-          "type": "string",
-          "description": "The Brightcove name of the player."
-        },
-        "is_tracked": {
-          "type": "boolean",
-          "description": "Determines if Neon adds its tracking plugin to the player."
-        },
-        "publish_date": {
-          "type": "string",
-          "format": "date-time",
-          "description": "When Neon last successfully published the tracking plugin to the player."
-        },
-        "published_plugin_version": {
-          "type": "string",
-          "description": "Version of the tracking plugin last succesfully published to the player."
-        },
-        "last_attempt_result": {
-          "type": "string",
-          "description": "Result of the last attempt at publishing the player."
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
     "brightcove_integration": {
       "type": "object",
       "properties": {
@@ -1600,6 +1649,51 @@
         "uses_bc_gallery": {
           "type": "boolean",
           "description": "Set if publisher uses Brightcove's gallery feature"
+        },
+        "error": {
+          "$ref": "#/definitions/error"
+        }
+      }
+    },
+
+    "brightcove_player": {
+      "type": "object",
+      "description": "Configuration for a Brightcove Video.js-based player and tracking plugin",
+      "properties": {
+        "player_ref": {
+          "type": "string",
+          "description": "Brightcove reference ID of the player."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the player was created as ISO08601 date."
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the player was last updated as ISO08601 date."
+        },
+        "name": {
+          "type": "string",
+          "description": "The Brightcove name of the player."
+        },
+        "is_tracked": {
+          "type": "boolean",
+          "description": "Determines if Neon adds its tracking plugin to the player."
+        },
+        "publish_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When Neon last successfully published the tracking plugin to the player."
+        },
+        "published_plugin_version": {
+          "type": "string",
+          "description": "Version of the tracking plugin last succesfully published to the player."
+        },
+        "last_attempt_result": {
+          "type": "string",
+          "description": "Result of the last attempt at publishing the player."
         },
         "error": {
           "$ref": "#/definitions/error"
