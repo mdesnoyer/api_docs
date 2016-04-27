@@ -277,16 +277,17 @@
           {
             "name": "account_id",
             "in": "path",
-            "description": "ID of the account.",
+            "description": "Neon ID of the account.",
             "required": true,
             "type": "string"
           },
           {
             "name": "publisher_id",
             "in": "query",
-            "description": "ID of the publisher.",
+            "description": "Brightcove account ID of the publisher.",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "example": "2294876105001"
           }
         ],
         "responses": {
@@ -312,7 +313,7 @@
           {
             "name": "account_id",
             "in": "path",
-            "description": "ID of the account.",
+            "description": "Neon ID of the account.",
             "required": true,
             "type": "string"
           },
@@ -326,9 +327,10 @@
           {
             "name": "publisher_id",
             "in": "query",
-            "description": "ID of the publisher.",
+            "description": "Brightcove account ID of the publisher.",
             "required": false,
-            "type": "string"
+            "type": "string",
+            "example": "2294876105001"
           },
           {
             "name": "read_token",
@@ -349,15 +351,16 @@
             "in": "query",
             "description": "Client id for the Brightcove application for OAuth-based authentication.",
             "required": false,
-            "type": "string"
-
+            "type": "string",
+            "example": "8b089370-ce31-4ecf-9c14-7ffc6ff492b9"
           },
           {
             "name": "application_client_secret",
             "in": "query",
             "description": "Client secret for the Brightcove application for OAuth-based authentication.",
             "required": false,
-            "type": "string"
+            "type": "string",
+            "example": "zZu6_l62UCYhjpTuwEfWrNDrjEqyP9Pg19Sv5BUUGCig1CMA-mIuxy14DjH6n1xQHZi3_RPYfO8_YRGh8xAyyg"
 
           },
           {
@@ -492,7 +495,7 @@
             "name": "player_ref",
             "in": "query",
             "type": "string",
-            "description": "Brightcove player ID of the player",
+            "description": "Brightcove reference ID of the player",
             "required": true
           },
           {
@@ -505,7 +508,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Player tracking is set",
+            "description": "Player tracking is updated",
             "schema": {
               "$ref": "#/definitions/brightcove_player"
             }
@@ -1471,7 +1474,7 @@
       "properties": {
         "player_ref": {
           "type": "string",
-          "description": "Brightcove ID for the player."
+          "description": "Brightcove reference ID of the player."
         },
         "created": {
           "type": "string",
@@ -1496,13 +1499,13 @@
           "format": "date-time",
           "description": "When Neon last successfully published the tracking plugin to the player."
         },
+        "published_plugin_version": {
+          "type": "string",
+          "description": "Version of the tracking plugin last succesfully published to the player."
+        },
         "last_attempt_result": {
           "type": "string",
           "description": "Result of the last attempt at publishing the player."
-        },
-        "plugin_version": {
-          "type": "string",
-          "description": "Version of the tracking plugin published to the player."
         },
         "error": {
           "$ref": "#/definitions/error"
@@ -1533,7 +1536,7 @@
         },
         "account_id": {
           "type": "string",
-          "description": "ID of the account."
+          "description": "Neon ID of the account."
         },
         "read_token": {
           "type": "string",
@@ -1545,11 +1548,13 @@
         },
         "application_client_id": {
           "type": "string",
-          "description": "Client id for the Brightcove application for OAuth-based authentication."
+          "description": "Client id for the Brightcove application for OAuth-based authentication.",
+          "example": "8b089370-ce31-4ecf-9c14-7ffc6ff492b9"
         },
         "application_client_secret": {
           "type": "string",
-          "description": "Client secret for the Brightcove application for OAuth-based authentication."
+          "description": "Client secret for the Brightcove application for OAuth-based authentication.",
+          "example": "zZu6_l62UCYhjpTuwEfWrNDrjEqyP9Pg19Sv5BUUGCig1CMA-mIuxy14DjH6n1xQHZi3_RPYfO8_YRGh8xAyyg"
         },
         "enabled": {
           "type": "boolean",
@@ -1577,7 +1582,8 @@
         },
         "publisher_id": {
           "type": "string",
-          "description": "The ID of the publisher."
+          "description": "The Brightcove account ID of the publisher.",
+          "example": "2294876105001"
         },
         "uses_bc_thumbnail_api": {
           "type": "boolean",
@@ -1591,12 +1597,9 @@
           "type": "boolean",
           "description": "Set if publisher uses Brightcove's Flash-based Smart player."
         },
-        "players": {
-          "type": "array",
-          "description": "List of Brightcove Video Video.js players",
-          "items": {
-            "$ref": "#/definitions/brightcove_player"
-          }
+        "uses_bc_gallery": {
+          "type": "boolean",
+          "description": "Set if publisher uses Brightcove's gallery feature"
         },
         "error": {
           "$ref": "#/definitions/error"
