@@ -1,2223 +1,1884 @@
 {
-  "swagger": "2.0",
-  "host": "services.neon-images.com",
-  "basePath": "/api/v2",
-  "info": {
-    "description": "Provides consumers with the ability to hit Neon services. Note that, while all the endpoints list their parameters as *query* parameters, they can be sent in the body as well (in a flat JSON object).",
-    "title": "Neon CMS API v2",
-    "termsOfService": "TODO",
-    "contact": {},
-    "license": {
-      "name": "TODO"
+    "swagger": "2.0",
+    "host": "services.neon-images.com",
+    "basePath": "/api/v2",
+    "info": {
+        "description": "Provides consumers with the ability to hit Neon services. Note that, while all the endpoints list their parameters as *query* parameters, they can be sent in the body as well (in a flat JSON object).",
+        "title": "Neon CMS API",
+        "termsOfService": "TODO",
+        "contact": {},
+        "license": {
+            "name": "Copyright"
+        },
+        "version": "2.1"
     },
-    "version": "TODO"
-  },
-  "tags": [
-    {
-      "name": "track",
-      "description": "Group Tracking Events"
-    }
-  ],
-  "documentationSets": [
-    "public",
-    "internal"
-  ],
-  "schemes": [
-    "http",
-    "https"
-  ],
-  "paths": {
-    "/accounts": {
-      "post": {
-        "tags": [
-          "account"
-        ],
-        "summary": "Create account",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "customer_name",
-            "in": "query",
-            "description": "The company name of the customer.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in": "query",
-            "description": "The email that is associated with the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "admin_user_username",
-            "in": "query",
-            "description": "This is expected to be an email for the admin User. This can be the same as the account email or different.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "admin_user_password",
-            "in": "query",
-            "description": "The password for the admin user.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "admin_user_first_name",
-            "in": "query",
-            "description": "The first name of the person controlling the admin account for this customer.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "admin_user_last_name",
-            "in": "query",
-            "description": "The last name of the person controlling the admin account for this customer.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "admin_user_title",
-            "in": "query",
-            "description": "The title of the person controlling the admin account for this customer.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "default_width",
-            "in": "query",
-            "description": "The default width of the account.",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "default_height",
-            "in": "query",
-            "description": "The default height of the account.",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "default_thumbnail_id",
-            "in": "query",
-            "description": "The id of the default thumbnail wanted for the account.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Account verification email sent to {email}"
-          },
-          "500": {
-            "description": "Failed to send verification email to {email}"
-          }
+    "tags": [
+        {
+            "name": "videos",
+            "description": "Video management"
+        },
+        {
+            "name": "accounts",
+            "description": "Account management"
+        },
+        {
+            "name": "account limits",
+            "description": "View limits on the account"
+        },
+        {
+            "name": "integrations",
+            "description": "Integration management"
+        },
+        {
+            "name": "statistics",
+            "description": "View statistics on objects"
+        },
+        {
+            "name": "thumbnails",
+            "description": "Thumbnail management"
+        },
+        {
+            "name": "callback",
+            "description": "Dummy endpoint to define the callback"
         }
-      }
-    },
-
-    "/accounts/verify": {
-      "post": {
-        "tags": [
-          "verify account"
-        ],
-        "summary": "Verify account",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "query",
-            "description": "The verification token that is sent back on a post to accounts.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "New Account has been added : name = {customer_name} id = {account_id}",
-            "schema": {
-              "$ref": "#/definitions/account"
-            }
-          }
-        }
-      }
-    },
-
-    "/{account_id}": {
-      "get": {
-        "tags": [
-          "account"
-        ],
-        "summary": "View account",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The account associated with the requested ID.",
-            "schema": {
-              "$ref": "#/definitions/account"
-            }
-          }
-        }
-      },
-
-      "put": {
-        "tags": [
-          "account"
-        ],
-        "summary": "Update account",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "default_width",
-            "in": "query",
-            "description": "The default width of the account.",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "default_height",
-            "in": "query",
-            "description": "The default height of the account.",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "default_thumbnail_id",
-            "in": "query",
-            "description": "The id of the default thumbnail wanted for the account.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The updated account associated with the requested ID.",
-            "schema": {
-              "$ref": "#/definitions/account"
-            }
-          }
-        }
-      }
-    },
-
-    "/{account_id}/integrations/brightcove": {
-      "onlyVisibleInDocumentationSets": [
+    ],
+    "x-documentationSets": [
+        "public",
         "internal"
-      ],
-      "get": {
-        "tags": [
-          "integration",
-          "brightcove"
-        ],
-        "summary": "View Brightcove integration",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "integration_id",
-            "in": "query",
-            "description": "ID of the integration.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Return the Brightcove integration with that `account_id` and `integration_id`.",
-            "schema": {
-              "$ref": "#/definitions/brightcove_integration"
-            }
-          }
+    ],
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
-      },
-
-      "post": {
-        "tags": [
-          "integration",
-          "brightcove"
-        ],
-        "summary": "Create a Brightcove integration",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "Neon ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "publisher_id",
-            "in": "query",
-            "description": "Brightcove account ID of the publisher.",
-            "required": true,
-            "type": "string",
-            "example": "2294876105001"
-          },
-          {
-            "name": "read_token",
-            "in": "query",
-            "description": "Brightcove specific token for reading for token-parameter-based authentication.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "write_token",
-            "in": "query",
-            "description": "Brightcove specific token for writing for token-parameter-based authentication.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "application_client_id",
-            "in": "query",
-            "description": "Client id for the Brightcove application for OAuth-based authentication.",
-            "required": false,
-            "type": "string",
-            "example": "8b089370-ce31-4ecf-9c14-7ffc6ff492b9"
-          },
-          {
-            "name": "application_client_secret",
-            "in": "query",
-            "description": "Client secret for the Brightcove application for OAuth-based authentication.",
-            "required": false,
-            "type": "string",
-            "example": "zZu6_l62UCYhjpTuwEfWrNDrjEqyP9Pg19Sv5BUUGCig1CMA-mIuxy14DjH6n1xQHZi3_RPYfO8_YRGh8xAyyg"
-
-          },
-          {
-            "name": "playlist_feed_ids",
-            "in": "query",
-            "description": "List of feed_ids for this integration.",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "uses_batch_provisioning",
-            "in": "query",
-            "description": "Whether or not to use batched provisioning.",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "callback_url",
-            "in": "query",
-            "description": "URL to call after a video has been processed.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "uses_bc_thumbnail_api",
-            "in": "query",
-            "description": "Set if publisher uses Brightcove's thumbnail API on their video player page.",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "uses_bc_videojs_player",
-            "in": "query",
-            "description": "Set if publisher uses Brightcove's Video.js-based player",
-            "required": false,
-            "type": "boolean"
-
-          },
-          {
-            "name": "uses_bc_smart_player",
-            "in": "query",
-            "description": "Set if publisher uses Brightcove's Flash-based Smart player",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "uses_bc_gallery",
-            "in": "query",
-            "description": "Set if publisher uses Brightcove's gallery feature",
-            "required": false,
-            "type": "boolean"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Return the newly-created Brightcove integration.",
-            "schema": {
-              "$ref": "#/definitions/brightcove_integration"
-            }
-          }
-        }
-      },
-
-      "put": {
-        "tags": [
-          "integration",
-          "brightcove"
-        ],
-        "summary": "Update a Brightcove integration",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "Neon ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "integration_id",
-            "in": "query",
-            "description": "ID of the integration.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "publisher_id",
-            "in": "query",
-            "description": "Brightcove account ID of the publisher.",
-            "required": false,
-            "type": "string",
-            "example": "2294876105001"
-          },
-          {
-            "name": "read_token",
-            "in": "query",
-            "description": "Brightcove specific token for reading for token-parameter-based authentication.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "write_token",
-            "in": "query",
-            "description": "Brightcove specific token for writing for token-parameter-based authentication.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "application_client_id",
-            "in": "query",
-            "description": "Client id for the Brightcove application for OAuth-based authentication.",
-            "required": false,
-            "type": "string",
-            "example": "8b089370-ce31-4ecf-9c14-7ffc6ff492b9"
-          },
-          {
-            "name": "application_client_secret",
-            "in": "query",
-            "description": "Client secret for the Brightcove application for OAuth-based authentication.",
-            "required": false,
-            "type": "string",
-            "example": "zZu6_l62UCYhjpTuwEfWrNDrjEqyP9Pg19Sv5BUUGCig1CMA-mIuxy14DjH6n1xQHZi3_RPYfO8_YRGh8xAyyg"
-          },
-          {
-            "name": "playlist_feed_ids",
-            "in": "query",
-            "description": "List of feed_ids for this integration.",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "uses_batch_provisioning",
-            "in": "query",
-            "description": "Whether or not to use batched provisioning.",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "callback_url",
-            "in": "query",
-            "description": "URL to call after a video has been processed.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "uses_bc_thumbnail_api",
-            "in": "query",
-            "description": "Set if publisher uses Brightcove's thumbnail API on their video player page.",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "uses_bc_videojs_player",
-            "in": "query",
-            "description": "Set if publisher uses Brightcove's Video.js-based player",
-            "required": false,
-            "type": "boolean"
-
-          },
-          {
-            "name": "uses_bc_smart_player",
-            "in": "query",
-            "description": "Set if publisher uses Brightcove's Flash-based Smart player",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "uses_bc_gallery",
-            "in": "query",
-            "description": "Set if publisher uses Brightcove's gallery feature",
-            "required": false,
-            "type": "boolean"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Return the updated Brightcove integration.",
-            "schema": {
-              "$ref": "#/definitions/brightcove_integration"
-            }
-          }
-        }
-      }
     },
-
-    "/{account_id}/integrations/brightcove/players": {
-      "onlyVisibleInDocumentationSets": [
-        "internal"
-      ],
-      "get": {
-        "tags": [
-          "integration",
-          "brightcove"
-        ],
-        "summary": "View Brightcove Players",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "Neon ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "integration_id",
-            "in": "query",
-            "description": "ID of the integration.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Return the list of Brightcove Players for `account_id` and `integration_id`.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/brightcove_player"
-              }
-            }
-          },
-          "401": {
-            "description": "Client is not authorized to view the requested list of players"
-          }
+    "security": [
+        {
+            "Bearer": []
         }
-      },
-      "put":{
-        "tags": [
-          "integration",
-          "brightcove"
-        ],
-        "summary": "Enable or disable tracking for a Brightcove player",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "type": "string",
-            "description": "Account ID of the player",
-            "required": true
-          },
-          {
-            "name": "player_ref",
-            "in": "query",
-            "type": "string",
-            "description": "Brightcove reference ID of the player",
-            "required": true
-          },
-          {
-            "name": "is_tracked",
-            "in": "query",
-            "type": "boolean",
-            "description": "Set if Neon adds its tracking plugin to the player",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Player tracking is updated",
-            "schema": {
-              "$ref": "#/definitions/brightcove_player"
-            }
-          },
-          "401": {
-            "description": "Unauthorized access to player"
-          },
-          "500": {
-            "description": "Played failed to update"
-          }
-        }
-      }
-    },
-
-    "/{account_id}/integrations/ooyala": {
-      "onlyVisibleInDocumentationSets": [
-        "internal"
-      ],
-      "get": {
-        "tags": [
-          "integration",
-          "ooyala"
-        ],
-        "summary": "View Ooyala integration",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "integration_id",
-            "in": "query",
-            "description": "ID of the integration.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Return the Ooyala integration with that `account_id` and `integration_id`.",
-            "schema": {
-              "$ref": "#/definitions/ooyala_integration"
-            }
-          }
-        }
-      },
-
-      "post": {
-        "tags": [
-          "integration",
-          "ooyala"
-        ],
-        "summary": "Create an Ooyala integration",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "publisher_id",
-            "in": "query",
-            "description": "ID of the publisher.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "ooyala_api_key",
-            "in": "query",
-            "description": "API key for Ooyala integration.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "ooyala_api_secret",
-            "in": "query",
-            "description": "API secret for Ooyala integration.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The newly-created Ooyala integration.",
-            "schema": {
-              "$ref": "#/definitions/ooyala_integration"
-            }
-          }
-        }
-      },
-
-      "put": {
-        "tags": [
-          "integration",
-          "ooyala"
-        ],
-        "summary": "Update an Ooyala integration",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "integration_id",
-            "in": "query",
-            "description": "ID of the integration.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "publisher_id",
-            "in": "query",
-            "description": "ID of the publisher.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "ooyala_api_key",
-            "in": "query",
-            "description": "API key for Ooyala integration.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "ooyala_api_secret",
-            "in": "query",
-            "description": "API secret for Ooyala integration.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The updated Ooyala integration.",
-            "schema": {
-              "$ref": "#/definitions/ooyala_integration"
-            }
-          }
-        }
-      }
-    },
-
-    "/{account_id}/limits": {
-      "get": {
-        "tags": [
-          "account limits"
-        ],
-        "summary": "View rate limits for account",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The rate limits for the corresponding account.",
-            "schema": {
-              "$ref": "#/definitions/limit"
-            }
-          }
-        }
-      }
-    },
-
-    "/{account_id}/statistics/videos": {
-      "get": {
-        "tags": [
-          "statistics"
-        ],
-        "summary": "Get basic video statistics.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "video_id",
-            "in": "query",
-            "description": "Comma-separated string of up to 100 video IDs.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated string of fields to return. Can include `experiment_state`, `winner_thumbnail`, `created`, and `updated`.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of video statistics with the requested fields.",
-            "schema": {
-              "$ref": "#/definitions/video_statistics"
-            }
-          }
-        }
-      }
-    },
-
-    "/{account_id}/statistics/thumbnails": {
-      "get": {
-        "tags": [
-          "statistics"
-        ],
-        "summary": "Basic thumbnail statistics",
-        "description": "This will return basic thumbnail stats by `thumbnail_id` or `video_id`.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "video_id",
-            "in": "query",
-            "description": "Comma-separated string of up to 20 video IDs.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "thumbnail_id",
-            "in": "query",
-            "description": "Comma-separated string of up to 100 thumbnail IDs.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated string of fields to return. Can include `serving_frac` (the fraction of traffic seeing this thumbnail), `ctr` (the click-through rate), `impressions` (the number of impressions), `conversions` (the number of conversions), `created`, and `updated`.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of thumbnail statistics with the requested fields.",
-            "schema": {
-              "$ref": "#/definitions/thumbnail_statistics"
-            }
-          }
-        }
-      }
-    },
-
-    "/{account_id}/thumbnails": {
-      "get": {
-        "tags": [
-          "thumbnails"
-        ],
-        "summary": "Get thumbnail.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "thumbnail_id",
-            "in": "query",
-            "description": "The ID of the thumbnail.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated string of fields to return.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A thumbnail with the requested fields.",
-            "schema": {
-              "$ref": "#/definitions/thumbnail"
-            }
-          }
-        }
-      },
-
-      "post": {
-        "tags": [
-          "thumbnails"
-        ],
-        "summary": "Upload a new thumbnail and optionally associate it with a video",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "url",
-            "in": "query",
-            "description": "url of the thumbnail to upload",
-            "required": true,
-            "type" : "string"
-          },
-          {
-            "name": "video_id",
-            "in": "query",
-            "description": "video id to associate the thumbnail with",
-            "required": false,
-            "type" : "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The newly-created thumbnail.",
-            "schema": {
-              "$ref": "#/definitions/thumbnail"
-            }
-          }
-        }
-      },
-
-      "put": {
-        "tags": [
-          "thumbnails"
-        ],
-        "summary": "Update an existing thumbnail.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "thumbnail_id",
-            "in": "query",
-            "description": "The thumbnail id to modify",
-            "required": true,
-            "type" : "string"
-          },
-          {
-            "name": "enabled",
-            "in": "query",
-            "description": "If the thumbnail should be enabled for testing",
-            "required": false,
-            "type" : "boolean"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The modified thumbnail.",
-            "schema": {
-              "$ref": "#/definitions/thumbnail"
-            }
-          }
-        }
-      }
-    },
-
-    "/{account_id}/users": {
-      "get": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Get user.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "username",
-            "in": "query",
-            "description": "The email of the user.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A user with requested username.",
-            "schema": {
-              "$ref": "#/definitions/user"
-            }
-          }
-        }
-      },
-
-      "post": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Create a new user and associate it to an account.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "username",
-            "in": "query",
-            "description": "The email of the user.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "description": "The password of the user.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "access_level",
-            "in": "query",
-            "description": "The access level of the user, can only have access to what the requesting user has",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "first_name",
-            "in": "query",
-            "description": "The first name of the user.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "last_name",
-            "in": "query",
-            "description": "The last name of the user.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "title",
-            "in": "query",
-            "description": "The title of the user.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The newly-created thumbnail.",
-            "schema": {
-              "$ref": "#/definitions/user"
-            }
-          }
-        }
-      },
-
-      "put": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Update an existing user.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "username",
-            "in": "query",
-            "description": "The email of the user.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "access_level",
-            "in": "query",
-            "description": "The access level of the user, can only have access to what the requesting user has",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "first_name",
-            "in": "query",
-            "description": "The first name of the user.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "last_name",
-            "in": "query",
-            "description": "The last name of the user.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "title",
-            "in": "query",
-            "description": "The title of the user.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The modified user.",
-            "schema": {
-              "$ref": "#/definitions/user"
-            }
-          }
-        }
-      }
-    },
-
-    "/{account_id}/videos": {
-      "get": {
-        "tags": [
-          "videos"
-        ],
-        "summary": "Fetch one or more videos.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "video_id",
-            "in": "query",
-            "description": "Comma-separated list of video IDs.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The requested videos.",
-            "schema": {
-              "$ref": "#/definitions/videos"
-            }
-          }
-        }
-      },
-
-      "post": {
-        "tags": [
-          "videos"
-        ],
-        "summary": "Add a new video.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "external_video_ref",
-            "in": "query",
-            "description": "The external video ID.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "url",
-            "in": "query",
-            "description": "The video URL. Ex: `http://myvideo.mp4`.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "callback_url",
-            "in": "query",
-            "description": "The URL that will be called with the result. Ex: `http://call.here`.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "title",
-            "in": "query",
-            "description": "The title of the video.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "duration",
-            "in": "query",
-            "description": "The duration of the video in seconds",
-            "required": false,
-            "type": "number",
-            "format": "float"
-          },
-          {
-            "name": "publish_date",
-            "in": "query",
-            "description": "The date that the video was published.",
-            "required": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          {
-            "name": "custom_data",
-            "in": "query",
-            "description": "A dictionary of custom data about the video.",
-            "required": false,
-            "type": "string",
-            "format": "json"
-          },
-          {
-            "name": "default_thumbnail_url",
-            "in": "query",
-            "description": "URL of the default thumbnail to use.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "thumbnail_ref",
-            "in": "query",
-            "description": "Reference to the thumbnail object in your database.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "n_thumbs",
-            "in": "query",
-            "description": "The number of thumbnails to extract.",
-            "required": false,
-            "type": "integer",
-            "default": 5
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The newly-created video. Processing will not be complete.",
-            "schema": {
-              "type" : "object",
-              "properties": {
-                "video" : {
-                  "$ref": "#/definitions/video"
+    ],
+    "paths": {
+        "/{account_id}": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "View account",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The account associated with the requested ID.",
+                        "schema": {
+                            "$ref": "#/definitions/account"
+                        }
+                    }
                 }
-              }
+            },
+            "put": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Update account",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "default_width",
+                        "in": "query",
+                        "description": "The default width of the account.",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "default_height",
+                        "in": "query",
+                        "description": "The default height of the account.",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "default_thumbnail_id",
+                        "in": "query",
+                        "description": "The id of the default thumbnail wanted for the account.",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The updated account associated with the requested ID.",
+                        "schema": {
+                            "$ref": "#/definitions/account"
+                        }
+                    }
+                }
             }
-          }
-        }
-      },
-
-      "put": {
-        "tags": [
-          "videos"
-        ],
-        "summary": "Update an existing video.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "testing_enabled",
-            "in": "query",
-            "description": "Should testing be enabled?",
-            "required": false,
-            "type": "boolean"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The updated video.",
-            "schema": {
-              "$ref": "#/definitions/video"
+        },
+        "/{account_id}/integrations/brightcove": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "integrations"
+                ],
+                "summary": "View Brightcove integration",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "integration_id",
+                        "in": "query",
+                        "description": "ID of the integration.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return the Brightcove integration with that `account_id` and `integration_id`.",
+                        "schema": {
+                            "$ref": "#/definitions/brightcove_integration"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "integrations"
+                ],
+                "summary": "Create a Brightcove integration",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "Neon ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "publisher_id",
+                        "in": "query",
+                        "description": "Brightcove account ID of the publisher.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "read_token",
+                        "in": "query",
+                        "description": "Brightcove specific token for reading for token-parameter-based authentication.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "write_token",
+                        "in": "query",
+                        "description": "Brightcove specific token for writing for token-parameter-based authentication.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "application_client_id",
+                        "in": "query",
+                        "description": "Client id for the Brightcove application for OAuth-based authentication.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "application_client_secret",
+                        "in": "query",
+                        "description": "Client secret for the Brightcove application for OAuth-based authentication.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "playlist_feed_ids",
+                        "in": "query",
+                        "description": "List of feed_ids for this integration.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uses_batch_provisioning",
+                        "in": "query",
+                        "description": "Whether or not to use batched provisioning.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "callback_url",
+                        "in": "query",
+                        "description": "URL to call after a video has been processed.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "uses_bc_thumbnail_api",
+                        "in": "query",
+                        "description": "Set if publisher uses Brightcove's thumbnail API on their video player page.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "uses_bc_videojs_player",
+                        "in": "query",
+                        "description": "Set if publisher uses Brightcove's Video.js-based player",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "uses_bc_smart_player",
+                        "in": "query",
+                        "description": "Set if publisher uses Brightcove's Flash-based Smart player",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "uses_bc_gallery",
+                        "in": "query",
+                        "description": "Set if publisher uses Brightcove's gallery feature",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return the newly-created Brightcove integration.",
+                        "schema": {
+                            "$ref": "#/definitions/brightcove_integration"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "integrations"
+                ],
+                "summary": "Update a Brightcove integration",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "Neon ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "integration_id",
+                        "in": "query",
+                        "description": "ID of the integration.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "publisher_id",
+                        "in": "query",
+                        "description": "Brightcove account ID of the publisher.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "read_token",
+                        "in": "query",
+                        "description": "Brightcove specific token for reading for token-parameter-based authentication.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "write_token",
+                        "in": "query",
+                        "description": "Brightcove specific token for writing for token-parameter-based authentication.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "application_client_id",
+                        "in": "query",
+                        "description": "Client id for the Brightcove application for OAuth-based authentication.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "application_client_secret",
+                        "in": "query",
+                        "description": "Client secret for the Brightcove application for OAuth-based authentication.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "playlist_feed_ids",
+                        "in": "query",
+                        "description": "List of feed_ids for this integration.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uses_batch_provisioning",
+                        "in": "query",
+                        "description": "Whether or not to use batched provisioning.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "callback_url",
+                        "in": "query",
+                        "description": "URL to call after a video has been processed.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "uses_bc_thumbnail_api",
+                        "in": "query",
+                        "description": "Set if publisher uses Brightcove's thumbnail API on their video player page.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "uses_bc_videojs_player",
+                        "in": "query",
+                        "description": "Set if publisher uses Brightcove's Video.js-based player",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "uses_bc_smart_player",
+                        "in": "query",
+                        "description": "Set if publisher uses Brightcove's Flash-based Smart player",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "uses_bc_gallery",
+                        "in": "query",
+                        "description": "Set if publisher uses Brightcove's gallery feature",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return the updated Brightcove integration.",
+                        "schema": {
+                            "$ref": "#/definitions/brightcove_integration"
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-    },
-
-    "/{account_id}/videos/search": {
-      "get": {
-        "tags": [
-          "search videos"
-        ],
-        "summary": "Filter videos by search criteria.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "path",
-            "description": "ID of the account.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "since",
-            "in": "query",
-            "description": "Microseconds since epoch, that represents where the next search should start looking for videos. It will get videos older than this date.",
-            "required": false,
-            "type": "number",
-            "format": "float"
-          },
-          {
-            "name": "until",
-            "in": "query",
-            "description": "Microseconds since epoch, that represents where the next search should stop looking for videos. It will get videos up to this date.",
-            "required": false,
-            "type": "number",
-            "format": "float"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Maximum amount of videos that will be returned.",
-            "required": false,
-            "type": "number",
-            "default": 25,
-            "maximum": 100,
-            "minimum": 1,
-            "format": "integer"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The requested videos.",
-            "schema": {
-              "$ref": "#/definitions/search_videos"
+        },
+        "/{account_id}/integrations/brightcove/players": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "integrations"
+                ],
+                "summary": "View Brightcove Players",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "Neon ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "integration_id",
+                        "in": "query",
+                        "description": "ID of the integration.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return the list of Brightcove Players for `account_id` and `integration_id`.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/brightcove_player"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Client is not authorized to view the requested list of players"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "integrations"
+                ],
+                "summary": "Enable or disable tracking for a Brightcove player",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "type": "string",
+                        "description": "Account ID of the player",
+                        "required": true
+                    },
+                    {
+                        "name": "player_ref",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Brightcove reference ID of the player",
+                        "required": true
+                    },
+                    {
+                        "name": "is_tracked",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Set if Neon adds its tracking plugin to the player",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Player tracking is updated",
+                        "schema": {
+                            "$ref": "#/definitions/brightcove_player"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access to player"
+                    },
+                    "500": {
+                        "description": "Played failed to update"
+                    }
+                }
             }
-          }
-        }
-      }
-    },
-
-    "/videos/search": {
-      "onlyVisibleInDocumentationSets": [
-        "internal"
-      ],
-      "get": {
-        "tags": [
-          "search videos"
-        ],
-        "summary": "Filter videos by search criteria, for any account in the system.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "account_id",
-            "in": "query",
-            "description": "ID of the account.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "since",
-            "in": "query",
-            "description": "Microseconds since epoch, that represents where the next search should start looking for videos. It will get videos older than this date.",
-            "required": false,
-            "type": "number",
-            "format": "float"
-          },
-          {
-            "name": "until",
-            "in": "query",
-            "description": "Microseconds since epoch, that represents where the next search should stop looking for videos. It will get videos up to this date.",
-            "required": false,
-            "type": "number",
-            "format": "float"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Maximum amount of videos that will be returned.",
-            "required": false,
-            "type": "number",
-            "default": 25,
-            "maximum": 100,
-            "minimum": 1,
-            "format": "integer"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The requested videos.",
-            "schema": {
-              "$ref": "#/definitions/search_videos"
+        },
+        "/{account_id}/integrations/ooyala": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "integrations"
+                ],
+                "summary": "View Ooyala integration",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "integration_id",
+                        "in": "query",
+                        "description": "ID of the integration.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return the Ooyala integration with that `account_id` and `integration_id`.",
+                        "schema": {
+                            "$ref": "#/definitions/ooyala_integration"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "integrations"
+                ],
+                "summary": "Create an Ooyala integration",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "publisher_id",
+                        "in": "query",
+                        "description": "ID of the publisher.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ooyala_api_key",
+                        "in": "query",
+                        "description": "API key for Ooyala integration.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ooyala_api_secret",
+                        "in": "query",
+                        "description": "API secret for Ooyala integration.",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The newly-created Ooyala integration.",
+                        "schema": {
+                            "$ref": "#/definitions/ooyala_integration"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "integrations"
+                ],
+                "summary": "Update an Ooyala integration",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "integration_id",
+                        "in": "query",
+                        "description": "ID of the integration.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "publisher_id",
+                        "in": "query",
+                        "description": "ID of the publisher.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ooyala_api_key",
+                        "in": "query",
+                        "description": "API key for Ooyala integration.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ooyala_api_secret",
+                        "in": "query",
+                        "description": "API secret for Ooyala integration.",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The updated Ooyala integration.",
+                        "schema": {
+                            "$ref": "#/definitions/ooyala_integration"
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-    },
-
-    "/video_transition_callback": {
-      "put": {
-        "tags": [
-          "callback"
-        ],
-        "summary": "This isn't a real endpoint! It's a placeholder to display the format of the callback that's sent to the `callback_url` when a video changes state.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The body of the callback.",
-            "schema": {
-              "$ref": "#/definitions/video_transition_callback"
+        },
+        "/{account_id}/limits": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "account limits"
+                ],
+                "summary": "View rate limits for account",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The rate limits for the corresponding account.",
+                        "schema": {
+                            "$ref": "#/definitions/limit"
+                        }
+                    }
+                }
             }
-          }
+        },
+        "/{account_id}/statistics/videos": {
+            "get": {
+                "tags": [
+                    "statistics",
+                    "videos"
+                ],
+                "summary": "Get basic video statistics.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "video_id",
+                        "in": "query",
+                        "description": "Comma-separated string of up to 100 video IDs.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated string of fields to return. Can include `experiment_state`, `winner_thumbnail`, `created`, and `updated`.",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of video statistics with the requested fields.",
+                        "schema": {
+                            "$ref": "#/definitions/video_statistics"
+                        }
+                    }
+                }
+            }
+        },
+        "/{account_id}/statistics/thumbnails": {
+            "get": {
+                "tags": [
+                    "statistics",
+                    "thumbnails"
+                ],
+                "summary": "Basic thumbnail statistics",
+                "description": "This will return basic thumbnail stats by `thumbnail_id` or `video_id`.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "video_id",
+                        "in": "query",
+                        "description": "Comma-separated string of up to 20 video IDs.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "thumbnail_id",
+                        "in": "query",
+                        "description": "Comma-separated string of up to 100 thumbnail IDs.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated string of fields to return. Can include `serving_frac` (the fraction of traffic seeing this thumbnail), `ctr` (the click-through rate), `impressions` (the number of impressions), `conversions` (the number of conversions), `created`, and `updated`.",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of thumbnail statistics with the requested fields.",
+                        "schema": {
+                            "$ref": "#/definitions/thumbnail_statistics"
+                        }
+                    }
+                }
+            }
+        },
+        "/{account_id}/thumbnails": {
+            "get": {
+                "tags": [
+                    "thumbnails"
+                ],
+                "summary": "Get thumbnail.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "thumbnail_id",
+                        "in": "query",
+                        "description": "The ID of the thumbnail.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated string of fields to return.",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A thumbnail with the requested fields.",
+                        "schema": {
+                            "$ref": "#/definitions/thumbnail"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "thumbnails"
+                ],
+                "summary": "Upload a new thumbnail and optionally associate it with a video",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "description": "url of the thumbnail to upload",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "video_id",
+                        "in": "query",
+                        "description": "video id to associate the thumbnail with",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The newly-created thumbnail.",
+                        "schema": {
+                            "$ref": "#/definitions/thumbnail"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "thumbnails"
+                ],
+                "summary": "Update an existing thumbnail.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "thumbnail_id",
+                        "in": "query",
+                        "description": "The thumbnail id to modify",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "If the thumbnail should be enabled for testing",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The modified thumbnail.",
+                        "schema": {
+                            "$ref": "#/definitions/thumbnail"
+                        }
+                    }
+                }
+            }
+        },
+        "/{account_id}/videos": {
+            "get": {
+                "tags": [
+                    "videos"
+                ],
+                "summary": "Fetch one or more videos.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "video_id",
+                        "in": "query",
+                        "description": "Comma-separated list of video IDs.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The requested videos.",
+                        "schema": {
+                            "$ref": "#/definitions/videos"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "videos"
+                ],
+                "summary": "Submit a new video for processing.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "external_video_ref",
+                        "in": "query",
+                        "description": "The external video ID.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "description": "The video URL. Ex: `http://myvideo.mp4`.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "callback_url",
+                        "in": "query",
+                        "description": "The URL that will be called with the result. Ex: `http://call.here`.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "The title of the video.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "duration",
+                        "in": "query",
+                        "description": "The duration of the video in seconds",
+                        "required": false,
+                        "type": "number",
+                        "format": "float"
+                    },
+                    {
+                        "name": "publish_date",
+                        "in": "query",
+                        "description": "The date that the video was published.",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "custom_data",
+                        "in": "query",
+                        "description": "A dictionary of custom data about the video.",
+                        "required": false,
+                        "type": "string",
+                        "format": "json"
+                    },
+                    {
+                        "name": "default_thumbnail_url",
+                        "in": "query",
+                        "description": "URL of the default thumbnail to use.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "thumbnail_ref",
+                        "in": "query",
+                        "description": "Reference to the thumbnail object in your database.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "n_thumbs",
+                        "in": "query",
+                        "description": "The number of thumbnails to extract.",
+                        "required": false,
+                        "type": "integer",
+                        "default": 5
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The newly-created video. Processing will not be complete.",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "video": {
+                                    "$ref": "#/definitions/video"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "videos"
+                ],
+                "summary": "Update an existing video.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "testing_enabled",
+                        "in": "query",
+                        "description": "Should testing be enabled?",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The updated video.",
+                        "schema": {
+                            "$ref": "#/definitions/video"
+                        }
+                    }
+                }
+            }
+        },
+        "/{account_id}/videos/search": {
+            "get": {
+                "tags": [
+                    "videos"
+                ],
+                "summary": "Filter videos by search criteria.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "since",
+                        "in": "query",
+                        "description": "Microseconds since epoch, that represents where the next search should start looking for videos. It will get videos older than this date.",
+                        "required": false,
+                        "type": "number",
+                        "format": "float"
+                    },
+                    {
+                        "name": "until",
+                        "in": "query",
+                        "description": "Microseconds since epoch, that represents where the next search should stop looking for videos. It will get videos up to this date.",
+                        "required": false,
+                        "type": "number",
+                        "format": "float"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Maximum amount of videos that will be returned.",
+                        "required": false,
+                        "type": "number",
+                        "default": 25,
+                        "maximum": 100,
+                        "minimum": 1,
+                        "format": "integer"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The requested videos.",
+                        "schema": {
+                            "$ref": "#/definitions/search_videos"
+                        }
+                    }
+                }
+            }
+        },
+        "/videos/search": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "videos"
+                ],
+                "summary": "Filter videos by search criteria, for any account in the system.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "query",
+                        "description": "ID of the account.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "since",
+                        "in": "query",
+                        "description": "Microseconds since epoch, that represents where the next search should start looking for videos. It will get videos older than this date.",
+                        "required": false,
+                        "type": "number",
+                        "format": "float"
+                    },
+                    {
+                        "name": "until",
+                        "in": "query",
+                        "description": "Microseconds since epoch, that represents where the next search should stop looking for videos. It will get videos up to this date.",
+                        "required": false,
+                        "type": "number",
+                        "format": "float"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Maximum amount of videos that will be returned.",
+                        "required": false,
+                        "type": "number",
+                        "default": 25,
+                        "maximum": 100,
+                        "minimum": 1,
+                        "format": "integer"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The requested videos.",
+                        "schema": {
+                            "$ref": "#/definitions/search_videos"
+                        }
+                    }
+                }
+            }
+        },
+        "/video_transition_callback": {
+            "put": {
+                "tags": [
+                    "callback"
+                ],
+                "summary": "This isn't a real endpoint! It's a placeholder to display the format of the callback that's sent to the `callback_url` when a video changes state.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "The body of the callback.",
+                        "schema": {
+                            "$ref": "#/definitions/video_transition_callback"
+                        }
+                    }
+                }
+            }
         }
-      }
-    }
-  },
-
-  "definitions": {
-    "account": {
-      "type": "object",
-      "properties": {
-        "tracker_account_id": {
-          "type": "string",
-          "description": "ID to use in the tracker code."
+    },
+    "definitions": {
+        "brightcove_integration": {
+            "type": "object",
+            "properties": {
+                "integration_id": {
+                    "type": "string",
+                    "description": "Type of integration."
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the integration was last updated."
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the integration was created."
+                },
+                "callback_url": {
+                    "type": "string",
+                    "description": "URL to call after a video has been processed."
+                },
+                "account_id": {
+                    "type": "string",
+                    "description": "Neon ID of the account."
+                },
+                "read_token": {
+                    "type": "string",
+                    "description": "Brightcove token for reading for token-parameter-based authentication."
+                },
+                "write_token": {
+                    "type": "string",
+                    "description": "Brightcove token for writing for token-parameter-based authentication."
+                },
+                "application_client_id": {
+                    "type": "string",
+                    "description": "Client id for the Brightcove application for OAuth-based authentication.",
+                    "example": "8b089370-ce31-4ecf-9c14-7ffc6ff492b9"
+                },
+                "application_client_secret": {
+                    "type": "string",
+                    "description": "Client secret for the Brightcove application for OAuth-based authentication.",
+                    "example": "zZu6_l62UCYhjpTuwEfWrNDrjEqyP9Pg19Sv5BUUGCig1CMA-mIuxy14DjH6n1xQHZi3_RPYfO8_YRGh8xAyyg"
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Specifies whether an intergration is enabled"
+                },
+                "id_field": {
+                    "type": "string",
+                    "description": "Which custom field to use for the video id. If it is _reference_id the reference_id is used, if it is _bc_id the id field is used."
+                },
+                "last_process_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The last time this integration was processed through the Neon system."
+                },
+                "uses_batch_provisioning": {
+                    "type": "boolean",
+                    "description": "Does this integration allow batch provisioning (FTP uploads)."
+                },
+                "playlist_feed_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of feed IDs for this integration."
+                },
+                "publisher_id": {
+                    "type": "string",
+                    "description": "The Brightcove account ID of the publisher.",
+                    "example": "2294876105001"
+                },
+                "uses_bc_thumbnail_api": {
+                    "type": "boolean",
+                    "description": "Set if publisher uses Brightcove's thumbnail API on their video player page."
+                },
+                "uses_bc_videojs_player": {
+                    "type": "boolean",
+                    "description": "Set if publisher uses Brightcove's Video.js-based player."
+                },
+                "uses_bc_smart_player": {
+                    "type": "boolean",
+                    "description": "Set if publisher uses Brightcove's Flash-based Smart player."
+                },
+                "uses_bc_gallery": {
+                    "type": "boolean",
+                    "description": "Set if publisher uses Brightcove's gallery feature"
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
         },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the account was last updated."
-        },
-        "account_id": {
-          "type": "string",
-          "description": "ID of the account."
-        },
-        "email": {
-          "type": "string",
-          "description": "email of the account."
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the account was created."
-        },
-        "integration_ids": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "An array of integration IDs associated with the account."
-        },
-        "default_size": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          },
-          "description": "Default size of the image `[width, height]`."
-        },
-        "staging_tracker_account_id": {
-          "type": "string",
-          "description": "ID to use in tracking code on staging."
-        },
-        "default_thumbnail_id": {
-          "type": "string",
-          "description": "Default thumbnail if no others are found."
-        },
-        "customer_name": {
-          "type": "string",
-          "description": "Name of the customer."
-        },
-        "users": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "List of usernames associated to the account."
+        "brightcove_player": {
+            "type": "object",
+            "description": "Configuration for a Brightcove Video.js-based player and tracking plugin",
+            "properties": {
+                "player_ref": {
+                    "type": "string",
+                    "description": "Brightcove reference ID of the player."
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the player was created as ISO08601 date."
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the player was last updated as ISO08601 date."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The Brightcove name of the player."
+                },
+                "is_tracked": {
+                    "type": "boolean",
+                    "description": "Determines if Neon adds its tracking plugin to the player."
+                },
+                "publish_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When Neon last successfully published the tracking plugin to the player."
+                },
+                "published_plugin_version": {
+                    "type": "string",
+                    "description": "Version of the tracking plugin last succesfully published to the player."
+                },
+                "last_attempt_result": {
+                    "type": "string",
+                    "description": "Result of the last attempt at publishing the player."
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
         },
         "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
-    "brightcove_integration": {
-      "type": "object",
-      "properties": {
-        "integration_id": {
-          "type": "string",
-          "description": "Type of integration."
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the integration was last updated."
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the integration was created."
-        },
-        "callback_url": {
-          "type": "string",
-          "description": "URL to call after a video has been processed."
-        },
-        "account_id": {
-          "type": "string",
-          "description": "Neon ID of the account."
-        },
-        "read_token": {
-          "type": "string",
-          "description": "Brightcove token for reading for token-parameter-based authentication."
-        },
-        "write_token": {
-          "type": "string",
-          "description": "Brightcove token for writing for token-parameter-based authentication."
-        },
-        "application_client_id": {
-          "type": "string",
-          "description": "Client id for the Brightcove application for OAuth-based authentication.",
-          "example": "8b089370-ce31-4ecf-9c14-7ffc6ff492b9"
-        },
-        "application_client_secret": {
-          "type": "string",
-          "description": "Client secret for the Brightcove application for OAuth-based authentication.",
-          "example": "zZu6_l62UCYhjpTuwEfWrNDrjEqyP9Pg19Sv5BUUGCig1CMA-mIuxy14DjH6n1xQHZi3_RPYfO8_YRGh8xAyyg"
-        },
-        "enabled": {
-          "type": "boolean",
-          "description": "Specifies whether an intergration is enabled"
-        },
-        "id_field": {
-          "type": "string",
-          "description": "Which custom field to use for the video id. If it is _reference_id the reference_id is used, if it is _bc_id the id field is used."
-        },
-        "last_process_date": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The last time this integration was processed through the Neon system."
-        },
-        "uses_batch_provisioning": {
-          "type": "boolean",
-          "description": "Does this integration allow batch provisioning (FTP uploads)."
-        },
-        "playlist_feed_ids": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "List of feed IDs for this integration."
-        },
-        "publisher_id": {
-          "type": "string",
-          "description": "The Brightcove account ID of the publisher.",
-          "example": "2294876105001"
-        },
-        "uses_bc_thumbnail_api": {
-          "type": "boolean",
-          "description": "Set if publisher uses Brightcove's thumbnail API on their video player page."
-        },
-        "uses_bc_videojs_player": {
-          "type": "boolean",
-          "description": "Set if publisher uses Brightcove's Video.js-based player."
-        },
-        "uses_bc_smart_player": {
-          "type": "boolean",
-          "description": "Set if publisher uses Brightcove's Flash-based Smart player."
-        },
-        "uses_bc_gallery": {
-          "type": "boolean",
-          "description": "Set if publisher uses Brightcove's gallery feature"
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
-    "brightcove_player": {
-      "type": "object",
-      "description": "Configuration for a Brightcove Video.js-based player and tracking plugin",
-      "properties": {
-        "player_ref": {
-          "type": "string",
-          "description": "Brightcove reference ID of the player."
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "When the player was created as ISO08601 date."
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "When the player was last updated as ISO08601 date."
-        },
-        "name": {
-          "type": "string",
-          "description": "The Brightcove name of the player."
-        },
-        "is_tracked": {
-          "type": "boolean",
-          "description": "Determines if Neon adds its tracking plugin to the player."
-        },
-        "publish_date": {
-          "type": "string",
-          "format": "date-time",
-          "description": "When Neon last successfully published the tracking plugin to the player."
-        },
-        "published_plugin_version": {
-          "type": "string",
-          "description": "Version of the tracking plugin last succesfully published to the player."
-        },
-        "last_attempt_result": {
-          "type": "string",
-          "description": "Result of the last attempt at publishing the player."
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
-    "error": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string",
-          "description": "Description of the error."
-        },
-        "data": {
-          "type": "string",
-          "description": "More detail about the error."
-        }
-      }
-    },
-
-    "ooyala_integration": {
-      "type": "object",
-      "properties": {
-        "integration_id": {
-          "type": "string",
-          "description": "Type of integration."
-        },
-        "partner_code": {
-          "type": "string",
-          "description": "Ooyala supplied code."
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the integration was last updated."
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the integration was created."
-        },
-        "account_id": {
-          "type": "string",
-          "description": "ID of the account."
-        },
-        "api_key": {
-          "type": "string",
-          "description": "API key for Ooyala integration."
-        },
-        "api_secret": {
-          "type": "string",
-          "description": "API secret for Ooyala integration."
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
-    "thumbnail": {
-      "type": "object",
-      "properties": {
-        "video_id": {
-          "type": "string",
-          "description": "ID of the video this thumbnail is associated with."
-        },
-        "thumbnail_id": {
-          "type": "string",
-          "description": "Unique ID of this thumbnail."
-        },
-        "rank": {
-          "type": "string",
-          "minimum": 0,
-          "maximum": 6,
-          "description": "Neon Labs' ranking of this image, where lower numbers are higher rankings."
-        },
-        "frameno": {
-          "type": "integer",
-          "description": "Frame number where this image exists in the source video."
-        },
-        "neon_score": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 6,
-          "description": "Neon Labs' score for this image, where higher is better."
-        },
-        "enabled": {
-          "type": "boolean",
-          "description": "Can this image be shown?"
-        },
-        "height": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Height of the image in pixels."
-        },
-        "width": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Width of the image in pixels."
-        },
-        "external_ref": {
-          "type": "string",
-          "description": "ID of the asset in an external system."
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "neon",
-            "default",
-            "customupload"
-          ],
-          "description": "'neon' is generated by Neon Labs, 'default' is provided during the processing request, and 'customupload' is provided to Neon Labs after processing."
-        },
-        "url": {
-          "type": "string",
-          "description": "The location of the thumbnail."
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO date for when the thumbnail was created."
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO date for when the thumbnail was last updated."
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
-    "thumbnail_statistic": {
-      "type": "object",
-      "required": [
-        "thumbnail_id",
-        "video_id"
-      ],
-      "properties": {
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the thumbnail was created."
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the thumbnail was last updated."
-        },
-        "thumbnail_id": {
-          "type": "string",
-          "description": "Unique ID of the thumbnail."
-        },
-        "video_id": {
-          "type": "string",
-          "description": "ID of the video associated with this thumbnail."
-        },
-        "serving_frac": {
-          "type": "number",
-          "format": "float",
-          "minimum": 0,
-          "maximum": 1,
-          "description": "The fraction of traffic that is seeing this thumbnail."
-        },
-        "ctr": {
-          "type": "number",
-          "format": "float",
-          "minimum": 0,
-          "maximum": 1,
-          "description": "The click-through rate."
-        },
-        "conversions": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "The number of conversions for this thumbnail."
-        },
-        "impressions": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "The number of impressions for this thumbnail."
-        }
-      }
-    },
-
-    "thumbnail_statistics": {
-      "type": "object",
-      "properties": {
-        "count": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "The number of thumbnail statistics returned."
-        },
-        "statistics": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/thumbnail_statistic"
-          }
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
-    "user": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string",
-          "description": "Username of the user, this is always an email."
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the account was last updated."
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the account was created."
-        },
-        "email": {
-          "type": "string",
-          "description": "email of the user."
-        },
-        "access_level": {
-          "type": "integer",
-          "description": "bit packed integer that represents what this user can access."
-        },
-        "first_name": {
-          "type": "string",
-          "description": "First name of the user."
-        },
-        "last_name": {
-          "type": "string",
-          "description": "Last name of the user."
-        },
-        "title": {
-          "type": "string",
-          "description": "Title of the user."
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
-    "video": {
-      "type": "object",
-      "properties": {
-        "state": {
-          "type": "string",
-          "enum": [
-            "unknown",
-            "processing",
-            "processed",
-            "serving",
-            "failed"
-          ],
-          "description": "The state of the video."
-        },
-        "integration_id": {
-          "type": "string",
-          "description": "The ID of the integration."
-        },
-        "testing_enabled": {
-          "type": "boolean",
-          "description": "Is A/B testing enabled for this video?"
-        },
-        "job_id": {
-          "type": "string",
-          "description": "The job that processed this video."
-        },
-        "title": {
-          "type": "string",
-          "description": "The title of the video."
-        },
-        "url": {
-          "type": "string",
-          "description": "The URL of the video."
-        },
-        "video_id": {
-          "type": "string",
-          "description": "The ID of the video."
-        },
-        "serving_url": {
-          "type": "string",
-          "description": "The URL to use when rendering an image for this video."
-        },
-        "publish_date": {
-          "type": "string",
-          "format": "date-time",
-          "description": "When the video was published"
-        },
-        "thumbnails": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/thumbnail"
-          },
-          "description": "An array of thumbnail images associated with this video."
-        },
-        "duration": {
-          "type": "number",
-          "minimum": 0,
-          "description": "The length of the video in seconds."
-        },
-        "custom_data": {
-          "type": "object",
-          "description": "A dictionary of custom information about the video."
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "When the video was created."
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "When the video was last updated."
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
-    "video_statistic": {
-      "type": "object",
-      "required": [
-        "video_id"
-      ],
-      "properties": {
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the video was created."
-        },
-        "experimental_state": {
-          "type": "string",
-          "enum": [
-            "complete",
-            "disabled",
-            "override",
-            "running",
-            "unknown"
-          ],
-          "description": "The current state of the experiment associated with this video."
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "An ISO8601 date when the video was last updated."
-        },
-        "video_id": {
-          "type": "string",
-          "description": "The ID of the video."
-        },
-        "winner_thumbnail": {
-          "type": "string",
-          "description": "ID of the winning thumbnail, if known."
-        }
-      }
-    },
-
-    "video_statistics": {
-      "type": "object",
-      "properties": {
-        "count": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "The number of video statistics returned."
-        },
-        "statistics": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/video_statistic"
-          }
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
-    "video_transition_callback": {
-      "type": "object",
-      "properties": {
-        "job_id": {
-          "type": "string",
-          "description": "The job that processed this video."
-        },
-        "video_id": {
-          "type": "string",
-          "description": "The ID of the video."
-        },
-        "framenos": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "List of frame numbers identified in the video."
-        },
-        "thumbnails": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "IDs of the thumbnails identified in the video."
-        },
-        "serving_url": {
-          "type": "string",
-          "description": "The URL to put on your site to show thumbnails for this video."
-        },
-        "error": {
-          "type": "string",
-          "description": "A string describing the error (if one occurred)."
-        },
-        "processing_state": {
-          "type": "string",
-          "enum": [
-            "unknown",
-            "processing",
-            "processed",
-            "serving",
-            "failed"
-          ],
-          "description": "State of the video being processed."
-        },
-        "experiment_state": {
-          "type": "string",
-          "enum": [
-            "unknown",
-            "running",
-            "complete",
-            "disabled",
-            "override"
-          ],
-          "description": "State of the A/B experiment for this video."
-        },
-        "winner_thumbnail": {
-          "type": "string",
-          "description": "Thumbnail ID of the best thumbnail in the experiment once it's complete."
-        }
-      }
-    },
-
-    "videos": {
-      "type": "object",
-      "properties": {
-        "video_count": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "The number of videos being returned."
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "Description of the error."
+                },
+                "data": {
+                    "type": "string",
+                    "description": "More detail about the error."
+                }
+            }
+        },
+        "ooyala_integration": {
+            "type": "object",
+            "properties": {
+                "integration_id": {
+                    "type": "string",
+                    "description": "Type of integration."
+                },
+                "partner_code": {
+                    "type": "string",
+                    "description": "Ooyala supplied code."
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the integration was last updated."
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the integration was created."
+                },
+                "account_id": {
+                    "type": "string",
+                    "description": "ID of the account."
+                },
+                "api_key": {
+                    "type": "string",
+                    "description": "API key for Ooyala integration."
+                },
+                "api_secret": {
+                    "type": "string",
+                    "description": "API secret for Ooyala integration."
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "thumbnail": {
+            "type": "object",
+            "properties": {
+                "video_id": {
+                    "type": "string",
+                    "description": "ID of the video this thumbnail is associated with."
+                },
+                "thumbnail_id": {
+                    "type": "string",
+                    "description": "Unique ID of this thumbnail."
+                },
+                "rank": {
+                    "type": "string",
+                    "minimum": 0,
+                    "maximum": 6,
+                    "description": "Neon Labs' ranking of this image, where lower numbers are higher rankings."
+                },
+                "frameno": {
+                    "type": "integer",
+                    "description": "Frame number where this image exists in the source video."
+                },
+                "neon_score": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 6,
+                    "description": "Neon Labs' score for this image, where higher is better."
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Can this image be shown?"
+                },
+                "height": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Height of the image in pixels."
+                },
+                "width": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Width of the image in pixels."
+                },
+                "external_ref": {
+                    "type": "string",
+                    "description": "ID of the asset in an external system."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "neon",
+                        "default",
+                        "customupload"
+                    ],
+                    "description": "'neon' is generated by Neon Labs, 'default' is provided during the processing request, and 'customupload' is provided to Neon Labs after processing."
+                },
+                "url": {
+                    "type": "string",
+                    "description": "The location of the thumbnail."
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO date for when the thumbnail was created."
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO date for when the thumbnail was last updated."
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "thumbnail_statistic": {
+            "type": "object",
+            "required": [
+                "thumbnail_id",
+                "video_id"
+            ],
+            "properties": {
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the thumbnail was created."
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the thumbnail was last updated."
+                },
+                "thumbnail_id": {
+                    "type": "string",
+                    "description": "Unique ID of the thumbnail."
+                },
+                "video_id": {
+                    "type": "string",
+                    "description": "ID of the video associated with this thumbnail."
+                },
+                "serving_frac": {
+                    "type": "number",
+                    "format": "float",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "The fraction of traffic that is seeing this thumbnail."
+                },
+                "ctr": {
+                    "type": "number",
+                    "format": "float",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "The click-through rate."
+                },
+                "conversions": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The number of conversions for this thumbnail."
+                },
+                "impressions": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The number of impressions for this thumbnail."
+                }
+            }
+        },
+        "thumbnail_statistics": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The number of thumbnail statistics returned."
+                },
+                "statistics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/thumbnail_statistic"
+                    }
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "video": {
+            "type": "object",
+            "properties": {
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "unknown",
+                        "processing",
+                        "processed",
+                        "serving",
+                        "failed"
+                    ],
+                    "description": "The state of the video."
+                },
+                "integration_id": {
+                    "type": "string",
+                    "description": "The ID of the integration."
+                },
+                "testing_enabled": {
+                    "type": "boolean",
+                    "description": "Is A/B testing enabled for this video?"
+                },
+                "job_id": {
+                    "type": "string",
+                    "description": "The job that processed this video."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title of the video."
+                },
+                "url": {
+                    "type": "string",
+                    "description": "The URL of the video."
+                },
+                "video_id": {
+                    "type": "string",
+                    "description": "The ID of the video."
+                },
+                "serving_url": {
+                    "type": "string",
+                    "description": "The URL to use when rendering an image for this video."
+                },
+                "publish_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the video was published"
+                },
+                "thumbnails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/thumbnail"
+                    },
+                    "description": "An array of thumbnail images associated with this video."
+                },
+                "duration": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "The length of the video in seconds."
+                },
+                "custom_data": {
+                    "type": "object",
+                    "description": "A dictionary of custom information about the video."
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the video was created."
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the video was last updated."
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "video_statistic": {
+            "type": "object",
+            "required": [
+                "video_id"
+            ],
+            "properties": {
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the video was created."
+                },
+                "experimental_state": {
+                    "type": "string",
+                    "enum": [
+                        "complete",
+                        "disabled",
+                        "override",
+                        "running",
+                        "unknown"
+                    ],
+                    "description": "The current state of the experiment associated with this video."
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the video was last updated."
+                },
+                "video_id": {
+                    "type": "string",
+                    "description": "The ID of the video."
+                },
+                "winner_thumbnail": {
+                    "type": "string",
+                    "description": "ID of the winning thumbnail, if known."
+                }
+            }
+        },
+        "video_statistics": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The number of video statistics returned."
+                },
+                "statistics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/video_statistic"
+                    }
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "video_transition_callback": {
+            "type": "object",
+            "properties": {
+                "job_id": {
+                    "type": "string",
+                    "description": "The job that processed this video."
+                },
+                "video_id": {
+                    "type": "string",
+                    "description": "The ID of the video."
+                },
+                "framenos": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of frame numbers identified in the video."
+                },
+                "thumbnails": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of the thumbnails identified in the video."
+                },
+                "serving_url": {
+                    "type": "string",
+                    "description": "The URL to put on your site to show thumbnails for this video."
+                },
+                "error": {
+                    "type": "string",
+                    "description": "A string describing the error (if one occurred)."
+                },
+                "processing_state": {
+                    "type": "string",
+                    "enum": [
+                        "unknown",
+                        "processing",
+                        "processed",
+                        "serving",
+                        "failed"
+                    ],
+                    "description": "State of the video being processed."
+                },
+                "experiment_state": {
+                    "type": "string",
+                    "enum": [
+                        "unknown",
+                        "running",
+                        "complete",
+                        "disabled",
+                        "override"
+                    ],
+                    "description": "State of the A/B experiment for this video."
+                },
+                "winner_thumbnail": {
+                    "type": "string",
+                    "description": "Thumbnail ID of the best thumbnail in the experiment once it's complete."
+                }
+            }
         },
         "videos": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/video"
-          },
-          "description": "The returned videos."
+            "type": "object",
+            "properties": {
+                "video_count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The number of videos being returned."
+                },
+                "videos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/video"
+                    },
+                    "description": "The returned videos."
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
         },
-        "error": {
-          "$ref": "#/definitions/error"
+        "limit": {
+            "type": "object",
+            "properties": {
+                "video_posts": {
+                    "type": "integer",
+                    "description": "This is how many successful video creations that have happened in this time window."
+                },
+                "max_video_posts": {
+                    "type": "integer",
+                    "description": "The maximum amount of video posts that can be completed in this time window."
+                },
+                "refresh_time_video_posts": {
+                    "description": "When video_posts will reset and start a new time window.",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "max_video_size": {
+                    "description": "Max duration of the video in seconds that can be processed for this account.",
+                    "type": "number",
+                    "format": "float"
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "search_videos": {
+            "type": "object",
+            "properties": {
+                "video_count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The number of videos being returned."
+                },
+                "videos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/video"
+                    },
+                    "description": "The returned videos."
+                },
+                "next_page": {
+                    "type": "string",
+                    "description": "link to next (older) page of videos"
+                },
+                "prev_page": {
+                    "type": "string",
+                    "description": "link to prev (newer) page of videos"
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "account": {
+            "type": "object",
+            "properties": {
+                "tracker_account_id": {
+                    "type": "string",
+                    "description": "ID to use in the tracker code."
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the account was last updated."
+                },
+                "account_id": {
+                    "type": "string",
+                    "description": "ID of the account."
+                },
+                "email": {
+                    "type": "string",
+                    "description": "email of the account."
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the account was created."
+                },
+                "integration_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "An array of integration IDs associated with the account."
+                },
+                "default_size": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "description": "Default size of the image `[width, height]`."
+                },
+                "staging_tracker_account_id": {
+                    "type": "string",
+                    "description": "ID to use in tracking code on staging."
+                },
+                "default_thumbnail_id": {
+                    "type": "string",
+                    "description": "Default thumbnail if no others are found."
+                },
+                "customer_name": {
+                    "type": "string",
+                    "description": "Name of the customer."
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of usernames associated to the account."
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
         }
-      }
-    },
-
-    "limit": {
-      "type": "object",
-      "properties": {
-        "video_posts": {
-          "type": "integer",
-          "description": "This is how many successful video creations that have happened in this time window."
-        },
-        "max_video_posts" : {
-          "type": "integer",
-          "description": "The maximum amount of video posts that can be completed in this time window."
-        },
-        "refresh_time_video_posts" : {
-          "description": "When video_posts will reset and start a new time window.",
-          "type": "string",
-          "format": "date-time"
-        },
-        "max_video_size" : {
-          "description": "Max duration of the video in seconds that can be processed for this account.",
-          "type": "number",
-          "format": "float"
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
-    },
-
-    "search_videos": {
-      "type": "object",
-      "properties": {
-        "video_count": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "The number of videos being returned."
-        },
-        "videos": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/video"
-          },
-          "description": "The returned videos."
-        },
-        "next_page" : {
-          "type": "string",
-          "description": "link to next (older) page of videos"
-        },
-        "prev_page" : {
-          "type": "string",
-          "description": "link to prev (newer) page of videos"
-        },
-        "error": {
-          "$ref": "#/definitions/error"
-        }
-      }
     }
-  }
 }
