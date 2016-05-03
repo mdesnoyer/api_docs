@@ -4,7 +4,7 @@ require "json"
 
 class SwaggerDocument
   DEFAULT_OUTPUT_FILE = "default.json"
-  DOCSET_LIST_KEY = "documentationSets"
+  DOCSET_LIST_KEY = "x-documentationSets"
   VISIBILITY_KEY = "onlyVisibleInDocumentationSets"
 
   def initialize(hash)
