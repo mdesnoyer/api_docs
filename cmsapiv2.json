@@ -642,10 +642,10 @@
             }
         },
         "/{account_id}/limits": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
             "get": {
-                "x-onlyVisibleInDocumentationSets": [
-                    "internal"
-                ],
                 "tags": [
                     "account limits"
                 ],
