@@ -141,6 +141,37 @@
                 }
             }
         },
+        "/{account_id}/integrations": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "integrations"
+                ],
+                "summary": "View ALl integration types for an Account",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all integrations of any type with the requested `account_id`.",
+                        "schema": {
+                            "$ref": "#/definitions/all_integrations"
+                        }
+                    }
+                }
+            }
+        },
         "/{account_id}/integrations/brightcove": {
             "x-onlyVisibleInDocumentationSets": [
                 "internal"
@@ -668,6 +699,76 @@
                         "schema": {
                             "$ref": "#/definitions/limit"
                         }
+                    }
+                }
+            }
+        },
+        "/{account_id}/billing/account": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "post": {
+                "tags": [
+                    "billing account"
+                ],
+                "summary": "Creates the billing account for this account_id. This does everything to get an account ready for a subscription. It will create a customer and their billing information on an external service (currently stripe). This also acts as an upreate, it will update billing information if we already have something existing for this account_id.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billing_token_ref",
+                        "in": "query",
+                        "description": "The token that is retrieved from stripe.js, which references billing information on their servers.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Information about the account billing."
+                    }
+                }
+            }
+        },
+        "/{account_id}/billing/subscription": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "post": {
+                "tags": [
+                    "billing account"
+                ],
+                "summary": "After creating a billing account, a subscription can be created. A subscription is actually what sets the customer up to be billed. A billing account is required, and this API will return an error if there is not yet a billing account.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "plan_type",
+                        "in": "query",
+                        "description": "These correspond to the plan types we have defined in our external service.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Information about the subscription."
                     }
                 }
             }
@@ -1811,6 +1912,21 @@
                 "prev_page": {
                     "type": "string",
                     "description": "link to prev (newer) page of videos"
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "all_integrations": {
+            "type": "object",
+            "properties": {
+                "integrations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/brightcove_integration"
+                    },
+                    "description": "The returned integrations."
                 },
                 "error": {
                     "$ref": "#/definitions/error"
