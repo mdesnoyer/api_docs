@@ -38,6 +38,10 @@
             "description": "Thumbnail management"
         },
         {
+            "name": "telemetry",
+            "description": "Information about the telemetry"
+        },
+        {
             "name": "callback",
             "description": "Dummy endpoint to define the callback"
         }
@@ -136,6 +140,37 @@
                         "description": "The updated account associated with the requested ID.",
                         "schema": {
                             "$ref": "#/definitions/account"
+                        }
+                    }
+                }
+            }
+        },
+        "/{account_id}/telemetry/snippet": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "telemetry"
+                ],
+                "summary": "Get the telemetry snippet",
+                "produces": [
+                    "text/plain"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The html snippet used to add the telemetry tag to the user's site",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
