@@ -1,0 +1,482 @@
+{
+    "swagger": "2.0",
+    "host": "tracker.neon-images.com",
+    "basePath": "/v2",
+    "info": {
+        "description": "API to send telemetry beacons to Neon in order to run realtime A/B optimization and testing",
+        "title": "Neon Telemetry API",
+        "termsOfService": "https://app.neon-lab.com/terms/",
+        "contact": {},
+        "license": {
+            "name": "Copyright"
+        },
+        "version": "2.0"
+    },
+    "tags": [
+        {
+            "name": "telemetry",
+            "description": "Telemetry beacons"
+        }
+    ],
+    "x-documentationSets": [
+        "public",
+        "internal"
+    ],
+    "schemes": [
+        "http"
+    ],
+    "produces": [
+        "text/plain"
+    ],
+    "paths": {
+        "/track?a=il": {
+            "get": {
+                "tags": [
+                    "telemetry"
+                ],
+                "summary": "Images Loaded",
+                "description": "A list of images were loaded in the page",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/pageid"
+                    },
+                    {
+                        "$ref": "#/parameters/tai"
+                    },
+                    {
+                        "$ref": "#/parameters/ttype"
+                    },
+                    {
+                        "$ref": "#/parameters/page"
+                    },
+                    {
+                        "$ref": "#/parameters/ref"
+                    },
+                    {
+                        "$ref": "#/parameters/cts"
+                    },
+                    {
+                        "name": "bns",
+                        "in": "query",
+                        "description": "Comma separated list of '+' delimited tuples of (image basename,width,height). Ideally, these basenames are of the resolved images after the 302 redirect, but if that is not possible (e.g. in javascript), this should be the Neon image serving platform url. Please URL encode the basenames. e.g. neonvid_16549+640+480,neontn_16549_dfgsh_tasd_640_480.jpg+640+480",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/EventReceived"
+                    },
+                    "400": {
+                        "$ref": "#/responses/InvalidEvent"
+                    }
+                }
+            }
+        },
+        "/track?a=iv": {
+            "get": {
+                "tags": [
+                    "telemetry"
+                ],
+                "summary": "Images Visible",
+                "description": "A list of images were visible to the user for at least 1 second",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/pageid"
+                    },
+                    {
+                        "$ref": "#/parameters/tai"
+                    },
+                    {
+                        "$ref": "#/parameters/ttype"
+                    },
+                    {
+                        "$ref": "#/parameters/page"
+                    },
+                    {
+                        "$ref": "#/parameters/ref"
+                    },
+                    {
+                        "$ref": "#/parameters/cts"
+                    },
+                    {
+                        "name": "bns",
+                        "in": "query",
+                        "description": "Comma separated list of image basenames. Ideally, these basenames are of the resolved images after the 302 redirect, but if that is not possible (e.g. in javascript), this should be the neon image serving platform url. Please URL encode the basenames. (e.g. neonvid_16549,neontn_16549_dfgsh_tasd_640_480.jpg)",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/EventReceived"
+                    },
+                    "400": {
+                        "$ref": "#/responses/InvalidEvent"
+                    }
+                }
+            }
+        },
+        "/track?a=ic": {
+            "get": {
+                "tags": [
+                    "telemetry"
+                ],
+                "summary": "Image Click",
+                "description": "An image was clicked",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/pageid"
+                    },
+                    {
+                        "$ref": "#/parameters/tai"
+                    },
+                    {
+                        "$ref": "#/parameters/ttype"
+                    },
+                    {
+                        "$ref": "#/parameters/page"
+                    },
+                    {
+                        "$ref": "#/parameters/ref"
+                    },
+                    {
+                        "$ref": "#/parameters/cts"
+                    },
+                    {
+                        "$ref": "#/parameters/videoBN"
+                    },
+                    {
+                        "name": "x",
+                        "in": "query",
+                        "description": "X page coordinate of image that was clicked",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "y",
+                        "in": "query",
+                        "description": "Y page coordinate of image that was clicked",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "wx",
+                        "in": "query",
+                        "description": "X window coordinate of image that was clicked",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "wy",
+                        "in": "query",
+                        "description": "Y window coordinate of image that was clicked",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "cx",
+                        "in": "query",
+                        "description": "X coordinate of the click relative to the image",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "cy",
+                        "in": "query",
+                        "description": "Y coordinate of the click relative to the image",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/EventReceived"
+                    },
+                    "400": {
+                        "$ref": "#/responses/InvalidEvent"
+                    }
+                }
+            }
+        },
+        "/track?a=vp": {
+            "get": {
+                "tags": [
+                    "telemetry"
+                ],
+                "summary": "Video Play",
+                "description": "A video starts to play",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/pageid"
+                    },
+                    {
+                        "$ref": "#/parameters/tai"
+                    },
+                    {
+                        "$ref": "#/parameters/ttype"
+                    },
+                    {
+                        "$ref": "#/parameters/page"
+                    },
+                    {
+                        "$ref": "#/parameters/ref"
+                    },
+                    {
+                        "$ref": "#/parameters/cts"
+                    },
+                    {
+                        "$ref": "#/parameters/videoBN"
+                    },
+                    {
+                        "$ref": "#/parameters/vid"
+                    },
+                    {
+                        "$ref": "#/parameters/playerid"
+                    },
+                    {
+                        "$ref": "#/parameters/adelta"
+                    },
+                    {
+                        "$ref": "#/parameters/pcount"
+                    },
+                    {
+                        "$ref": "#/parameters/aplay"
+                    },
+                    {
+                        "name": "adplay",
+                        "in": "query",
+                        "description": "True if an ad played before this video",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/EventReceived"
+                    },
+                    "400": {
+                        "$ref": "#/responses/InvalidEvent"
+                    }
+                }
+            }
+        },
+        "/track?a=ap": {
+            "get": {
+                "tags": [
+                    "telemetry"
+                ],
+                "summary": "Ad Play",
+                "description": "An ad starts to play",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/pageid"
+                    },
+                    {
+                        "$ref": "#/parameters/tai"
+                    },
+                    {
+                        "$ref": "#/parameters/ttype"
+                    },
+                    {
+                        "$ref": "#/parameters/page"
+                    },
+                    {
+                        "$ref": "#/parameters/ref"
+                    },
+                    {
+                        "$ref": "#/parameters/cts"
+                    },
+                    {
+                        "$ref": "#/parameters/videoBN"
+                    },
+                    {
+                        "$ref": "#/parameters/vid"
+                    },
+                    {
+                        "$ref": "#/parameters/playerid"
+                    },
+                    {
+                        "$ref": "#/parameters/adelta"
+                    },
+                    {
+                        "$ref": "#/parameters/pcount"
+                    },
+                    {
+                        "$ref": "#/parameters/aplay"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/EventReceived"
+                    },
+                    "400": {
+                        "$ref": "#/responses/InvalidEvent"
+                    }
+                }
+            }
+        },
+        "/track?a=vvp": {
+            "get": {
+                "tags": [
+                    "telemetry"
+                ],
+                "summary": "Video Videw Percentage",
+                "description": "A given percentage of the video has been viewed",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/pageid"
+                    },
+                    {
+                        "$ref": "#/parameters/tai"
+                    },
+                    {
+                        "$ref": "#/parameters/ttype"
+                    },
+                    {
+                        "$ref": "#/parameters/page"
+                    },
+                    {
+                        "$ref": "#/parameters/ref"
+                    },
+                    {
+                        "$ref": "#/parameters/cts"
+                    },
+                    {
+                        "$ref": "#/parameters/vid"
+                    },
+                    {
+                        "$ref": "#/parameters/pcount"
+                    },
+                    {
+                        "name": "prcnt",
+                        "in": "query",
+                        "description": "Percentage of the video that has been viewed. 0-100.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/EventReceived"
+                    },
+                    "400": {
+                        "$ref": "#/responses/InvalidEvent"
+                    }
+                }
+            }
+        },
+        "/crossdomain.xml": {
+            "x-onlyVisibleInDocumentationSets": "internal",
+            "get": {
+                "summary": "Returns the correct crossdomain.xml to be able to send data",
+                "produces": [
+                    "text/xml"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The needed crossdomain.xml for the mock server",
+                        "examples": {
+                            "text/xml": "<?xml version=\"1.0\"?>  \n\n<!DOCTYPE cross-domain-policy SYSTEM \"http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd\">  \n\n<cross-domain-policy>  \n    <allow-access-from domain=\"*\" secure=\"false\" to-ports=\"*\"/>  \n    <site-control permitted-cross-domain-policies=\"master-only\" />  \n</cross-domain-policy> "
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "parameters": {
+        "pageid": {
+            "name": "pageid",
+            "in": "query",
+            "description": "A unique id for a given page load. Used to connected events that occur on the same page load.",
+            "required": true,
+            "type": "string"
+        },
+        "tai": {
+            "name": "tai",
+            "in": "query",
+            "description": "Publisher ID. Provided by Neon.",
+            "required": true,
+            "type": "string"
+        },
+        "ttype": {
+            "name": "ttype",
+            "in": "query",
+            "description": "Tracker Type. Provided by Neon.",
+            "required": true,
+            "type": "string"
+        },
+        "page": {
+            "name": "page",
+            "in": "query",
+            "description": "The URL of the page where the event took place. URL Encoded Please. (e.g. http%3A%2F%2Fwww.neon-lab.com%2Fproduct)",
+            "required": true,
+            "type": "string"
+        },
+        "ref": {
+            "name": "ref",
+            "in": "query",
+            "description": "The referral URL if available. URL Encoded Please (e.g. http%3A%2F%2Fwww.google.com)",
+            "required": false,
+            "type": "string"
+        },
+        "cts": {
+            "name": "cts",
+            "in": "query",
+            "description": "Client timestamp in milliseconds since epoch.",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+        },
+        "vid": {
+            "name": "vid",
+            "in": "query",
+            "description": "The video ID",
+            "required": true,
+            "type": "string"
+        },
+        "playerid": {
+            "name": "playerid",
+            "in": "query",
+            "description": "The player ID",
+            "required": false,
+            "type": "string"
+        },
+        "videoBN": {
+            "name": "bn",
+            "in": "query",
+            "description": "Basename of the image that was clicked to cause the play to occur. Ideally, this is the basename of the resolved image after the 302 redirect, but if that is not possible (e.g. in javascript), this should be the neon image serving platform url. Please URL encode the basename. (e.g. neonvid_16549)",
+            "required": false,
+            "type": "string"
+        },
+        "adelta": {
+            "name": "adelta",
+            "in": "query",
+            "description": "Time in milliseconds since the last click on page (or null if there wasn't one). Used to detect autoplay. Either this or aplay is required.",
+            "required": false,
+            "type": "integer"
+        },
+        "pcount": {
+            "name": "pcount",
+            "in": "query",
+            "description": "1-based counter for which video play this is on the page load. For example, if this is the 2nd video played in the given page load, the value should be 2.",
+            "required": true,
+            "type": "integer"
+        },
+        "aplay": {
+            "name": "aplay",
+            "in": "query",
+            "description": "True if the video autoplayed. Either this or adelta is required.",
+            "required": false,
+            "type": "boolean"
+        }
+    },
+    "responses": {
+        "EventReceived": {
+            "description": "Event successfully received"
+        },
+        "InvalidEvent": {
+            "description": "Invalid event received"
+        }
+    }
+}
