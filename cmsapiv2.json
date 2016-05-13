@@ -5,7 +5,7 @@
     "info": {
         "description": "Provides consumers with the ability to hit Neon services. Note that, while all the endpoints list their parameters as *query* parameters, they can be sent in the body as well (in a flat JSON object).",
         "title": "Neon CMS API",
-        "termsOfService": "TODO",
+        "termsOfService": "https://app.neon-lab.com/terms/",
         "contact": {},
         "license": {
             "name": "Copyright"
