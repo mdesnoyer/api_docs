@@ -479,9 +479,20 @@
                     "200": {
                         "description": "Return the list of Brightcove Players for `account_id` and `integration_id`.",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/brightcove_player"
+                            "type": "object",
+                            "properties": {
+                                "player_count": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "description": "The number of players returned."
+                                },
+                                "players": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/brightcove_player"
+                                    },
+                                    "description": "List of Brightcove players."
+                                }
                             }
                         }
                     },
@@ -504,6 +515,13 @@
                         "in": "path",
                         "type": "string",
                         "description": "Account ID of the player",
+                        "required": true
+                    },
+                    {
+                        "name": "integration_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Integration ID of the player",
                         "required": true
                     },
                     {
