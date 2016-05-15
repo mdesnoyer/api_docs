@@ -313,7 +313,7 @@
                         "name": "uses_bc_gallery",
                         "in": "query",
                         "description": "Set if publisher uses Brightcove's gallery feature",
-                        "required": false,
+                        "required": true,
                         "type": "boolean"
                     }
                 ],
@@ -426,13 +426,6 @@
                         "name": "uses_bc_smart_player",
                         "in": "query",
                         "description": "Set if publisher uses Brightcove's Flash-based Smart player",
-                        "required": false,
-                        "type": "boolean"
-                    },
-                    {
-                        "name": "uses_bc_gallery",
-                        "in": "query",
-                        "description": "Set if publisher uses Brightcove's gallery feature",
                         "required": false,
                         "type": "boolean"
                     }
