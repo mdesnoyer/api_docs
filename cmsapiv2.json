@@ -1241,6 +1241,39 @@
                 }
             }
         },
+        "/batch": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "post": {
+                "tags": [
+                    "batch"
+                ],
+                "summary": "Batch a number of calls together.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "call_info",
+                        "in": "body",
+                        "description": "json object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/batch_call_params"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Results from all the calls, they are stateless, and can't depend on one another.",
+                        "schema": {
+                            "$ref": "#/definitions/batch_return_results"
+                        }
+                    }
+                }
+            }
+        },
         "/video_transition_callback": {
             "put": {
                 "tags": [
@@ -1263,6 +1296,71 @@
         }
     },
     "definitions": {
+        "batch_call_params": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string",
+                    "description": "access_token you use to access api calls"
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "description": "refresh_token, in case the access_token runs out while processing"
+                },
+                "requests": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/batch_request_object"
+                    }
+                }
+            }
+        },
+        "batch_request_object": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "http method of this call (GET,PUT,POST,DELETE)"
+                },
+                "relative_url": {
+                    "type": "string",
+                    "description": "url without the scheme and host information, eg /api/v2/1234abcde"
+                },
+                "body": {
+                    "type": "object",
+                    "description": "json object with body params needed for a POST or PUT call"
+                }
+            }
+        },
+        "batch_return_results": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/batch_return_result"
+                    },
+                    "description": "All of the calls responses."
+                }
+            }
+        },
+        "batch_return_result": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "what method was called"
+                },
+                "relative_url": {
+                    "type": "string",
+                    "description": "the relative url that was called"
+                },
+                "response": {
+                    "type": "object",
+                    "description": "response from the call, this has the same format as a singular call would have."
+                }
+            }
+        },
         "brightcove_integration": {
             "type": "object",
             "properties": {
