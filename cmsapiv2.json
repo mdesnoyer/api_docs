@@ -1303,10 +1303,6 @@
                     "type": "string",
                     "description": "access_token you use to access api calls"
                 },
-                "refresh_token": {
-                    "type": "string",
-                    "description": "refresh_token, in case the access_token runs out while processing"
-                },
                 "requests": {
                     "type": "array",
                     "items": {
@@ -1354,6 +1350,10 @@
                 "relative_url": {
                     "type": "string",
                     "description": "the relative url that was called"
+                },
+                "response_code": {
+                    "type": "integer",
+                    "description": "http response code from the call"
                 },
                 "response": {
                     "type": "object",
