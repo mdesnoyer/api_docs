@@ -44,6 +44,14 @@
         {
             "name": "callback",
             "description": "Dummy endpoint to define the callback"
+        },
+        {
+            "name": "batch",
+            "description": "Batch multiple calls"
+        },
+        {
+            "name": "tag",
+            "description": "Thumbnail collection mapping"
         }
     ],
     "x-documentationSets": [
@@ -718,6 +726,152 @@
                 }
             }
         },
+        "/{account_id}/tag": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "tag"
+                ],
+                "summary": "Get information about a tag.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tag_id",
+                        "in": "query",
+                        "description": "Comma-separated string of up to 100 tag IDs. If you want more than 100, see the batch api.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated string of fields to return.",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of tags corresponding the requested ids.",
+                        "schema": {
+                            "$ref": "#/definitions/tag"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "tag"
+                ],
+                "summary": "Create a new tag",
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name of the Tag",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "associations",
+                        "in": "query",
+                        "description": "Comma-separated string of up to 100 thumbnail IDs, which you want to associate upon creation to this tag.",
+                        "type": "string",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Information about the tag that was just posted.",
+                        "schema": {
+                            "$ref": "#/definitions/tag"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "tag"
+                ],
+                "summary": "Update a tag",
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tag_id",
+                        "in": "query",
+                        "description": "ID of the tag that needs updated",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "associations",
+                        "in": "query",
+                        "description": "Comma-separated string of up to 100 thumbnail IDs. Already existing tags will be ignored, new ones will be added. ",
+                        "type": "string",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Information about the tag that was just updated.",
+                        "schema": {
+                            "$ref": "#/definitions/tag"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "tag"
+                ],
+                "summary": "Delete a tag",
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tag_id",
+                        "in": "query",
+                        "description": "ID of the tag that needs updated",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The ID of the tag that was just deleted."
+                    }
+                }
+            }
+        },
         "/{account_id}/statistics/videos": {
             "get": {
                 "tags": [
@@ -857,7 +1011,7 @@
                 "tags": [
                     "thumbnails"
                 ],
-                "summary": "Upload a new thumbnail and optionally associate it with a video",
+                "summary": "Upload a new thumbnail and optionally associate it with a video, or a tag.",
                 "produces": [
                     "application/json"
                 ],
@@ -880,6 +1034,13 @@
                         "name": "video_id",
                         "in": "query",
                         "description": "video id to associate the thumbnail with",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tag_id",
+                        "in": "query",
+                        "description": "Commad Separated List of Tag IDs, which this thumbnail will be associated to.",
                         "required": false,
                         "type": "string"
                     }
@@ -922,6 +1083,97 @@
                         "description": "If the thumbnail should be enabled for testing",
                         "required": false,
                         "type": "boolean"
+                    },
+                    {
+                        "name": "tag_id",
+                        "in": "query",
+                        "description": "Tag ID of already created tag, which this thumbnail will be associated to.",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The modified thumbnail.",
+                        "schema": {
+                            "$ref": "#/definitions/thumbnail"
+                        }
+                    }
+                }
+            }
+        },
+        "/{account_id}/thumbnail/tag": {
+            "put": {
+                "tags": [
+                    "tag",
+                    "thumbnails"
+                ],
+                "summary": "Add a tag id to a thumbnail. If you want to add more than one at a time, see the batch API.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "thumbnail_id",
+                        "in": "query",
+                        "description": "Thumbnail ID where a tag should be added.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tag_id",
+                        "in": "query",
+                        "description": "Tag ID of the tag that is to be added to the thumbnail.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The modified thumbnail.",
+                        "schema": {
+                            "$ref": "#/definitions/thumbnail"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "tag",
+                    "thumbnails"
+                ],
+                "summary": "Delete a tag association on a thumbnail. If you want to delete more than one at a time, see the batch API.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "thumbnail_id",
+                        "in": "query",
+                        "description": "Thumbnail ID where tags should be deleted.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tag_id",
+                        "in": "query",
+                        "description": "Tag ID of the tag that is to be removed from the thumbnail.",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1162,7 +1414,7 @@
                         "name": "fields",
                         "in": "query",
                         "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     }
                 ],
@@ -1549,6 +1801,26 @@
                 }
             }
         },
+        "tag": {
+            "type": "object",
+            "properties": {
+                "account_id": {
+                    "type": "string",
+                    "description": "ID of the account this tag is associated to."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the tag."
+                },
+                "thumbnail_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of thumbnail ids associated to this tag."
+                }
+            }
+        },
         "thumbnail": {
             "type": "object",
             "properties": {
@@ -1611,6 +1883,13 @@
                     "type": "string",
                     "format": "date-time",
                     "description": "An ISO date for when the thumbnail was created."
+                },
+                "tag_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "tag_ids associated to this thumbnail"
                 },
                 "updated": {
                     "type": "string",
