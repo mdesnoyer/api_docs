@@ -1891,6 +1891,38 @@
                     },
                     "description": "tag_ids associated to this thumbnail"
                 },
+                "renditions": {
+                    "type": "object",
+                    "properties": {
+                        "1280x720": {
+                            "$ref": "#/definitions/thumbnail_rendition"
+                        },
+                        "640x360": {
+                            "$ref": "#/definitions/thumbnail_rendition"
+                        },
+                        "320x180": {
+                            "$ref": "#/definitions/thumbnail_rendition"
+                        }
+                    },
+                    "description": "A map of available sizes as '{width}x{height}' to rendition object. While many sizes are available and some are provided as examples, none is guaranteed is be present.",
+                    "example": {
+                        "1280x720": {
+                            "width": 1280,
+                            "height": 720,
+                            "url": "http://i0.cdn.neon.com/1234/full-thumb.jpg"
+                        },
+                        "640x360": {
+                            "width": 640,
+                            "height": 360,
+                            "url": "http://i1.cdn.neon.com/1234/medium-thumb.jpg"
+                        },
+                        "320x180": {
+                            "width": 320,
+                            "height": 180,
+                            "url": "http://i2.cdn.neon.com/1234/small-thumb.jpg"
+                        }
+                    }
+                },
                 "updated": {
                     "type": "string",
                     "format": "date-time",
@@ -1968,6 +2000,29 @@
                 },
                 "error": {
                     "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "thumbnail_rendition": {
+            "type": "object",
+            "description": "A thumbnail rendition is a image URL in a specific format of a thumbnail. It represents a guarantee that the image is available for use in the specified size.",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "The URL of this rendition available by GET.",
+                    "example": "https://i0.cdn-neon.com/13ads230ff/full-thumbnail.jpg"
+                },
+                "width": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The width of the rendition in pixels.",
+                    "example": "640"
+                },
+                "height": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The height of the rendition in pixels.",
+                    "example": "480"
                 }
             }
         },
