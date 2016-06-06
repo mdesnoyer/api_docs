@@ -184,6 +184,54 @@
                 }
             }
         },
+        "/{account_id}/email": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "post": {
+                "tags": [
+                    "email"
+                ],
+                "summary": "Send an email on behalf of this account.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "template_id",
+                        "in": "query",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "args",
+                        "in": "query",
+                        "description": "Key, value pairs of argument name, argument value",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A message that says the email has been successfully sent.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/{account_id}/integrations/brightcove": {
             "x-onlyVisibleInDocumentationSets": [
                 "internal"
