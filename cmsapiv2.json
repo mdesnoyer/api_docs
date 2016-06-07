@@ -1354,6 +1354,13 @@
                         "description": "Should testing be enabled?",
                         "required": false,
                         "type": "boolean"
+                    },
+                    {
+                        "name": "is_deleted",
+                        "in": "query",
+                        "description": "Set the video as deleted, removing it from in normal search results",
+                        "required": false,
+                        "type": "boolean"
                     }
                 ],
                 "responses": {
