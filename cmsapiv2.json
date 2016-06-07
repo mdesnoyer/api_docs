@@ -1990,16 +1990,22 @@
                     "type": "integer",
                     "minimum": 1,
                     "description": "The width of the rendition in pixels.",
-                    "example": "320"
+                    "example": 320
                 },
                 "height": {
                     "type": "integer",
                     "minimum": 1,
                     "description": "The height of the rendition in pixels.",
-                    "example": "180"
+                    "example": 180
                 },
                 "aspect_ratio": {
                     "type": "string",
+                    "enum": [
+                        "16x9",
+                        "21x9",
+                        "4x3",
+                        "120x67"
+                    ],
                     "description": "The ratio of the width to height in square pixels. By convention, format is WxH in reduced to lowest terms.",
                     "example": "16x9"
                 }
