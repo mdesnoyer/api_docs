@@ -1892,35 +1892,9 @@
                     "description": "tag_ids associated to this thumbnail"
                 },
                 "renditions": {
-                    "type": "object",
-                    "properties": {
-                        "1280x720": {
-                            "$ref": "#/definitions/thumbnail_rendition"
-                        },
-                        "640x360": {
-                            "$ref": "#/definitions/thumbnail_rendition"
-                        },
-                        "320x180": {
-                            "$ref": "#/definitions/thumbnail_rendition"
-                        }
-                    },
-                    "description": "A map of available sizes as '{width}x{height}' to rendition object. While many sizes are available and some are provided as examples, none is guaranteed is be present.",
-                    "example": {
-                        "1280x720": {
-                            "width": 1280,
-                            "height": 720,
-                            "url": "http://i0.cdn.neon.com/1234/full-thumb.jpg"
-                        },
-                        "640x360": {
-                            "width": 640,
-                            "height": 360,
-                            "url": "http://i1.cdn.neon.com/1234/medium-thumb.jpg"
-                        },
-                        "320x180": {
-                            "width": 320,
-                            "height": 180,
-                            "url": "http://i2.cdn.neon.com/1234/small-thumb.jpg"
-                        }
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/thumbnail_rendition"
                     }
                 },
                 "updated": {
@@ -2005,7 +1979,7 @@
         },
         "thumbnail_rendition": {
             "type": "object",
-            "description": "A thumbnail rendition is a image URL in a specific format of a thumbnail. It represents a guarantee that the image is available for use in the specified size.",
+            "description": "A thumbnail rendition is a image object in a specific format of a thumbnail. It represents a guarantee that the image is available for use in the specified size.",
             "properties": {
                 "url": {
                     "type": "string",
@@ -2016,13 +1990,18 @@
                     "type": "integer",
                     "minimum": 1,
                     "description": "The width of the rendition in pixels.",
-                    "example": "640"
+                    "example": "320"
                 },
                 "height": {
                     "type": "integer",
                     "minimum": 1,
                     "description": "The height of the rendition in pixels.",
-                    "example": "480"
+                    "example": "180"
+                },
+                "aspect_ratio": {
+                    "type": "string",
+                    "description": "The ratio of the width to height in square pixels. By convention, format is WxH in reduced to lowest terms.",
+                    "example": "16x9"
                 }
             }
         },
