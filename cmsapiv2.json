@@ -2002,9 +2002,10 @@
                     "type": "string",
                     "enum": [
                         "16x9",
+                        "1x1",
                         "21x9",
                         "4x3",
-                        "120x67"
+                        "5x4",
                     ],
                     "description": "The ratio of the width to height in square pixels. By convention, format is WxH in reduced to lowest terms.",
                     "example": "16x9"
