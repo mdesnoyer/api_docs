@@ -1356,9 +1356,9 @@
                         "type": "boolean"
                     },
                     {
-                        "name": "is_deleted",
+                        "name": "hidden",
                         "in": "query",
-                        "description": "Set the video as deleted, removing it from in normal search results",
+                        "description": "Set the video as hidden, removing it in normal search results",
                         "required": false,
                         "type": "boolean"
                     }
