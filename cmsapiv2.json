@@ -1354,6 +1354,13 @@
                         "description": "Should testing be enabled?",
                         "required": false,
                         "type": "boolean"
+                    },
+                    {
+                        "name": "hidden",
+                        "in": "query",
+                        "description": "Set the video as hidden, removing it in normal search results",
+                        "required": false,
+                        "type": "boolean"
                     }
                 ],
                 "responses": {
