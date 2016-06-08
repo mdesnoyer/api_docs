@@ -2012,7 +2012,7 @@
                         "1x1",
                         "21x9",
                         "4x3",
-                        "5x4",
+                        "5x4"
                     ],
                     "description": "The ratio of the width to height in square pixels. By convention, format is WxH in reduced to lowest terms.",
                     "example": "16x9"
