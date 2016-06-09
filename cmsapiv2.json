@@ -2055,7 +2055,7 @@
                 "lift": {
                     "type": "number",
                     "format": "float",
-                    "description": "The estimated lift of the thumbnail in fractions. For example, 0.0 is no lift, 0.2 is 20% lift, -0.3 is -30% lift."
+                    "description": "The estimated lift of the thumbnail in fractions. For example, 0.0 is no lift, 0.2 is 20% lift, -0.3 is -30% lift. null if it cannot be calculated."
                 }
             }
         },
