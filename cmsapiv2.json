@@ -1404,6 +1404,15 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    "401": {
+                        "description": "Request is not authenticated"
+                    },
+                    "403": {
+                        "description": "Account doesn't have access to this video"
+                    },
+                    "404": {
+                        "description": "Video not found"
                     }
                 }
             }
