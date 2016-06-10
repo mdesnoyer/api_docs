@@ -1216,6 +1216,13 @@
                         "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "share_token",
+                        "in": "query",
+                        "description": "For authorization via shared url (e.g., via email sent to friend). This is provided via the share endpoint.",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
