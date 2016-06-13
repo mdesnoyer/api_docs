@@ -1409,7 +1409,7 @@
                     "200": {
                         "description": "The requested token.",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/share_token"
                         }
                     },
                     "401": {
@@ -1856,6 +1856,16 @@
                 },
                 "error": {
                     "$ref": "#/definitions/error"
+                }
+            }
+
+        },
+        "share_token": {
+            "type": "object",
+            "properties": {
+                "share_token": {
+                    "type": "string",
+                    "description": "JWT token that enables viewing of a content item without login."
                 }
             }
         },
