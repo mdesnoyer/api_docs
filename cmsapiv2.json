@@ -2214,6 +2214,10 @@
                     "minimum": 0,
                     "description": "The length of the video in seconds."
                 },
+                "share_token": {
+                    "type": "string",
+                    "description": "JWT token that enables viewing of a content item without login."
+                },
                 "custom_data": {
                     "type": "object",
                     "description": "A dictionary of custom information about the video."
