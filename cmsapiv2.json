@@ -1014,6 +1014,49 @@
                 }
             }
         },
+        "/{account_id}/statistics/estimated_lift": {
+            "get": {
+                "tags": [
+                    "statistics"
+                ],
+                "summary": "Estimate the lift between thumbnails",
+                "description": "Calculate an estimate lift between a baseline and other thumbnails",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "base_id",
+                        "in": "query",
+                        "description": "Thumbnail ID of the baseline thumbnail",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "thumbnail_ids",
+                        "in": "query",
+                        "description": "Comma-separated string of thumbnail IDs to compare against the baseline.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of estimated lifts",
+                        "schema": {
+                            "$ref": "#/definitions/estimated_lift_response"
+                        }
+                    }
+                }
+            }
+        },
         "/{account_id}/thumbnails": {
             "get": {
                 "tags": [
@@ -1264,6 +1307,13 @@
                         "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "share_token",
+                        "in": "query",
+                        "description": "For authorization via shared url (e.g., via email sent to friend). This is provided via the share endpoint.",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1402,6 +1452,13 @@
                         "description": "Should testing be enabled?",
                         "required": false,
                         "type": "boolean"
+                    },
+                    {
+                        "name": "hidden",
+                        "in": "query",
+                        "description": "Set the video as hidden, removing it in normal search results",
+                        "required": false,
+                        "type": "boolean"
                     }
                 ],
                 "responses": {
@@ -1410,6 +1467,50 @@
                         "schema": {
                             "$ref": "#/definitions/video"
                         }
+                    }
+                }
+            }
+        },
+        "/{account_id}/videos/share": {
+            "get": {
+                "tags": [
+                    "videos"
+                ],
+                "summary": "Get a token for sharing this video by url",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "video_id",
+                        "in": "query",
+                        "description": "ID of the video to be shared.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The requested token.",
+                        "schema": {
+                            "$ref": "#/definitions/share_token"
+                        }
+                    },
+                    "401": {
+                        "description": "Request is not authenticated"
+                    },
+                    "403": {
+                        "description": "Account doesn't have access to this video"
+                    },
+                    "404": {
+                        "description": "Video not found"
                     }
                 }
             }
@@ -1848,6 +1949,16 @@
                     "$ref": "#/definitions/error"
                 }
             }
+
+        },
+        "share_token": {
+            "type": "object",
+            "properties": {
+                "share_token": {
+                    "type": "string",
+                    "description": "JWT token that enables viewing of a content item without login."
+                }
+            }
         },
         "tag": {
             "type": "object",
@@ -1939,6 +2050,12 @@
                     },
                     "description": "tag_ids associated to this thumbnail"
                 },
+                "renditions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/thumbnail_rendition"
+                    }
+                },
                 "updated": {
                     "type": "string",
                     "format": "date-time",
@@ -2019,6 +2136,73 @@
                 }
             }
         },
+        "estimated_lift_response": {
+            "type": "object",
+            "properties": {
+                "baseline_thumbnail_id": {
+                    "type": "string",
+                    "description": "The thumbnail ID of the baseline image"
+                },
+                "lift": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/estimated_lift"
+                    }
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "estimated_lift": {
+            "type": "object",
+            "properties": {
+                "thumbnail_id": {
+                    "type": "string",
+                    "description": "The thumbnail id"
+                },
+                "lift": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "The estimated lift of the thumbnail in fractions. For example, 0.0 is no lift, 0.2 is 20% lift, -0.3 is -30% lift. null if it cannot be calculated."
+                }
+            }
+        },
+        "thumbnail_rendition": {
+            "type": "object",
+            "description": "A thumbnail rendition is a image object in a specific format of a thumbnail. It represents a guarantee that the image is available for use in the specified size.",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "The URL of this rendition available by GET.",
+                    "example": "https://i0.cdn-neon.com/13ads230ff/full-thumbnail.jpg"
+                },
+                "width": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The width of the rendition in pixels.",
+                    "example": 320
+                },
+                "height": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The height of the rendition in pixels.",
+                    "example": 180
+                },
+                "aspect_ratio": {
+                    "type": "string",
+                    "enum": [
+                        "16x9",
+                        "1x1",
+                        "21x9",
+                        "4x3",
+                        "5x4"
+                    ],
+                    "description": "The ratio of the width to height in square pixels. By convention, format is WxH in reduced to lowest terms.",
+                    "example": "16x9"
+                }
+            }
+        },
         "video": {
             "type": "object",
             "properties": {
@@ -2077,6 +2261,10 @@
                     "type": "number",
                     "minimum": 0,
                     "description": "The length of the video in seconds."
+                },
+                "share_token": {
+                    "type": "string",
+                    "description": "JWT token that enables viewing of a content item without login."
                 },
                 "custom_data": {
                     "type": "object",
