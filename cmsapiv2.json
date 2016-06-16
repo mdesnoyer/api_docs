@@ -52,6 +52,10 @@
         {
             "name": "tag",
             "description": "Thumbnail collection mapping"
+        },
+        {
+            "name": "users",
+            "description": "User management."
         }
     ],
     "x-documentationSets": [
@@ -179,6 +183,182 @@
                         "description": "The html snippet used to add the telemetry tag to the user's site",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/{account_id}/email": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "post": {
+                "summary": "Send an email on behalf of this account.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "template_slug",
+                        "in": "query",
+                        "description": "Template slug corresponds to value in Mandrill.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "template_args",
+                        "in": "query",
+                        "description": "Expected JSON object here with keys of the template parameters,  and values of what you want those parameters to say.  For example, if my template was as follows  Hello {first_name} buy this {item}!  My JSON object would look like this,  { \"first_name\" : \"Kevin\", \"item\" : \"xbox\"} ",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to_email_address",
+                        "in": "query",
+                        "description": "Where this email will be sent.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "from_email_address",
+                        "in": "query",
+                        "description": "Who this email should be from.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "from_name",
+                        "in": "query",
+                        "description": "The name of the person sending the email.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "subject",
+                        "in": "query",
+                        "description": "The subject line of the email.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "reply_to",
+                        "in": "query",
+                        "description": "Who the person receiving this email should reply to (email).",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A message that says the email has been successfully sent.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/{account_id}/users": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get user.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "The email of the user.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A user with requested username.",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update an existing user.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "The email of the user.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "first_name",
+                        "in": "query",
+                        "description": "The first name of the user.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "description": "The last name of the user.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "The title of the user.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "send_emails",
+                        "in": "query",
+                        "description": "Does this user want to receive to emails.",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The modified user.",
+                        "schema": {
+                            "$ref": "#/definitions/user"
                         }
                     }
                 }
@@ -1146,6 +1326,9 @@
             }
         },
         "/{account_id}/thumbnail/tag": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
             "put": {
                 "tags": [
                     "tag",
@@ -1366,6 +1549,13 @@
                         "required": false,
                         "type": "integer",
                         "default": 5
+                    },
+                    {
+                        "name": "callback_email",
+                        "in": "query",
+                        "description": "The email address to send results to when the video is done processing.",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1901,7 +2091,6 @@
                     "$ref": "#/definitions/error"
                 }
             }
-
         },
         "share_token": {
             "type": "object",
@@ -2485,6 +2674,56 @@
                         "type": "string"
                     },
                     "description": "List of usernames associated to the account."
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "user": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "description": "Username of the user, this is always an email."
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the account was last updated."
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the account was created."
+                },
+                "email": {
+                    "type": "string",
+                    "description": "email of the user."
+                },
+                "access_level": {
+                    "type": "integer",
+                    "description": "bit packed integer that represents what this user can access."
+                },
+                "first_name": {
+                    "type": "string",
+                    "description": "First name of the user."
+                },
+                "last_name": {
+                    "type": "string",
+                    "description": "Last name of the user."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Title of the user."
+                },
+                "cell_phone_number": {
+                    "type": "string",
+                    "description": "Cell phone number of the user."
+                },
+                "secondary_email": {
+                    "type": "string",
+                    "description": "Secondary or Recovery email for the user."
                 },
                 "error": {
                     "$ref": "#/definitions/error"
