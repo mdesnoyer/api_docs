@@ -906,7 +906,7 @@
                 }
             }
         },
-        "/{account_id}/tag": {
+        "/{account_id}/tags": {
             "x-onlyVisibleInDocumentationSets": [
                 "internal"
             ],
@@ -1048,6 +1048,68 @@
                 "responses": {
                     "200": {
                         "description": "The ID of the tag that was just deleted."
+                    }
+                }
+            }
+        },
+        "/{account_id}/tags/search": {
+            "get": {
+                "tags": [
+                    "tag"
+                ],
+                "summary": "Filter tagged content by search criteria.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "since",
+                        "in": "query",
+                        "description": "Microseconds since epoch, that represents where the next search should start looking for videos. It will get videos older than this date.",
+                        "required": false,
+                        "type": "number",
+                        "format": "float"
+                    },
+                    {
+                        "name": "until",
+                        "in": "query",
+                        "description": "Microseconds since epoch, that represents where the next search should stop looking for videos. It will get videos up to this date.",
+                        "required": false,
+                        "type": "number",
+                        "format": "float"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Maximum amount of videos that will be returned.",
+                        "required": false,
+                        "type": "number",
+                        "default": 25,
+                        "maximum": 100,
+                        "minimum": 1,
+                        "format": "integer"
+                    },
+                    {
+                        "name": "show_hidden",
+                        "in": "query",
+                        "description": "Show content marked as hidden.",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The requested tagged content.",
+                        "schema": {
+                            "$ref": "#/definitions/search_content"
+                        }
                     }
                 }
             }
@@ -1707,6 +1769,13 @@
                         "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "show_hidden",
+                        "in": "query",
+                        "description": "Show content marked as hidden.",
+                        "required": false,
+                        "type": "boolean"
                     }
                 ],
                 "responses": {
