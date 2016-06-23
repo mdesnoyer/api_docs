@@ -2104,6 +2104,10 @@
         "tag": {
             "type": "object",
             "properties": {
+                "tag_id": {
+                    "type": "string",
+                    "description": "Unique ID of this tag."
+                },
                 "account_id": {
                     "type": "string",
                     "description": "ID of the account this tag is associated to."
