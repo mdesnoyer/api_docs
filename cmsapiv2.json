@@ -1784,6 +1784,51 @@
                 }
             }
         },
+        "/feature": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "feature"
+                ],
+                "summary": "Get image feature details",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Comma separated list of ids of features that you want information on.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "model_name",
+                        "in": "query",
+                        "description": "Model name of the feature that you want information on.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated list of field names. Defaults to 'id', 'name', 'model_name'.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The requested features.",
+                        "schema": {
+                            "$ref": "#/definitions/feature"
+                        }
+                    }
+                }
+            }
+        },
         "/batch": {
             "x-onlyVisibleInDocumentationSets": [
                 "internal"
@@ -2196,6 +2241,13 @@
                     "items": {
                         "$ref": "#/definitions/thumbnail_rendition"
                     }
+                },
+                "feature_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "feature_ids associated to this thumbnail"
                 },
                 "updated": {
                     "type": "string",
@@ -2727,6 +2779,27 @@
                 },
                 "error": {
                     "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "feature": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier for this feature object"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of this feature"
+                },
+                "index": {
+                    "type": "integer",
+                    "description": "Integer index into the feature vector."
+                },
+                "model_name": {
+                    "type": "string",
+                    "description": "Name of the model that provided this feature"
                 }
             }
         }
