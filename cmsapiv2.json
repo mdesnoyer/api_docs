@@ -1792,7 +1792,7 @@
                 "tags": [
                     "feature"
                 ],
-                "summary": "Get a feature by id or model name. One or the other is required",
+                "summary": "Get image feature details",
                 "produces": [
                     "application/json"
                 ],
@@ -1807,7 +1807,7 @@
                     {
                         "name": "model_name",
                         "in": "query",
-                        "description": "Comma separated list of model names of the features that you want information on.",
+                        "description": "Model name of the feature that you want information on.",
                         "required": false,
                         "type": "string"
                     },
@@ -2792,6 +2792,10 @@
                 "name": {
                     "type": "string",
                     "description": "Name of this feature"
+                },
+                "index": {
+                    "type": "integer",
+                    "description": "Integer index into the feature vector."
                 },
                 "model_name": {
                     "type": "string",
