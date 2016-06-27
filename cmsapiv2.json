@@ -906,7 +906,7 @@
                 }
             }
         },
-        "/{account_id}/tag": {
+        "/{account_id}/tags": {
             "x-onlyVisibleInDocumentationSets": [
                 "internal"
             ],
