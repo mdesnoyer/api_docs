@@ -2185,12 +2185,12 @@
                     "type": "string",
                     "description": "Name of the tag."
                 },
-                "thumbnail_ids": {
+                "thumbnails": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/thumbnail"
                     },
-                    "description": "Array of thumbnail ids associated to this tag."
+                    "description": "Array of thumbnails associated to this tag."
                 }
             }
         },
@@ -2473,7 +2473,14 @@
                     "items": {
                         "$ref": "#/definitions/thumbnail"
                     },
-                    "description": "An array of thumbnail images associated with this video."
+                    "description": "An array of thumbnails for the video in order of score descending. Defaults to 6 items if available, including the default thumbnail."
+                },
+                "bad_thumbnails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/thumbnail"
+                    },
+                    "description": "An array of low-score thumbnails for the video in order of score descending. Defaults to 6 items if available."
                 },
                 "duration": {
                     "type": "number",
