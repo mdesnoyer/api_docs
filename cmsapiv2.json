@@ -971,7 +971,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "associations",
+                        "name": "thumbnail_ids",
                         "in": "query",
                         "description": "Comma-separated string of up to 100 thumbnail IDs, which you want to associate upon creation to this tag.",
                         "type": "string",
@@ -1008,7 +1008,7 @@
                         "required": true
                     },
                     {
-                        "name": "associations",
+                        "name": "thumbnail_ids",
                         "in": "query",
                         "description": "Comma-separated string of up to 100 thumbnail IDs. Already existing tags will be ignored, new ones will be added. ",
                         "type": "string",
