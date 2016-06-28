@@ -976,6 +976,13 @@
                         "description": "Comma-separated string of up to 100 thumbnail IDs, which you want to associate upon creation to this tag.",
                         "type": "string",
                         "required": false
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "A value in the list ('VIDEO', 'GALLERY'). Defaults to GALLERY.",
+                        "type": "string",
+                        "required": false
                     }
                 ],
                 "responses": {
