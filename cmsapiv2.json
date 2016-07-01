@@ -932,13 +932,6 @@
                         "description": "Comma-separated string of up to 100 tag IDs. If you want more than 100, see the batch api.",
                         "required": true,
                         "type": "string"
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "Comma-separated string of fields to return.",
-                        "required": false,
-                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1018,6 +1011,20 @@
                         "name": "thumbnail_ids",
                         "in": "query",
                         "description": "Comma-separated string of up to 100 thumbnail IDs. Already existing tags will be ignored, new ones will be added. ",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name of the Tag",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "A value in the list ('VIDEO', 'GALLERY'). Defaults to GALLERY.",
                         "type": "string",
                         "required": false
                     }
@@ -2198,6 +2205,10 @@
                         "$ref": "#/definitions/thumbnail"
                     },
                     "description": "Array of thumbnails associated to this tag."
+                },
+                "tag_type": {
+                    "type": "string",
+                    "description": "One of either 'GALLERY' or 'VIDEO'."
                 }
             }
         },
