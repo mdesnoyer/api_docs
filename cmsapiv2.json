@@ -1122,7 +1122,7 @@
                     "200": {
                         "description": "The requested tagged content.",
                         "schema": {
-                            "$ref": "#/definitions/search_content"
+                            "$ref": "#/definitions/search_tags"
                         }
                     }
                 }
@@ -2691,6 +2691,55 @@
                 }
             }
         },
+        "tag_thumbnails": {
+            "type": "object",
+            "description": "Contains the thumbnail objects for a given tag.",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The id of the tag."
+                },
+                "thumbnails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/thumbnail"
+                    },
+                    "description": "The set of thumbnails."
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "search_tags": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The number of tags being returned."
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/tag_thumbnails"
+                    },
+                    "description": "The returned tags."
+                },
+                "next_page": {
+                    "type": "string",
+                    "description": "Link to next page of tags."
+                },
+                "prev_page": {
+                    "type": "string",
+                    "description": "Link to previous page of tags."
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
+
         "search_videos": {
             "type": "object",
             "properties": {
