@@ -1780,7 +1780,7 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "Comma-separated list of field names. Defaults to 'state', 'video_id', 'publish_date', 'title', 'url', 'testing_enabled', 'job_id' and 'tag_id'. Also available are 'thumbnails', 'bad_thumbnails', 'integration_id', 'serving_url', 'duration', 'custom_data', 'created', 'updated'."
+                        "description": "Comma-separated list of field names. Defaults to 'state', 'video_id', 'publish_date', 'title', 'url', 'testing_enabled', 'job_id' and 'tag_id'. Also available are 'thumbnails', 'bad_thumbnails', 'integration_id', 'serving_url', 'duration', 'custom_data', 'created', 'updated'.",
                         "required": false,
                         "type": "string"
                     },
