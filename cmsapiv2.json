@@ -1554,7 +1554,7 @@
                         "name": "callback_email",
                         "in": "query",
                         "description": "The email address to send results to when the video is done processing.",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     }
                 ],
@@ -1601,6 +1601,20 @@
                         "description": "Set the video as hidden, removing it in normal search results",
                         "required": false,
                         "type": "boolean"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "The title of the video.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "callback_email",
+                        "in": "query",
+                        "description": "The email address to send results to when the video is done processing.",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
