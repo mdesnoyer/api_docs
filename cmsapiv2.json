@@ -2473,6 +2473,11 @@
                     "format": "date-time",
                     "description": "When the video was last updated."
                 },
+                "estimated_time_remaining": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "A float that represents the estimated amount of processing time left."
+                },
                 "error": {
                     "$ref": "#/definitions/error"
                 }
