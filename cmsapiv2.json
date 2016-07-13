@@ -1829,6 +1829,48 @@
                 }
             }
         },
+        "/email/support": {
+            "post": {
+                "tags": [
+                    "email"
+                ],
+                "summary": "Send email to Neon support",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "from_name",
+                        "in": "query",
+                        "description": "Name of sender",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "from_email",
+                        "in": "query",
+                        "description": "Email address of sender",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "message",
+                        "in": "query",
+                        "description": "Message to be sent in email to support",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/batch": {
             "x-onlyVisibleInDocumentationSets": [
                 "internal"
