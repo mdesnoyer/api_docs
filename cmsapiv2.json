@@ -2515,6 +2515,10 @@
                     "format": "date-time",
                     "description": "When the video was last updated."
                 },
+                "estimated_time_remaining": {
+                    "type": "number",
+                    "description": "A float that represents the estimated amount of processing time left."
+                },
                 "error": {
                     "$ref": "#/definitions/error"
                 }
