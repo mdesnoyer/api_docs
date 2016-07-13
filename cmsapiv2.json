@@ -2461,9 +2461,13 @@
                     "type": "string",
                     "description": "The job that processed this video."
                 },
-                "tag_id": {
-                    "type": "string",
-                    "description": "The id of the tag for the video associating thumbnails."
+                "tag_ids": {
+                    "type": "array",
+                    "description": "Tag ids for the different collections of thumbnails associated with this video.",
+                    "items": {
+                        "type": "string",
+                        "description": "The ID of the tag."
+                    }
                 },
                 "title": {
                     "type": "string",
