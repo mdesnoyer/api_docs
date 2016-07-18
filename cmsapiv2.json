@@ -1556,6 +1556,39 @@
                         "description": "The email address to send results to when the video is done processing.",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "reprocess",
+                        "in": "query",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, the video will be reprocessed with demographic categories added if new, or rewritten if already there."
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "type": "string",
+                        "enum": [
+                            "M",
+                            "F"
+                        ],
+                        "required": false,
+                        "description": "If set, process the video for a target gender audience."
+                    },
+                    {
+                        "name": "age",
+                        "in": "query",
+                        "type": "string",
+                        "enum": [
+                            "18-19",
+                            "20-29",
+                            "30-39",
+                            "40-49",
+                            "50+",
+                            null
+                        ],
+                        "required": false,
+                        "description": "If set, process the video for a target age range."
                     }
                 ],
                 "responses": {
@@ -2315,6 +2348,39 @@
                 }
             }
         },
+        "demographic_thumbnails": {
+            "type": "object",
+            "properties": {
+                "gender": {
+                    "type": "string",
+                    "enum": [
+                        "M",
+                        "F",
+                        null
+                    ],
+                    "description": "Gender of this demographic"
+                },
+                "age": {
+                    "type": "string",
+                    "enum": [
+                        "18-19",
+                        "20-29",
+                        "30-39",
+                        "40-49",
+                        "50+",
+                        null
+                    ],
+                    "description": "Age range for this demographic group"
+                },
+                "thumbnails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/thumbnail"
+                    },
+                    "description": "Array of thumbnails chosen for this demographic"
+                }
+            }
+        },
         "thumbnail_statistic": {
             "type": "object",
             "required": [
@@ -2505,6 +2571,13 @@
                         "$ref": "#/definitions/thumbnail"
                     },
                     "description": "An array of thumbnail images associated with this video."
+                },
+                "demographic_thumbnails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/demographic_thumbnails"
+                    },
+                    "description": "List of thumbnails chosen for different demographics."
                 },
                 "duration": {
                     "type": "number",
