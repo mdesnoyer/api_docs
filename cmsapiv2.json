@@ -1111,6 +1111,13 @@
                         "format": "integer"
                     },
                     {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Apply query on tag resource name.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "show_hidden",
                         "in": "query",
                         "description": "Show content marked as hidden.",
@@ -1790,7 +1797,15 @@
                         "description": "Show content marked as hidden.",
                         "required": false,
                         "type": "boolean"
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Apply query on video resource title.",
+                        "required": false,
+                        "type": "string"
                     }
+
                 ],
                 "responses": {
                     "200": {
@@ -2461,9 +2476,9 @@
                     "type": "string",
                     "description": "The job that processed this video."
                 },
-                "tag_ids": {
+                "tag_id": {
                     "type": "array",
-                    "description": "Tag ids for the different collections of thumbnails associated with this video.",
+                    "description": "Tag id associated with this video.",
                     "items": {
                         "type": "string",
                         "description": "The ID of the tag."
