@@ -973,7 +973,7 @@
                     {
                         "name": "type",
                         "in": "query",
-                        "description": "A value in the list ('VIDEO', 'GALLERY'). Defaults to GALLERY.",
+                        "description": "A value in the list ('VIDEO', 'COL'), or null. Defaults to COL for collection. Videos are automatically tagged with a tag of type VIDEO.",
                         "type": "string",
                         "required": false
                     }
@@ -1024,7 +1024,7 @@
                     {
                         "name": "type",
                         "in": "query",
-                        "description": "A value in the list ('VIDEO', 'GALLERY'). Defaults to GALLERY.",
+                        "description": "A value in the list ('VIDEO', 'COL'), or null. Defaults to COL for collection. Videos are automatically tagged with a tag of type VIDEO.",
                         "type": "string",
                         "required": false
                     }
@@ -2208,7 +2208,7 @@
                 },
                 "tag_type": {
                     "type": "string",
-                    "description": "One of either 'GALLERY' or 'VIDEO'."
+                    "description": "One of either 'COL' or 'VIDEO'."
                 }
             }
         },
