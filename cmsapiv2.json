@@ -1637,8 +1637,41 @@
                         "name": "callback_email",
                         "in": "query",
                         "description": "The email address to send results to when the video is done processing.",
-                        "required": true,
+                        "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "reprocess",
+                        "in": "query",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, the video will be reprocessed with demographic categories added if new, or rewritten if already there."
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "type": "string",
+                        "enum": [
+                            "M",
+                            "F"
+                        ],
+                        "required": false,
+                        "description": "If set, process the video for a target gender audience."
+                    },
+                    {
+                        "name": "age",
+                        "in": "query",
+                        "type": "string",
+                        "enum": [
+                            "18-19",
+                            "20-29",
+                            "30-39",
+                            "40-49",
+                            "50+",
+                            null
+                        ],
+                        "required": false,
+                        "description": "If set, process the video for a target age range."
                     }
                 ],
                 "responses": {
@@ -1684,6 +1717,20 @@
                         "description": "Set the video as hidden, removing it in normal search results",
                         "required": false,
                         "type": "boolean"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "The title of the video.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "callback_email",
+                        "in": "query",
+                        "description": "The email address to send results to when the video is done processing.",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1877,6 +1924,93 @@
                         "description": "The requested videos.",
                         "schema": {
                             "$ref": "#/definitions/search_videos"
+                        }
+                    }
+                }
+            }
+        },
+        "/feature": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "feature"
+                ],
+                "summary": "Get image feature details",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Comma separated list of ids of features that you want information on.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "model_name",
+                        "in": "query",
+                        "description": "Model name of the feature that you want information on.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated list of field names. Defaults to 'id', 'name', 'model_name'.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The requested features.",
+                        "schema": {
+                            "$ref": "#/definitions/feature"
+                        }
+                    }
+                }
+            }
+        },
+        "/email/support": {
+            "post": {
+                "tags": [
+                    "email"
+                ],
+                "summary": "Send email to Neon support",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "from_name",
+                        "in": "query",
+                        "description": "Name of sender",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "from_email",
+                        "in": "query",
+                        "description": "Email address of sender",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "message",
+                        "in": "query",
+                        "description": "Message to be sent in email to support",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success message",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -2303,6 +2437,13 @@
                         "$ref": "#/definitions/thumbnail_rendition"
                     }
                 },
+                "feature_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "feature_ids associated to this thumbnail"
+                },
                 "updated": {
                     "type": "string",
                     "format": "date-time",
@@ -2310,6 +2451,39 @@
                 },
                 "error": {
                     "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "demographic_thumbnails": {
+            "type": "object",
+            "properties": {
+                "gender": {
+                    "type": "string",
+                    "enum": [
+                        "M",
+                        "F",
+                        null
+                    ],
+                    "description": "Gender of this demographic"
+                },
+                "age": {
+                    "type": "string",
+                    "enum": [
+                        "18-19",
+                        "20-29",
+                        "30-39",
+                        "40-49",
+                        "50+",
+                        null
+                    ],
+                    "description": "Age range for this demographic group"
+                },
+                "thumbnails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/thumbnail"
+                    },
+                    "description": "Array of thumbnails chosen for this demographic"
                 }
             }
         },
@@ -2519,6 +2693,13 @@
                     },
                     "description": "An array of low-score thumbnails for the video in order of score descending. Defaults to 6 items if available."
                 },
+                "demographic_thumbnails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/demographic_thumbnails"
+                    },
+                    "description": "List of thumbnails chosen for different demographics."
+                },
                 "duration": {
                     "type": "number",
                     "minimum": 0,
@@ -2541,6 +2722,10 @@
                     "type": "string",
                     "format": "date-time",
                     "description": "When the video was last updated."
+                },
+                "estimated_time_remaining": {
+                    "type": "number",
+                    "description": "A float that represents the estimated amount of processing time left."
                 },
                 "error": {
                     "$ref": "#/definitions/error"
@@ -2896,6 +3081,27 @@
                 },
                 "error": {
                     "$ref": "#/definitions/error"
+                }
+            }
+        },
+        "feature": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier for this feature object"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of this feature"
+                },
+                "index": {
+                    "type": "integer",
+                    "description": "Integer index into the feature vector."
+                },
+                "model_name": {
+                    "type": "string",
+                    "description": "Name of the model that provided this feature"
                 }
             }
         }
