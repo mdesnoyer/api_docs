@@ -906,7 +906,7 @@
                 }
             }
         },
-        "/{account_id}/tag": {
+        "/{account_id}/tags": {
             "x-onlyVisibleInDocumentationSets": [
                 "internal"
             ],
@@ -1439,8 +1439,8 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
-                        "required": true,
+                        "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', 'tag_id' and 'title'. Also available are 'thumbnails', 'bad_thumbnails', 'integration_id', 'serving_url', 'duration', 'custom_data', 'created', 'updated'.",
+                        "required": false,
                         "type": "string"
                     },
                     {
@@ -1751,7 +1751,7 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', and 'title'.",
+                        "description": "Comma-separated list of field names. Defaults to 'state', 'video_id', 'publish_date', 'title', 'url', 'testing_enabled', 'job_id' and 'tag_id'. Also available are 'thumbnails', 'bad_thumbnails', 'integration_id', 'serving_url', 'duration', 'custom_data', 'created', 'updated'."
                         "required": false,
                         "type": "string"
                     }
@@ -2246,12 +2246,12 @@
                     "type": "string",
                     "description": "Name of the tag."
                 },
-                "thumbnail_ids": {
+                "thumbnails": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/thumbnail"
                     },
-                    "description": "Array of thumbnail ids associated to this tag."
+                    "description": "Array of thumbnails associated to this tag."
                 }
             }
         },
@@ -2544,6 +2544,10 @@
                     "type": "string",
                     "description": "The job that processed this video."
                 },
+                "tag_id": {
+                    "type": "string",
+                    "description": "The id of the tag for the video associating thumbnails."
+                },
                 "title": {
                     "type": "string",
                     "description": "The title of the video."
@@ -2570,7 +2574,14 @@
                     "items": {
                         "$ref": "#/definitions/thumbnail"
                     },
-                    "description": "An array of thumbnail images associated with this video."
+                    "description": "An array of thumbnails for the video in order of score descending. Defaults to 6 items if available, including the default thumbnail."
+                },
+                "bad_thumbnails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/thumbnail"
+                    },
+                    "description": "An array of low-score thumbnails for the video in order of score descending. Defaults to 6 items if available."
                 },
                 "demographic_thumbnails": {
                     "type": "array",
