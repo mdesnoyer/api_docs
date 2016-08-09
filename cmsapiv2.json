@@ -932,6 +932,13 @@
                         "description": "Comma-separated string of up to 100 tag IDs. If you want more than 100, see the batch api.",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated string of fields to return. Can include `tag_type`, `name`, `thumbnail_ids`, `created`, and `updated`.",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1109,6 +1116,13 @@
                         "maximum": 100,
                         "minimum": 1,
                         "format": "integer"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma-separated string of fields to return. Can include `tag_type`, `name`, `thumbnail_ids`, `created`, and `updated`.",
+                        "required": false,
+                        "type": "string"
                     },
                     {
                         "name": "query",
