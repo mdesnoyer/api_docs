@@ -1590,6 +1590,14 @@
                         "default": 5
                     },
                     {
+                        "name": "n_clips",
+                        "in": "query",
+                        "description": "The number of clips to extract.",
+                        "required": false,
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
                         "name": "callback_email",
                         "in": "query",
                         "description": "The email address to send results to when the video is done processing.",
