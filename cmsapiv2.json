@@ -2628,12 +2628,12 @@
                     "format": "date-time",
                     "description": "When the video was published"
                 },
-                "clip_ids": {
+                "demographic_clip_ids": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     },
-                    "description": "An array of clip_ids that were generated for this video."
+                    "description": "List of clip_ids chosen for different demographics."
                 },
                 "thumbnails": {
                     "type": "array",
