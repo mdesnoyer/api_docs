@@ -277,7 +277,7 @@
                 "tags": [
                     "clips"
                 ],
-                "summary": "Get user.",
+                "summary": "Get clips.",
                 "produces": [
                     "application/json"
                 ],
@@ -1598,6 +1598,15 @@
                         "default": 1
                     },
                     {
+                        "name": "clip_length",
+                        "in": "query",
+                        "description": "How long should each clip be.",
+                        "required": false,
+                        "type": "number",
+                        "format": "float",
+                        "default": 3.0
+                    },
+                    {
                         "name": "callback_email",
                         "in": "query",
                         "description": "The email address to send results to when the video is done processing.",
@@ -1647,7 +1656,7 @@
                             null
                         ],
                         "required": false,
-                        "description": "If set, this will determine what type of content is generated from the video."
+                        "description": "If set, this will determine what type of content is generated from the video. Defaults to thumbnails."
                     }
                 ],
                 "responses": {
@@ -3024,9 +3033,9 @@
                     "type": "string",
                     "description": "Video this clip was generated off of."
                 },
-                "rank": {
+                "neon_score": {
                     "type": "number",
-                    "description": "Where this clip ranks among other clips on the video."
+                    "description": "The neon score this clip received."
                 },
                 "start_frame": {
                     "type": "integer",
@@ -3035,6 +3044,10 @@
                 "end_frame": {
                     "type": "integer",
                     "description": "Frame number of the video where this clip ends."
+                },
+                "duration": {
+                    "type": "number",
+                    "description": "The neon score this clip received."
                 },
                 "url": {
                     "type": "string",
