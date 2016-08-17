@@ -56,6 +56,10 @@
         {
             "name": "users",
             "description": "User management."
+        },
+        {
+            "name": "clips",
+            "description": "Information about clips"
         }
     ],
     "x-documentationSets": [
@@ -263,6 +267,41 @@
                         "description": "A message that says the email has been successfully sent.",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/{account_id}/clips": {
+            "get": {
+                "tags": [
+                    "clips"
+                ],
+                "summary": "Get clips.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clip_ids",
+                        "in": "query",
+                        "description": "Comma separated list of clip_ids. (1 -> M)",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Clip(s) with the requested ids. Returns an empty {} on bad ids.",
+                        "schema": {
+                            "$ref": "#/definitions/clip"
                         }
                     }
                 }
@@ -1551,6 +1590,23 @@
                         "default": 5
                     },
                     {
+                        "name": "n_clips",
+                        "in": "query",
+                        "description": "The number of clips to extract.",
+                        "required": false,
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "clip_length",
+                        "in": "query",
+                        "description": "How long should each clip be.",
+                        "required": false,
+                        "type": "number",
+                        "format": "float",
+                        "default": 3.0
+                    },
+                    {
                         "name": "callback_email",
                         "in": "query",
                         "description": "The email address to send results to when the video is done processing.",
@@ -1589,6 +1645,18 @@
                         ],
                         "required": false,
                         "description": "If set, process the video for a target age range."
+                    },
+                    {
+                        "name": "result_type",
+                        "in": "query",
+                        "type": "string",
+                        "enum": [
+                            "thumbnails",
+                            "clips",
+                            null
+                        ],
+                        "required": false,
+                        "description": "If set, this will determine what type of content is generated from the video. Defaults to thumbnails."
                     }
                 ],
                 "responses": {
@@ -1751,7 +1819,7 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "Comma-separated list of field names. Defaults to 'state', 'video_id', 'publish_date', 'title', 'url', 'testing_enabled', 'job_id' and 'tag_id'. Also available are 'thumbnails', 'bad_thumbnails', 'integration_id', 'serving_url', 'duration', 'custom_data', 'created', 'updated'."
+                        "description": "Comma-separated list of field names. Defaults to 'state', 'video_id', 'publish_date', 'title', 'url', 'testing_enabled', 'job_id' and 'tag_id'. Also available are 'thumbnails', 'bad_thumbnails', 'integration_id', 'serving_url', 'duration', 'custom_data', 'created', 'updated'.",
                         "required": false,
                         "type": "string"
                     }
@@ -2569,6 +2637,13 @@
                     "format": "date-time",
                     "description": "When the video was published"
                 },
+                "demographic_clip_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of clip_ids chosen for different demographics."
+                },
                 "thumbnails": {
                     "type": "array",
                     "items": {
@@ -2944,6 +3019,39 @@
                 "model_name": {
                     "type": "string",
                     "description": "Name of the model that provided this feature"
+                }
+            }
+        },
+        "clip": {
+            "type": "object",
+            "properties": {
+                "clip_id": {
+                    "type": "string",
+                    "description": "Unique identifier for this clip object"
+                },
+                "video_id": {
+                    "type": "string",
+                    "description": "Video this clip was generated off of."
+                },
+                "neon_score": {
+                    "type": "integer",
+                    "description": "The neon score this clip received."
+                },
+                "start_frame": {
+                    "type": "integer",
+                    "description": "Frame number of the video where this clip starts."
+                },
+                "end_frame": {
+                    "type": "integer",
+                    "description": "Frame number of the video where this clip ends."
+                },
+                "duration": {
+                    "type": "number",
+                    "description": "The length of the clip in seconds."
+                },
+                "url": {
+                    "type": "string",
+                    "description": "The url of this clip."
                 }
             }
         }
