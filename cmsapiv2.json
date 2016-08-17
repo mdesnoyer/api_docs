@@ -3034,7 +3034,7 @@
                     "description": "Video this clip was generated off of."
                 },
                 "neon_score": {
-                    "type": "number",
+                    "type": "integer",
                     "description": "The neon score this clip received."
                 },
                 "start_frame": {
@@ -3047,7 +3047,7 @@
                 },
                 "duration": {
                     "type": "number",
-                    "description": "The neon score this clip received."
+                    "description": "The length of the clip in seconds."
                 },
                 "url": {
                     "type": "string",
