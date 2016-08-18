@@ -1575,6 +1575,13 @@
                         "type": "string"
                     },
                     {
+                        "name": "default_clip_url",
+                        "in": "query",
+                        "description": "URL of the default clip to use.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "thumbnail_ref",
                         "in": "query",
                         "description": "Reference to the thumbnail object in your database.",
@@ -2449,6 +2456,39 @@
                 }
             }
         },
+        "demographic_clips": {
+            "type": "object",
+            "properties": {
+                "gender": {
+                    "type": "string",
+                    "enum": [
+                        "M",
+                        "F",
+                        null
+                    ],
+                    "description": "Gender of this demographic"
+                },
+                "age": {
+                    "type": "string",
+                    "enum": [
+                        "18-19",
+                        "20-29",
+                        "30-39",
+                        "40-49",
+                        "50+",
+                        null
+                    ],
+                    "description": "Age range for this demographic group"
+                },
+                "clip_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of clip_ids."
+                }
+            }
+        },
         "thumbnail_statistic": {
             "type": "object",
             "required": [
@@ -2640,7 +2680,7 @@
                 "demographic_clip_ids": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/demographic_clips"
                     },
                     "description": "List of clip_ids chosen for different demographics."
                 },
