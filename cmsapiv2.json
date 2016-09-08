@@ -295,6 +295,13 @@
                         "description": "Comma separated list of clip_ids. (1 -> M)",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Comma separated list of field names. Defaults to 'video_id', 'clip_id', 'rank', 'start_frame', 'enabled', 'url', 'end_frame', 'type', 'created', 'updated', 'neon_score', 'duration'. Optionally include 'rank', 'renditions'.",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1575,7 +1582,7 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', 'tag_id' and 'title'. Also available are 'thumbnails', 'bad_thumbnails', 'integration_id', 'serving_url', 'duration', 'custom_data', 'created', 'updated'.",
+                        "description": "Comma-separated list of field names. Defaults to 'testing_enabled', 'job_id', 'url', 'state', 'publish_date', 'video_id', 'tag_id' and 'title'. Also available are 'thumbnails', 'bad_thumbnails', 'integration_id', 'serving_url', 'duration', 'custom_data', 'created', 'updated', 'demographic_thumbnails', 'demopgrahic_clip_ids'.",
                         "required": false,
                         "type": "string"
                     },
@@ -1941,7 +1948,6 @@
                         "required": false,
                         "type": "string"
                     }
-
                 ],
                 "responses": {
                     "200": {
