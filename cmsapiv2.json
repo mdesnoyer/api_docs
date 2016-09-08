@@ -1346,7 +1346,7 @@
                     {
                         "name": "url",
                         "in": "query",
-                        "description": "url of the thumbnail to upload",
+                        "description": "CSV of urls of thumbnails to upload",
                         "required": true,
                         "type": "string"
                     },
