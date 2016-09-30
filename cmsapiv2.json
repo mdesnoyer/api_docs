@@ -1366,7 +1366,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "A thumbnail with the requested fields.",
+                        "description": "A thumbnail with the requested fields: created, dominant_color, enabled, external_ref, feature_ids, features, frameno, height, neon_score, rank, renditions, tag_ids, thumbnail_id, type, updated, url, video_id, width.",
                         "schema": {
                             "$ref": "#/definitions/thumbnail"
                         }
