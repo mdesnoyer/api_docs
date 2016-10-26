@@ -299,7 +299,7 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "Comma separated list of field names. Defaults to 'video_id', 'clip_id', 'rank', 'start_frame', 'enabled', 'url', 'end_frame', 'type', 'created', 'updated', 'neon_score', 'duration'. Optionally include 'rank', 'renditions'.",
+                        "description": "Comma separated list of field names. Defaults to 'video_id', 'clip_id', 'rank', 'start_frame', 'enabled', 'url', 'end_frame', 'type', 'created', 'updated', 'neon_score', 'duration'. Optionally include 'renditions'.",
                         "required": false,
                         "type": "string"
                     }
@@ -308,7 +308,7 @@
                     "200": {
                         "description": "Clip(s) with the requested ids. Returns an empty {} on bad ids.",
                         "schema": {
-                            "$ref": "#/definitions/clip"
+                            "$ref": "#/definitions/clips"
                         }
                     }
                 }
@@ -1711,11 +1711,11 @@
                     {
                         "name": "clip_length",
                         "in": "query",
-                        "description": "How long should each clip be.",
+                        "description": "How long should each clip be in seconds.",
                         "required": false,
                         "type": "number",
                         "format": "float",
-                        "default": 3.0
+                        "default": 5
                     },
                     {
                         "name": "callback_email",
@@ -3288,12 +3288,42 @@
                 }
             }
         },
+        "clips": {
+            "type": "object",
+            "properties": {
+                "video_count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The number of clips being returned."
+                },
+                "videos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/clip"
+                    },
+                    "description": "The returned clip."
+                },
+                "error": {
+                    "$ref": "#/definitions/error"
+                }
+            }
+        },
         "clip": {
             "type": "object",
             "properties": {
                 "clip_id": {
                     "type": "string",
                     "description": "Unique identifier for this clip object"
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the account was last updated."
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "An ISO8601 date when the account was created."
                 },
                 "video_id": {
                     "type": "string",
@@ -3318,6 +3348,42 @@
                 "url": {
                     "type": "string",
                     "description": "The url of this clip."
+                },
+                "renditions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/video_rendition"
+                    }
+                }
+            }
+        },
+        "video_rendition": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "The url of this rendition"
+                },
+                "width": {
+                    "type": "integer",
+                    "description": "Width in pixels of this rendition"
+                },
+                "height": {
+                    "type": "integer",
+                    "description": "Width in pixels of this rendition"
+                },
+                "duration": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "The length of the video in seconds."
+                },
+                "codec": {
+                    "type": "string",
+                    "description": "The codec used to encode the rendition"
+                },
+                "container": {
+                    "type": "string",
+                    "description": "The container used to hold the rendition (e.g. mp4, gif, etc)"
                 }
             }
         }
