@@ -2163,6 +2163,54 @@
                     }
                 }
             }
+        },
+        "/{account_id}/signed_url/": {
+            "x-onlyVisibleInDocumentationSets": [
+                "internal"
+            ],
+            "get": {
+                "tags": [
+                    "video"
+                ],
+                "summary": "Get a temporary, pre-signed S3 url for user video upload via http PUT.",
+                "produces": [
+                    "text/plain"
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "ID of the account.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "filename",
+                        "in": "query",
+                        "description": "Unique filename for submission",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "type": "string",
+                                    "description": "Url to be PUT to."
+                                },
+                                "expires_at": {
+                                    "type": "number",
+                                    "description": "Unix epoch timestamp of expiration."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
